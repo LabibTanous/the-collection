@@ -352,31 +352,24 @@ body[data-state="product"] .brandmark { display: none; }
 
 /* panel */
 .pp-panel { max-width: 470px; }
-.pp-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-.pp-eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--accent); }
+.pp-eyebrow { display: none; }
 .pp-name { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(44px,7vw,98px); line-height: 0.9; letter-spacing: -0.01em; color: var(--ink); }
-.pp-one { margin-top: 14px; font-size: clamp(15px,1.7vw,20px); font-weight: 300; color: var(--ink); opacity: 0.92; }
-.pp-trust {
-  margin-top: 10px;
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--muted); opacity: 0.68;
-}
-.pp-story { margin-top: 18px; font-size: clamp(13px,1.2vw,15.5px); line-height: 1.7; font-weight: 300; color: var(--ink); opacity: 0.74; max-width: 44ch; text-wrap: pretty; }
+.pp-one { margin-top: 12px; font-size: clamp(14px,1.5vw,18px); font-weight: 300; line-height: 1.5; color: var(--ink); opacity: 0.75; max-width: 36ch; }
+.pp-trust { display: none; }
+.pp-story { display: none; }
 
-.pp-edition { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--line); }
-.pp-claimline { font-size: clamp(14px,1.4vw,17px); font-weight: 300; color: var(--ink); }
-.pp-claimline b { font-family: var(--mono); font-weight: 700; font-size: 1.1em; color: var(--ink); }
+.pp-edition { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+.pp-claimline { font-size: clamp(14px,1.4vw,16px); font-weight: 300; color: var(--ink); opacity: 0.9; }
+.pp-claimline b { font-family: var(--mono); font-weight: 700; font-size: 1em; color: var(--ink); }
 .pp-guarantee {
-  margin-top: 9px;
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--muted); opacity: 0.6;
+  margin-top: 10px;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+  color: var(--muted); opacity: 0.55;
 }
 .pp-claimline.pulse .ednum { text-shadow: 0 0 16px var(--accent); }
-.pp-edbar { position: relative; height: 2px; margin-top: 14px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.pp-edbar { position: relative; height: 2px; margin-top: 12px; background: var(--line); border-radius: 2px; overflow: hidden; }
 .pp-edbar i { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--accent); transition: width 1.1s cubic-bezier(.3,.7,.2,1); }
-.pp-edcount { margin-top: 11px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 9px; opacity: 0.55; transition: opacity .6s ease; }
-.pp-edcount.show { opacity: 1; transform: none; }
-.pp-edcount .d { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.pp-edcount { display: none; }
 
 /* the panel reveal (transform-only so paused animation still shows content) */
 .motion .pp.open .pp-panel > * { animation: riseT .8s cubic-bezier(.2,.7,.2,1) both; }
@@ -518,9 +511,6 @@ body[data-state="product"] .ticker-wrap { opacity: 0; }
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-/* offset brandmark + edition count below the ticker on home */
-body[data-state="home"] .brandmark,
-body[data-state="home"] .editioncount-fixed { top: calc(26px + clamp(13px,2.4vh,22px)); }
 
 /* ============================================================
    SHARE BUTTON
@@ -609,7 +599,7 @@ body[data-state="home"] .editioncount-fixed { top: calc(26px + clamp(13px,2.4vh,
 }
 .pp-lowstock .ls-dot { width: 6px; height: 6px; border-radius: 50%; background: #d94f2f; flex: none; animation: lsBlink 1.4s ease-in-out infinite; }
 @keyframes lsBlink { 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
-.pp-lowstock.show { display: flex; }
+.pp-lowstock.show { display: none; }
 
 .pp-claim-wrap {
   margin-top: 26px; display: flex; align-items: center; gap: 0;
@@ -970,25 +960,27 @@ body[data-state="home"] .editioncount-fixed { top: calc(26px + clamp(13px,2.4vh,
    ============================================================ */
 .home-footer {
   position: relative; z-index: 5; width: 100%;
-  padding: clamp(9px,1.6vh,15px) clamp(18px,3.5vw,44px);
+  padding: clamp(12px,2vh,18px) clamp(18px,3.5vw,44px);
   display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
   border-top: 1px solid var(--line);
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em;
-  text-transform: uppercase; color: var(--muted);
+  color: var(--muted);
   flex-shrink: 0;
+}
+.hf-brand {
+  font-family: var(--serif); font-style: italic; font-size: 15px;
+  color: var(--ink); opacity: 0.7; letter-spacing: 0.01em;
 }
 .home-footer a, .home-footer button.hf-link {
   color: var(--muted); text-decoration: none; transition: color .3s ease;
   appearance: none; background: transparent; border: none; cursor: pointer;
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em;
-  text-transform: uppercase; padding: 0;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: none; padding: 0;
 }
 .home-footer a:hover, .home-footer button.hf-link:hover { color: var(--ink); }
-.hf-nav { display: flex; align-items: center; gap: clamp(12px,2vw,24px); flex-wrap: wrap; }
+.hf-nav { display: flex; align-items: center; gap: clamp(14px,2.5vw,28px); flex-wrap: wrap; }
 @media (max-width: 520px) {
-  .home-footer { font-size: 8px; letter-spacing: 0.18em; }
-  .hf-right { display: none; }
-  .hf-nav { gap: 10px; }
+  .home-footer { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .hf-nav { gap: 14px; }
 }
 
 /* ============================================================
@@ -1080,14 +1072,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
 
 <a class="skip-link" href="#enter">Skip to enter</a>
 
-<button class="sound-toggle" id="soundToggle" aria-label="Toggle ambient sound" aria-pressed="false">
-  <svg id="soundIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path id="soundWave" d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-  <span id="soundLabel">sound</span>
-</button>
-
 <div class="reserved-badge" id="reservedBadge" aria-live="polite"></div>
-
-<a class="brandmark" href="#home" aria-label="the Collection — home">the Collection</a>
 <div class="editioncount-fixed" aria-hidden="true">Edition of 99</div>
 
 <!-- ============ STATE 1 · PORTAL ============ -->
@@ -1103,12 +1088,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
 </div>
 <div class="bloom" id="bloom" aria-hidden="true"></div>
 
-<!-- ANNOUNCEMENT TICKER -->
-<div class="ticker-wrap" id="ticker" aria-hidden="true">
-  <div class="ticker-track">
-    <span class="ticker-item">Numbered editions of 99 <span class="ticker-sep">·</span> Once it's gone, gone forever <span class="ticker-sep">·</span> Made in the UAE <span class="ticker-sep">·</span> A Gulf-rooted limited drop <span class="ticker-sep">·</span> Three pieces, numbered forever <span class="ticker-sep">·</span> Small goods with long lives <span class="ticker-sep">·</span></span><span class="ticker-item">Numbered editions of 99 <span class="ticker-sep">·</span> Once it's gone, gone forever <span class="ticker-sep">·</span> Made in the UAE <span class="ticker-sep">·</span> A Gulf-rooted limited drop <span class="ticker-sep">·</span> Three pieces, numbered forever <span class="ticker-sep">·</span> Small goods with long lives <span class="ticker-sep">·</span></span>
-  </div>
-</div>
 
 <!-- ============ STATE 2 · HOME ============ -->
 <main class="home" id="home" aria-hidden="true">
@@ -1147,14 +1126,13 @@ body[data-state="portal"] .sound-toggle { display: none; }
 
 
   <footer class="home-footer" aria-label="Site info">
-    <span class="hf-brand">the Collection · Dubai, UAE</span>
+    <span class="hf-brand"><em>the Collection</em></span>
     <nav class="hf-nav" aria-label="Site navigation">
-      <button class="hf-link" id="btnStory" aria-label="Our story">Our Story</button>
-      <button class="hf-link" id="btnHow" aria-label="How it works">How It Works</button>
-      <button class="hf-link" id="btnTrust" aria-label="Shipping and FAQ">Shipping &amp; FAQ</button>
-      <a class="hf-link" href="mailto:hello@thecollection.ae">Contact</a><!-- TODO: real email -->
+      <button class="hf-link" id="btnStory">Story</button>
+      <button class="hf-link" id="btnHow">How it works</button>
+      <button class="hf-link" id="btnTrust">Shipping &amp; FAQ</button>
+      <a class="hf-link" href="mailto:hello@thecollection.ae">Contact</a>
     </nav>
-    <span class="hf-right">Ed. of 99 · Never re-run</span>
   </footer>
 </main>
 
@@ -1824,10 +1802,8 @@ body[data-state="portal"] .sound-toggle { display: none; }
     home.setAttribute('aria-hidden', 'false');
     portal.setAttribute('aria-hidden', 'true');
     home.classList.add('show'); home.classList.remove('dim');
-    brandmark.classList.add('show'); editionFixed.classList.add('show');
+    editionFixed.classList.add('show');
     body.classList.add('live-bg');
-    var ticker = document.getElementById('ticker'); if (ticker) ticker.classList.add('show');
-    if (soundToggleBtn) soundToggleBtn.classList.add('show');
     measure();
     setTheme(DATA[activeKey()].theme);
     renderWheel();          /* synchronous first paint — correct even if rAF is paused */
