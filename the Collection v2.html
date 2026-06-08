@@ -238,11 +238,9 @@ body[data-state="product"] .brandmark { display: none; }
   position: absolute; left: 50%; top: 50%;
   width: clamp(200px, 30vmin, 320px); height: clamp(240px, 44vh, 430px);
   border-radius: 22px; overflow: hidden; cursor: pointer;
-  background: linear-gradient(168deg, rgba(26,54,95,0.76) 0%, rgba(12,26,56,0.87) 100%);
-  backdrop-filter: blur(22px) saturate(1.4);
-  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  background: linear-gradient(168deg, rgba(26,54,95,0.88) 0%, rgba(12,26,56,0.96) 100%);
   box-shadow: 0 40px 80px -34px rgba(10,25,55,0.55), 0 2px 18px rgba(10,25,55,0.18), inset 0 1px 0 rgba(255,255,255,0.16), inset 0 -1px 0 rgba(0,0,0,0.22);
-  will-change: transform, opacity, filter;
+  will-change: transform;
   -webkit-tap-highlight-color: transparent;
   border: 1px solid rgba(255,255,255,0.16);
 }
@@ -1723,15 +1721,14 @@ body[data-state="portal"] .sound-toggle { display: none; }
       var rel = wrapRel(i - pos);
       var ax = Math.abs(rel);
       var tx = rel * spread;
-      var tz = -ax * 230;
-      var ry = -rel * 36;
-      var sc = 1 - ax * 0.16;
-      var op = clamp(1 - ax * 0.42, 0.12, 1);
-      var bl = ax * 2.4;
+      var tz = -ax * 160;
+      var ry = -rel * 24;
+      var sc = 1 - ax * 0.12;
+      var op = clamp(1 - ax * 0.15, 0.55, 1);
       var c = cards[i];
       c.style.transform = 'translate(-50%,-50%) translate3d(' + tx.toFixed(1) + 'px,0,' + tz.toFixed(1) + 'px) rotateY(' + ry.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
       c.style.opacity = op.toFixed(3);
-      c.style.filter = bl > 0.05 ? 'blur(' + bl.toFixed(2) + 'px)' : 'none';
+      c.style.filter = 'none';
       c.style.zIndex = String(200 - Math.round(ax * 50));
       c.setAttribute('aria-hidden', ax > 0.5 ? 'true' : 'false');
       c.tabIndex = ax < 0.5 ? 0 : -1;
@@ -1754,8 +1751,8 @@ body[data-state="portal"] .sound-toggle { display: none; }
   function homeLoop() {
     rafId = null;
     if (!dragging) {
-      vel += (target - pos) * 0.11;
-      vel *= 0.74;
+      vel += (target - pos) * 0.18;
+      vel *= 0.68;
       pos += pos === target ? 0 : vel;
       if (Math.abs(target - pos) < 0.0008 && Math.abs(vel) < 0.0008) {
         pos = target; vel = 0; renderWheel(); return;   /* settle → stop the loop so CSS animations run free */
