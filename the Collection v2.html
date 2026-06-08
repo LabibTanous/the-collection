@@ -1026,10 +1026,10 @@ body[data-state="home"] .editioncount-fixed { top: calc(26px + clamp(13px,2.4vh,
 }
 
 /* ============================================================
-   DROP URGENCY BAR  (item 12)
+   DROP URGENCY BAR  (item 12) — removed
    ============================================================ */
 .drop-bar {
-  position: relative; z-index: 4; width: 100%;
+  display: none;
   padding: 6px clamp(18px,3.5vw,44px);
   display: flex; align-items: center; justify-content: center; gap: clamp(16px,3vw,40px);
   flex-wrap: wrap; pointer-events: none;
@@ -1179,12 +1179,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
   </nav>
   <p class="home-cue">drag · swipe · arrows — tap a piece to open</p>
 
-  <!-- drop urgency / live stock bar (item 12) -->
-  <div class="drop-bar" aria-hidden="true" id="dropBar">
-    <span class="drop-item"><span class="d-dot"></span>Saqr — <span class="d-count" id="dbCap">51</span> unclaimed</span>
-    <span class="drop-item"><span class="d-dot"></span>Sahil — <span class="d-count" id="dbTowel">87</span> unclaimed</span>
-    <span class="drop-item"><span class="d-dot"></span>Farsha — <span class="d-count" id="dbTote">28</span> unclaimed</span>
-  </div>
 
   <footer class="home-footer" aria-label="Site info">
     <span class="hf-brand">the Collection · Dubai, UAE</span>
@@ -1497,8 +1491,8 @@ body[data-state="portal"] .sound-toggle { display: none; }
       img2: 'assets/cut/cap-angle.png',
       one: 'The cap you reach for every day — built to soften with wear, numbered to last forever.',
       story: 'Cut from heavyweight brushed cotton and built to soften with wear — a structured crown, solid brass eyelets and an adjustable leather strap. The everyday cap you actually reach for, finished to last. We make ninety-nine, number each one inside the band, and never run it again.',
-      no: 48, total: 99, unclaimed: 51,
-      chips: ['100% brushed cotton', 'Hand-set brass eyelets', 'No. 48 of 99'],
+      no: 1, total: 99, unclaimed: 99,
+      chips: ['100% brushed cotton', 'Hand-set brass eyelets', 'No. 01 of 99'],
       details: {
         materials: '100% heavyweight brushed cotton · solid brass eyelets · genuine leather adjustment strap',
         dimensions: 'One size fits most — 56–60 cm adjustable · structured six-panel crown',
@@ -1516,8 +1510,8 @@ body[data-state="portal"] .sound-toggle { display: none; }
       img2: 'assets/towel-b.png',
       one: 'Heavy enough to stay put in the sea breeze. Soft enough to live with for years.',
       story: 'Thick, thirsty long-staple cotton with a jacquard <em>Lost in Dubai</em> band and hand-knotted fringe — heavy enough to stay put in the sea breeze and soft enough to live with for years. Ninety-nine woven in this one colourway, each numbered on the label, then the loom moves on.',
-      no: 12, total: 99, unclaimed: 87,
-      chips: ['Long-staple cotton jacquard', "Pearl-diver's weight", 'No. 12 of 99'],
+      no: 1, total: 99, unclaimed: 99,
+      chips: ['Long-staple cotton jacquard', "Pearl-diver's weight", 'No. 01 of 99'],
       details: {
         materials: '100% long-staple Egyptian cotton · jacquard weave · hand-knotted fringe',
         dimensions: '100 × 180 cm · 650 g/m² weight',
@@ -1535,8 +1529,8 @@ body[data-state="portal"] .sound-toggle { display: none; }
       img2: 'assets/tote-a.png',
       one: 'One carry piece that unrolls into a majlis mat — for the beach, the dunes, the long evenings.',
       story: 'Tan leather handles, solid brass hardware and a structured canvas body — with a quilted mat that unrolls from inside for the beach, the dunes or the long evenings. One bag that genuinely earns its place. Ninety-nine made, each numbered on the base, then the pattern is retired.',
-      no: 71, total: 99, unclaimed: 28,
-      chips: ['Sand canvas · tan leather', 'Unrolls to a quilted mat', 'No. 71 of 99'],
+      no: 1, total: 99, unclaimed: 99,
+      chips: ['Sand canvas · tan leather', 'Unrolls to a quilted mat', 'No. 01 of 99'],
       details: {
         materials: 'Waxed sand canvas body · tan full-grain leather handles · solid brass hardware · quilted cotton lining',
         dimensions: 'Tote 38 × 32 × 14 cm · mat unrolled 90 × 60 cm · leather handles 60 cm drop',
