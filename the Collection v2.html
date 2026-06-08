@@ -1,0 +1,2526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>the Collection — Numbered Editions of 99</title>
+<meta name="description" content="the Collection — a UAE limited-edition drop. Small Gulf-rooted goods made in numbered editions of 99. Once it's gone, it's gone forever." />
+<meta name="theme-color" content="#0F0A07" />
+<!-- canonical -->
+<link rel="canonical" href="https://thecollection.ae/" /><!-- TODO: update domain -->
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="the Collection" />
+<meta property="og:title" content="the Collection — Numbered Editions of 99" />
+<meta property="og:description" content="A UAE limited-edition drop. Small Gulf-rooted goods made in numbered editions of 99. Once it's gone, it's gone forever." />
+<meta property="og:image" content="assets/cut/cap-front.png" /><!-- TODO: replace with a 1200×630 OG image -->
+<meta property="og:url" content="https://thecollection.ae/" />
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="the Collection — Numbered Editions of 99" />
+<meta name="twitter:description" content="Three Gulf-rooted goods, 99 of each, never re-run." />
+<meta name="twitter:image" content="assets/cut/cap-front.png" /><!-- TODO: replace -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F0A07'/%3E%3Ccircle cx='16' cy='16' r='6.5' fill='none' stroke='%23C9A24B' stroke-width='1.6'/%3E%3Ccircle cx='16' cy='16' r='1.6' fill='%23C9A24B'/%3E%3C/svg%3E" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"Organization","name":"the Collection","url":"https://thecollection.ae/","description":"UAE limited-edition goods — 99 of each, never re-run."},
+  {"@type":"Product","name":"Saqr — the Cap","description":"A washed-cotton six-panel cap with hand-stitched Inshallah embroidery. Edition of 99, numbered by hand. Made in the UAE.","brand":{"@type":"Brand","name":"the Collection"},"offers":{"@type":"Offer","availability":"https://schema.org/LimitedAvailability","priceSpecification":{"@type":"PriceSpecification","priceCurrency":"AED","minPrice":"345","maxPrice":"445"},"seller":{"@type":"Organization","name":"the Collection"}},"additionalProperty":[{"@type":"PropertyValue","name":"Edition size","value":"99"},{"@type":"PropertyValue","name":"Country of manufacture","value":"UAE"}]},
+  {"@type":"Product","name":"Sahil — the Towel","description":"An oversized long-staple cotton beach towel with a 1970s Gulf-resort stripe. Edition of 99, numbered on the label. Made in the UAE.","brand":{"@type":"Brand","name":"the Collection"},"offers":{"@type":"Offer","availability":"https://schema.org/LimitedAvailability","priceSpecification":{"@type":"PriceSpecification","priceCurrency":"AED","minPrice":"445","maxPrice":"565"},"seller":{"@type":"Organization","name":"the Collection"}},"additionalProperty":[{"@type":"PropertyValue","name":"Edition size","value":"99"},{"@type":"PropertyValue","name":"Country of manufacture","value":"UAE"}]},
+  {"@type":"Product","name":"Farsha — the Tote","description":"A sand-canvas tote that unfolds into a padded majlis mat. Edition of 99, numbered on the base. Made in the UAE.","brand":{"@type":"Brand","name":"the Collection"},"offers":{"@type":"Offer","availability":"https://schema.org/LimitedAvailability","priceSpecification":{"@type":"PriceSpecification","priceCurrency":"AED","minPrice":"650","maxPrice":"790"},"seller":{"@type":"Organization","name":"the Collection"}},"additionalProperty":[{"@type":"PropertyValue","name":"Edition size","value":"99"},{"@type":"PropertyValue","name":"Country of manufacture","value":"UAE"}]}
+]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   the Collection — three-state build
+   STATE 1 portal · STATE 2 home wheel · STATE 3 product page
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --serif: "Bodoni Moda", Georgia, "Times New Roman", serif;
+  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "Space Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* gold is the constant brand spark; theme vars swap per product */
+  --gold: #C9A24B;
+  --gold-soft: #E9D9BE;
+
+  --bg: #0F0A07;
+  --ink: #ECE0CD;
+  --muted: #97856C;
+  --accent: #C9A24B;
+  --glow: rgba(201,162,75,0.24);
+  --line: rgba(236,224,205,0.15);
+}
+
+html, body { height: 100%; }
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+  overscroll-behavior: none;
+  transition: background-color .9s cubic-bezier(.5,0,.2,1), color .9s cubic-bezier(.5,0,.2,1);
+}
+/* while the wheel turns, JS drives the bg each frame, so kill the transition */
+body.live-bg { transition: color .6s ease; }
+
+button { font-family: inherit; color: inherit; }
+
+/* ---------- shared brand atmosphere ---------- */
+.vignette {
+  position: fixed; inset: 0; z-index: 90; pointer-events: none;
+  background: radial-gradient(135% 108% at 50% 42%, transparent 48%, rgba(0,0,0,0.42) 100%);
+  mix-blend-mode: multiply;
+}
+.grain {
+  position: fixed; inset: -150%; z-index: 91; pointer-events: none;
+  opacity: 0.06; mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.motion .grain { animation: grainShift 7s steps(6) infinite; }
+@keyframes grainShift {
+  0%{transform:translate(0,0);} 16%{transform:translate(-4%,2%);} 33%{transform:translate(3%,-3%);}
+  50%{transform:translate(-2%,4%);} 66%{transform:translate(4%,1%);} 83%{transform:translate(-3%,-2%);} 100%{transform:translate(0,0);}
+}
+
+.brandmark {
+  position: fixed; left: clamp(18px,3vw,40px); top: clamp(16px,3vh,30px);
+  z-index: 70; font-family: var(--serif); font-style: italic; font-size: 17px;
+  color: var(--ink); opacity: 0; letter-spacing: 0.01em; text-decoration: none;
+  pointer-events: none; transition: opacity .6s ease, color .6s ease;
+}
+.brandmark.show { opacity: 0.82; pointer-events: auto; }
+/* on the product page the Back button owns the top-left — hide the wordmark */
+body[data-state="product"] .brandmark { display: none; }
+.editioncount-fixed {
+  position: fixed; right: clamp(18px,3vw,40px); top: clamp(16px,3vh,30px);
+  z-index: 70; font-family: var(--mono); font-size: 10px; letter-spacing: 0.24em;
+  text-transform: uppercase; color: var(--muted); opacity: 0; transition: opacity .6s ease, color .6s ease;
+}
+.editioncount-fixed.show { opacity: 0.9; }
+
+/* ============================================================
+   STATE 1 — ENTER PORTAL
+   ============================================================ */
+.portal {
+  position: fixed; inset: 0; z-index: 200;
+  background: #07050a;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .55s ease, transform .7s cubic-bezier(.6,0,.2,1);
+}
+.portal.gone { opacity: 0; transform: scale(1.08); pointer-events: none; }
+.portal-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.portal-core {
+  position: relative; z-index: 3; text-align: center;
+  display: flex; flex-direction: column; align-items: center;
+  opacity: 0; transition: opacity 1.4s ease;
+}
+.portal-core.show { opacity: 1; }
+
+.enter-btn {
+  appearance: none; background: transparent; border: none; cursor: pointer;
+  font-family: var(--sans); font-weight: 200; font-size: clamp(34px,7vw,76px);
+  letter-spacing: 0.42em; text-transform: uppercase; color: var(--gold);
+  padding: 8px 0 8px 0.42em; line-height: 1;
+  text-shadow: 0 0 26px rgba(201,162,75,0.55), 0 0 60px rgba(201,162,75,0.28);
+  transition: letter-spacing .5s cubic-bezier(.2,.7,.2,1), color .4s ease, text-shadow .5s ease, transform .5s ease;
+}
+.motion .enter-btn { animation: enterPulse 3.4s ease-in-out infinite; }
+.enter-btn:hover, .enter-btn:focus-visible { letter-spacing: 0.62em; color: #F0DCAE; outline: none;
+  text-shadow: 0 0 34px rgba(201,162,75,0.8), 0 0 80px rgba(201,162,75,0.4); }
+@keyframes enterPulse { 0%,100%{ opacity: 0.78; } 50%{ opacity: 1; } }
+
+.portal-sub {
+  margin-top: clamp(22px,4vh,40px);
+  font-family: var(--mono); font-size: clamp(9px,1vw,11px); letter-spacing: 0.34em;
+  text-transform: uppercase; color: #8b7752;
+}
+.portal-hint {
+  position: absolute; bottom: clamp(22px,5vh,44px); left: 50%; transform: translateX(-50%);
+  z-index: 3; font-family: var(--mono); font-size: 9px; letter-spacing: 0.34em;
+  text-transform: uppercase; color: #6a5b3e; opacity: 0;
+  transition: opacity 1.8s ease 0.4s;
+}
+.portal-core.show ~ .portal-hint { opacity: 0.55; }
+
+/* whiteout bloom that masks the cut from portal → home */
+.bloom {
+  position: fixed; inset: 0; z-index: 210; pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, #fff8ec 0%, #f6ead2 38%, rgba(246,234,210,0) 72%);
+  opacity: 0; transform: scale(0.2);
+}
+.bloom.fire { animation: bloomFire 1.15s cubic-bezier(.5,0,.2,1) forwards; }
+@keyframes bloomFire {
+  0%   { opacity: 0; transform: scale(0.15); }
+  22%  { opacity: 1; transform: scale(1.0); }
+  50%  { opacity: 0.94; transform: scale(1.5); }
+  100% { opacity: 0; transform: scale(2.2); }
+}
+
+/* ============================================================
+   STATE 2 — HOME (wordmark + card-swiper wheel)
+   ============================================================ */
+.home {
+  position: fixed; inset: 0; z-index: 10;
+  display: flex; flex-direction: column; align-items: center;
+  opacity: 0; visibility: hidden;
+}
+/* static visibility — never gate must-see content behind an animation that can
+   pause (some embed/preview contexts freeze CSS animations); motion is enhancement */
+.home.show { visibility: visible; opacity: 1; }
+.home.dim { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.home-head {
+  position: relative; z-index: 4; text-align: center; width: 100%;
+  padding-top: clamp(34px,6vh,96px); pointer-events: none;
+}
+.home-title {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: clamp(34px,5.6vw,80px); line-height: 0.92; letter-spacing: -0.01em; color: var(--ink);
+}
+.home-title .lower {
+  display: block; font-style: normal; font-weight: 400; font-size: 0.26em;
+  letter-spacing: 0.5em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 0.1em; padding-left: 0.5em;
+}
+.home-sub {
+  margin-top: clamp(14px,2.4vh,22px); font-family: var(--mono);
+  font-size: clamp(9px,1.05vw,12px); letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted);
+}
+.motion .home.show .home-title { animation: riseT .9s .05s cubic-bezier(.2,.7,.2,1) both; }
+.motion .home.show .home-sub   { animation: riseT .9s .18s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes rise { from{ opacity:0; transform: translateY(22px); filter: blur(6px);} to{ opacity:1; transform:none; filter:none;} }
+/* transform-only: if animation is paused by the host, content stays fully visible */
+@keyframes riseT { from{ transform: translateY(16px); } to{ transform: none; } }
+
+/* the wheel */
+.wheel-wrap {
+  position: relative; z-index: 3; flex: 1; width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  perspective: 1500px; touch-action: none; cursor: grab;
+}
+.wheel-wrap.grabbing { cursor: grabbing; }
+.wheel-glow {
+  position: absolute; left: 50%; top: 50%; width: 70vmin; height: 70vmin;
+  transform: translate(-50%,-52%); border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(circle at center, var(--glow) 0%, transparent 62%);
+  opacity: 0;
+}
+.home.show .wheel-glow { opacity: 1; }
+.motion .home.show .wheel-glow { animation: glowBreathe 4.5s ease-in-out infinite; }
+@keyframes glowBreathe { 0%,100%{ opacity:.72; transform:translate(-50%,-52%) scale(1); } 50%{ opacity:1; transform:translate(-50%,-52%) scale(1.14); } }
+.wheel { position: relative; width: 1px; height: 1px; transform-style: preserve-3d; }
+
+.card {
+  position: absolute; left: 50%; top: 50%;
+  width: clamp(200px, 30vmin, 320px); height: clamp(240px, 44vh, 430px);
+  border-radius: 22px; overflow: hidden; cursor: pointer;
+  background: var(--card-bg, #B0843F);
+  box-shadow: 0 40px 80px -34px rgba(20,10,2,0.7), inset 0 1px 0 rgba(255,247,233,0.18);
+  will-change: transform, opacity, filter;
+  -webkit-tap-highlight-color: transparent;
+  border: 1px solid rgba(255,247,233,0.10);
+}
+.card-photo { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.card-photo::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(120% 80% at 50% 30%, transparent 40%, rgba(20,10,2,0.30) 100%);
+}
+.card-photo img {
+  width: 88%; height: 72%; object-fit: contain; margin-top: -6%;
+  filter: drop-shadow(0 24px 30px rgba(28,14,4,0.42));
+}
+.card-meta { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 20px 22px 22px; text-align: center; }
+.card-name { display: block; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(26px,3.4vmin,38px); color: #fbf1de; line-height: 1; }
+.card-tag { display: block; margin-top: 9px; font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(251,241,222,0.72); white-space: nowrap; }
+
+/* dots + hint */
+.wheel-dots {
+  position: relative; z-index: 4; display: flex; gap: 14px; justify-content: center;
+  padding-bottom: clamp(26px,5vh,46px); padding-top: 8px;
+}
+.wheel-dots button {
+  appearance: none; border: none; background: transparent; cursor: pointer; padding: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.wheel-dots .pip { width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--muted); background: transparent; transition: all .4s ease; }
+.wheel-dots button[aria-current="true"] .pip { background: var(--accent); border-color: var(--accent); transform: scale(1.5); }
+
+.home-cue {
+  position: absolute; bottom: clamp(8px,1.6vh,14px); left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--muted); opacity: 0; z-index: 5;
+}
+.home.show .home-cue { animation: fadeIn 1s 1.2s ease forwards; }
+@keyframes fadeIn { to { opacity: 0.65; } }
+
+/* ============================================================
+   STATE 3 — PRODUCT PAGE
+   ============================================================ */
+.pp {
+  position: fixed; inset: 0; z-index: 40;
+  opacity: 0; visibility: hidden;
+  background: var(--bg);
+}
+.pp.open { opacity: 1; visibility: visible; }
+.pp-bg { position: absolute; inset: 0; background: var(--bg); transition: opacity .35s ease; z-index: 0; }
+.pp-bg-glow {
+  position: absolute; left: 46%; top: 50%; width: 80vmin; height: 80vmin;
+  transform: translate(-50%,-50%); border-radius: 50%; z-index: 0; pointer-events: none;
+  background: radial-gradient(circle at center, var(--glow) 0%, transparent 60%);
+}
+
+.pp-back {
+  position: fixed; left: clamp(16px,3vw,34px); top: clamp(14px,3vh,28px); z-index: 8;
+  display: inline-flex; align-items: center; gap: 9px;
+  appearance: none; background: transparent; border: 1px solid var(--line);
+  border-radius: 999px; padding: 9px 17px 9px 13px; cursor: pointer;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink);
+  opacity: 0.92;
+  transition: background-color .3s ease, border-color .3s ease;
+}
+.pp.open .pp-back { opacity: 0.92; }
+.pp-back:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.pp-back svg { width: 14px; height: 14px; }
+
+.pp-inner {
+  position: relative; z-index: 4; width: min(1180px, 92vw); height: 100%; margin: 0 auto;
+  display: grid; grid-template-columns: 1.02fr 0.98fr; align-items: center; gap: clamp(20px,4.5vw,72px);
+}
+
+.pp-stage { position: relative; height: 76vh; perspective: 1200px; display: flex; align-items: center; justify-content: center; }
+.pp-tilt { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transform-style: preserve-3d; will-change: transform; }
+.pp-float { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.pp-photo {
+  position: relative; width: 84%; height: 78%; object-fit: contain; z-index: 2;
+  filter: drop-shadow(0 36px 44px rgba(34,18,5,0.34)) drop-shadow(0 10px 14px rgba(34,18,5,0.22));
+  will-change: transform;
+}
+.pp-float { will-change: transform; }
+.pp-contact {
+  position: absolute; left: 50%; bottom: 8%; width: 46%; height: 7%; transform: translateX(-50%); z-index: 1;
+  background: radial-gradient(ellipse at center, rgba(20,12,4,0.42) 0%, rgba(20,12,4,0.16) 44%, transparent 72%);
+  filter: blur(7px); opacity: 0; transition: opacity .8s ease .25s;
+}
+.pp.open .pp-contact { opacity: 1; }
+
+/* spec chips */
+.pp-chips { position: absolute; inset: 0; z-index: 5; pointer-events: none; will-change: transform; }
+.pp-chip {
+  position: absolute; left: var(--cx); top: var(--cy); transform: translate(-50%,-50%);
+  display: flex; align-items: center; gap: 9px; white-space: nowrap; padding: 10px 14px; border-radius: 13px;
+  background: linear-gradient(180deg, rgba(255,251,244,0.26), rgba(255,248,238,0.12));
+  border: 1px solid rgba(255,250,242,0.42);
+  box-shadow: 0 16px 32px -16px rgba(26,15,4,0.5), inset 0 1px 0 rgba(255,255,255,0.45);
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.02em; color: var(--ink);
+}
+.pp-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); flex: none; }
+.pp-chip.is-edition { background: linear-gradient(180deg, rgba(46,28,12,0.42), rgba(36,22,9,0.32)); border-color: rgba(255,250,242,0.30); color: #fbf2e2; font-weight: 700; }
+.pp-chip:nth-child(1){ --cx: 15%; --cy: 23%; }
+.pp-chip:nth-child(2){ --cx: 87%; --cy: 48%; }
+.pp-chip:nth-child(3){ --cx: 28%; --cy: 82%; }
+@keyframes chipDrift1 { 0%,100%{ transform:translate(-50%,calc(-50% - 6px)) rotate(-0.5deg); } 50%{ transform:translate(-50%,calc(-50% + 5px)) rotate(0.4deg); } }
+@keyframes chipDrift2 { 0%,100%{ transform:translate(calc(-50% + 4px),calc(-50% + 3px)) rotate(0.4deg); } 50%{ transform:translate(calc(-50% - 3px),calc(-50% - 5px)) rotate(-0.4deg); } }
+@keyframes chipDrift3 { 0%,100%{ transform:translate(-50%,calc(-50% - 2px)) rotate(-0.3deg); } 50%{ transform:translate(-50%,calc(-50% + 7px)) rotate(0.5deg); } }
+.motion .pp.open .pp-chip:nth-child(1){ animation: chipDrift1 7.2s ease-in-out infinite; }
+.motion .pp.open .pp-chip:nth-child(2){ animation: chipDrift2 7.8s ease-in-out .38s infinite; }
+.motion .pp.open .pp-chip:nth-child(3){ animation: chipDrift3 6.9s ease-in-out .82s infinite; }
+
+/* panel */
+.pp-panel { max-width: 470px; }
+.pp-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+.pp-eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--accent); }
+.pp-name { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(44px,7vw,98px); line-height: 0.9; letter-spacing: -0.01em; color: var(--ink); }
+.pp-one { margin-top: 14px; font-size: clamp(15px,1.7vw,20px); font-weight: 300; color: var(--ink); opacity: 0.92; }
+.pp-story { margin-top: 18px; font-size: clamp(13px,1.2vw,15.5px); line-height: 1.7; font-weight: 300; color: var(--ink); opacity: 0.74; max-width: 44ch; text-wrap: pretty; }
+
+.pp-edition { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--line); }
+.pp-claimline { font-size: clamp(14px,1.4vw,17px); font-weight: 300; color: var(--ink); }
+.pp-claimline b { font-family: var(--mono); font-weight: 700; }
+.pp-claimline.pulse .ednum { text-shadow: 0 0 16px var(--accent); }
+.pp-edbar { position: relative; height: 2px; margin-top: 14px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.pp-edbar i { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--accent); transition: width 1.1s cubic-bezier(.3,.7,.2,1); }
+.pp-edcount { margin-top: 11px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 9px; opacity: 0.55; transition: opacity .6s ease; }
+.pp-edcount.show { opacity: 1; transform: none; }
+.pp-edcount .d { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+/* the panel reveal (transform-only so paused animation still shows content) */
+.motion .pp.open .pp-panel > * { animation: riseT .8s cubic-bezier(.2,.7,.2,1) both; }
+.motion .pp.open .pp-panel > *:nth-child(1){ animation-delay: .42s; }
+.motion .pp.open .pp-panel > *:nth-child(2){ animation-delay: .50s; }
+.motion .pp.open .pp-panel > *:nth-child(3){ animation-delay: .58s; }
+.motion .pp.open .pp-panel > *:nth-child(4){ animation-delay: .66s; }
+.motion .pp.open .pp-panel > *:nth-child(5){ animation-delay: .74s; }
+.motion .pp.open .pp-panel > *:nth-child(6){ animation-delay: .82s; }
+
+/* ============================================================
+   SHINY CLAIM BUTTON  (@property --x sweep, gold)
+   ============================================================ */
+@property --x { syntax: "<percentage>"; inherits: false; initial-value: 100%; }
+
+.claim {
+  position: relative; margin-top: 26px; appearance: none; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 17px 36px; border-radius: 14px; border: none;
+  background: #1f1409; color: var(--gold); overflow: hidden;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+  --x: 100%;
+  transition: transform .25s cubic-bezier(.2,.7,.2,1), background-color .4s ease;
+  box-shadow: 0 18px 40px -22px rgba(0,0,0,0.7);
+}
+/* moving bright spot over the gold label */
+.claim .c-label {
+  position: relative; z-index: 2;
+  background: linear-gradient(100deg,
+    var(--gold) calc(var(--x) - 34%),
+    #fff7e6 var(--x),
+    var(--gold) calc(var(--x) + 34%));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+/* sweeping 1px gradient border drawn with a masked padded layer */
+.claim::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; padding: 1px;
+  background: linear-gradient(100deg,
+    rgba(201,162,75,0.25) calc(var(--x) - 34%),
+    var(--gold) var(--x),
+    rgba(201,162,75,0.25) calc(var(--x) + 34%));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude;
+}
+/* diagonal light glaze across the whole label */
+.claim::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(100deg, transparent calc(var(--x) - 14%), rgba(255,247,230,0.18) var(--x), transparent calc(var(--x) + 14%));
+}
+.motion .claim { animation: shineX 3.6s linear infinite; }
+@keyframes shineX { 0%{ --x: 120%; } 55%{ --x: -120%; } 100%{ --x: -120%; } }
+
+/* static gold-border fallback where @property / mask isn't available */
+@supports not (background: linear-gradient(in oklab, red, red)) {
+  .claim { border: 1px solid var(--gold); }
+  .claim::before, .claim::after { display: none; }
+  .claim .c-label { color: var(--gold); -webkit-text-fill-color: var(--gold); }
+}
+
+.claim:hover { background: #120c05; }
+.claim:not(.claimed):active { transform: scale(0.97) !important; transition: transform .1s ease !important; }
+.claim.claimed { animation: none !important; cursor: default; background: #160e06; border: 1px solid var(--accent); color: var(--accent); transform: none !important; box-shadow: none; }
+.claim.claimed::before, .claim.claimed::after { display: none; }
+.claim.claimed .c-label { background: none; -webkit-text-fill-color: var(--accent); color: var(--accent); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 880px) {
+  .editioncount-fixed { display: none; }
+  .pp-chips { display: none; }
+  .pp-inner { grid-template-columns: 1fr; grid-template-rows: 38vh auto; gap: 1vh; width: 90vw; align-content: center; }
+  .pp-stage { height: 38vh; }
+  .pp-panel { max-width: 100%; }
+  .pp-name { font-size: clamp(40px,12vw,60px); }
+  .pp-story { max-width: 100%; }
+  .card { width: clamp(190px, 60vw, 280px); height: clamp(260px, 50vh, 420px); }
+}
+@media (max-width: 880px) and (orientation: landscape) {
+  .pp-inner { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; }
+  .pp-stage { height: 72vh; }
+}
+@media (max-width: 520px) {
+  .pp-inner { gap: 0.5vh; padding: 0 3vw; }
+  .pp-stage { height: 33vh; }
+  .pp-name { font-size: clamp(34px,13vw,50px); }
+  .claim { padding: 15px 26px; font-size: 11.5px; }
+  .wheel-dots { gap: 10px; }
+}
+@media (max-width: 380px) {
+  .card { width: clamp(158px,72vw,238px); height: clamp(218px,50vh,358px); }
+  .pp-stage { height: 30vh; }
+  .pp-name { font-size: clamp(30px,12vw,44px); }
+}
+
+/* ============================================================
+   A11Y
+   ============================================================ */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.skip-link { position: fixed; top: -60px; left: 16px; z-index: 999; background: #1c1206; color: #EFE3CF; padding: 10px 16px; border-radius: 8px; font-family: var(--mono); font-size: 12px; transition: top .25s; }
+.skip-link:focus { top: 16px; }
+
+/* ============================================================
+   ANNOUNCEMENT TICKER
+   ============================================================ */
+.ticker-wrap {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 80;
+  height: 26px; overflow: hidden;
+  background: rgba(10,7,3,0.84); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center;
+  opacity: 0; transition: opacity .7s ease;
+  pointer-events: none;
+}
+.ticker-wrap.show { opacity: 1; }
+body[data-state="product"] .ticker-wrap { opacity: 0; }
+.ticker-track {
+  display: flex; white-space: nowrap;
+  animation: tickerScroll 32s linear infinite;
+  will-change: transform;
+}
+.ticker-item {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: var(--gold); opacity: 0.85;
+  padding: 0 clamp(24px,4vw,56px);
+}
+.ticker-sep { color: var(--muted); margin: 0 2px; opacity: 0.5; }
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+/* offset brandmark + edition count below the ticker on home */
+body[data-state="home"] .brandmark,
+body[data-state="home"] .editioncount-fixed { top: calc(26px + clamp(13px,2.4vh,22px)); }
+
+/* price hidden from product page — shown only at reservation step */
+.pp-price { display: none; }
+
+/* ============================================================
+   SHARE BUTTON
+   ============================================================ */
+.pp-share {
+  margin-top: 12px; display: inline-flex; align-items: center; gap: 8px;
+  appearance: none; background: transparent; border: 1px solid var(--line);
+  border-radius: 999px; padding: 9px 18px 9px 14px; cursor: pointer;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+  transition: border-color .3s ease, color .3s ease, background-color .3s ease;
+}
+.pp-share:hover { border-color: var(--ink); color: var(--ink); background: rgba(255,255,255,0.04); }
+.pp-share svg { width: 13px; height: 13px; flex: none; }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast {
+  position: fixed; bottom: clamp(18px,3.5vh,34px); right: clamp(14px,3vw,30px);
+  z-index: 400; min-width: 210px;
+  background: var(--ink); color: var(--bg);
+  padding: 13px 18px; border-radius: 13px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+  box-shadow: 0 22px 44px -16px rgba(0,0,0,0.6);
+  transform: translateY(calc(100% + 24px));
+  opacity: 0;
+  transition: transform .46s cubic-bezier(.2,.7,.2,1), opacity .38s ease;
+  pointer-events: none; user-select: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast-title { font-weight: 700; font-size: 12px; letter-spacing: 0.06em; margin-bottom: 4px; }
+.toast-sub { opacity: 0.55; font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; }
+@media (max-width: 520px) {
+  .toast { left: clamp(14px,3vw,30px); right: clamp(14px,3vw,30px); min-width: 0; }
+}
+
+/* ============================================================
+   HOME FOOTER
+   ============================================================ */
+.home-footer {
+  position: relative; z-index: 5; width: 100%;
+  padding: clamp(9px,1.6vh,15px) clamp(18px,3.5vw,44px);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: var(--muted);
+  flex-shrink: 0;
+}
+.home-footer a { color: var(--muted); text-decoration: none; transition: color .3s ease; }
+.home-footer a:hover { color: var(--ink); }
+@media (max-width: 520px) {
+  .home-footer { font-size: 8px; letter-spacing: 0.18em; }
+  .home-footer .hf-right { display: none; }
+}
+
+/* extra stagger for new pp-panel children */
+.motion .pp.open .pp-panel > *:nth-child(7){ animation: riseT .8s .90s cubic-bezier(.2,.7,.2,1) both; }
+.motion .pp.open .pp-panel > *:nth-child(8){ animation: riseT .8s .98s cubic-bezier(.2,.7,.2,1) both; }
+.motion .pp.open .pp-panel > *:nth-child(9){ animation: riseT .8s 1.06s cubic-bezier(.2,.7,.2,1) both; }
+.motion .pp.open .pp-panel > *:nth-child(10){ animation: riseT .8s 1.14s cubic-bezier(.2,.7,.2,1) both; }
+
+/* ============================================================
+   DUAL-IMAGE CROSSFADE  (item 2)
+   .pp-photo stays position:relative (flex child) so FLIP works.
+   .pp-photo2 is absolute so it overlays .pp-photo without moving it.
+   ============================================================ */
+.pp-photo2 {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 84%; height: 78%; object-fit: contain; z-index: 3;
+  filter: drop-shadow(0 36px 44px rgba(34,18,5,0.34)) drop-shadow(0 10px 14px rgba(34,18,5,0.22));
+  opacity: 0; pointer-events: none;
+  transition: opacity 2s cubic-bezier(.5,0,.2,1);
+}
+.pp-photo2.cf-show { opacity: 1; }
+
+/* ============================================================
+   EMAIL CAPTURE + LOW-STOCK + SOLD-OUT  (item 10)
+   ============================================================ */
+.pp-lowstock {
+  display: none; margin-top: 10px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: #d94f2f;
+  display: flex; align-items: center; gap: 7px;
+}
+.pp-lowstock .ls-dot { width: 6px; height: 6px; border-radius: 50%; background: #d94f2f; flex: none; animation: lsBlink 1.4s ease-in-out infinite; }
+@keyframes lsBlink { 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
+.pp-lowstock.show { display: flex; }
+
+.pp-email-row {
+  margin-top: 14px; display: none; flex-direction: column; gap: 10px;
+  overflow: hidden; max-height: 0;
+  transition: max-height .42s cubic-bezier(.2,.7,.2,1), opacity .35s ease;
+  opacity: 0;
+}
+.pp-email-row.open { display: flex; max-height: 200px; opacity: 1; }
+.pp-email-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted);
+}
+.pp-email-row input[type="email"] {
+  width: 100%; padding: 12px 16px; border-radius: 10px;
+  border: 1px solid var(--line); background: rgba(255,255,255,0.06);
+  color: var(--ink); font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
+  outline: none; transition: border-color .3s ease;
+}
+.pp-email-row input[type="email"]::placeholder { color: var(--muted); opacity: 0.6; }
+.pp-email-row input[type="email"]:focus { border-color: var(--accent); }
+.pp-email-row input[type="email"].err { border-color: #d94f2f; }
+.pp-email-price {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+  color: var(--muted);
+}
+.pp-email-price b { color: var(--ink); font-weight: 700; }
+
+.pp-soldout-row {
+  display: none; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line);
+}
+.pp-soldout-row.show { display: block; }
+.pp-soldout-row .pp-soldout-msg {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
+}
+.pp-waitlist-input { display: flex; gap: 8px; }
+.pp-waitlist-input input[type="email"] {
+  flex: 1; padding: 11px 14px; border-radius: 10px;
+  border: 1px solid var(--line); background: rgba(255,255,255,0.06);
+  color: var(--ink); font-family: var(--mono); font-size: 11px;
+  outline: none; transition: border-color .3s ease;
+}
+.pp-waitlist-input input[type="email"]:focus { border-color: var(--accent); }
+.pp-waitlist-btn {
+  padding: 11px 18px; border-radius: 10px; border: 1px solid var(--accent);
+  background: transparent; color: var(--accent); font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer;
+  white-space: nowrap; transition: background .3s ease, color .3s ease;
+}
+.pp-waitlist-btn:hover { background: var(--accent); color: var(--bg); }
+
+/* ============================================================
+   PRODUCT INFO DRAWER  (item 9)
+   ============================================================ */
+.pp-drawer-toggle {
+  margin-top: 12px; appearance: none; background: transparent; border: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 0; transition: color .3s ease;
+}
+.pp-drawer-toggle:hover { color: var(--ink); }
+.pp-drawer-toggle .dt-arrow {
+  display: inline-block; transition: transform .35s cubic-bezier(.2,.7,.2,1);
+  font-style: normal;
+}
+.pp-drawer-toggle.open .dt-arrow { transform: rotate(180deg); }
+
+.pp-drawer {
+  max-height: 0; overflow: hidden;
+  transition: max-height .5s cubic-bezier(.2,.7,.2,1), opacity .4s ease;
+  opacity: 0;
+}
+.pp-drawer.open { max-height: 600px; opacity: 1; }
+
+.pp-drawer-inner {
+  padding-top: 16px; display: flex; flex-direction: column; gap: 12px;
+}
+.pp-detail-row {
+  display: flex; flex-direction: column; gap: 4px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--line);
+}
+.pp-detail-row:last-child { border-bottom: none; }
+.pp-detail-label {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.24em;
+  text-transform: uppercase; color: var(--muted);
+}
+.pp-detail-val {
+  font-size: clamp(12px,1.1vw,14px); font-weight: 300;
+  color: var(--ink); line-height: 1.6; opacity: 0.9;
+}
+
+/* ============================================================
+   STORY / ABOUT OVERLAY  (items 7, 8, 13, 14)
+   ============================================================ */
+.story-overlay {
+  position: fixed; inset: 0; z-index: 160;
+  background: #06040a;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  transform: translateX(100%);
+  transition: transform .65s cubic-bezier(.6,0,.15,1);
+  scroll-snap-type: y mandatory;
+}
+.story-overlay.open { transform: translateX(0); }
+.story-overlay.closing { transform: translateX(100%); }
+
+.story-close {
+  position: sticky; top: 0; left: 0; right: 0; z-index: 10;
+  height: 54px; display: flex; align-items: center; justify-content: flex-end;
+  padding: 0 clamp(20px,4vw,48px);
+  background: linear-gradient(to bottom, rgba(6,4,10,0.95) 70%, transparent);
+}
+.story-close button {
+  appearance: none; background: transparent; border: 1px solid rgba(236,224,205,0.2);
+  border-radius: 999px; padding: 8px 18px; cursor: pointer; color: var(--gold-soft);
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  transition: border-color .3s ease, color .3s ease;
+}
+.story-close button:hover { border-color: var(--gold); color: var(--gold); }
+
+.story-beat {
+  min-height: 100dvh; scroll-snap-align: start; scroll-snap-stop: always;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(64px,10vh,120px) clamp(24px,6vw,80px);
+  position: relative;
+}
+.story-beat + .story-beat { border-top: 1px solid rgba(236,224,205,0.08); }
+
+.story-eyebrow {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.36em;
+  text-transform: uppercase; color: #C9A24B; opacity: 0.9;
+  margin-bottom: clamp(22px,4vh,48px);
+  display: flex; align-items: center; gap: 14px;
+}
+.story-eyebrow::before { content: ''; width: 28px; height: 1px; background: #C9A24B; opacity: 0.7; }
+
+.story-headline {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: clamp(38px,6.5vw,92px); line-height: 0.92; color: #ECE0CD;
+  letter-spacing: -0.01em; max-width: 14ch;
+}
+.story-body {
+  margin-top: clamp(22px,4vh,44px);
+  font-family: var(--serif); font-size: clamp(15px,1.4vw,18px); font-weight: 400; line-height: 1.8;
+  color: #b0a090; max-width: 56ch;
+}
+.story-body strong { color: #ECE0CD; font-weight: 500; }
+
+.story-stat-row {
+  margin-top: clamp(32px,5vh,56px); display: flex; flex-wrap: wrap; gap: clamp(24px,4vw,48px);
+}
+.story-stat { display: flex; flex-direction: column; gap: 6px; }
+.story-stat-n {
+  font-family: var(--serif); font-style: italic; font-weight: 500;
+  font-size: clamp(36px,5vw,64px); color: #C9A24B; line-height: 1;
+}
+.story-stat-l {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em;
+  text-transform: uppercase; color: #7a6a54;
+}
+
+/* How it works beats */
+.how-steps { margin-top: clamp(36px,6vh,64px); display: flex; flex-direction: column; gap: 28px; max-width: 52ch; }
+.how-step { display: flex; gap: 20px; align-items: flex-start; }
+.how-step-n {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+  color: #C9A24B; min-width: 28px; padding-top: 2px;
+}
+.how-step-body { flex: 1; }
+.how-step-title {
+  font-family: var(--serif); font-style: italic; font-size: clamp(20px,2vw,26px);
+  color: #ECE0CD; margin-bottom: 6px;
+}
+.how-step-desc {
+  font-size: clamp(13px,1.1vw,15px); font-weight: 300; line-height: 1.65; color: #b0a090;
+}
+
+/* price-climb visual */
+.price-climb {
+  margin-top: clamp(24px,4vh,40px); padding: 18px 22px; border-radius: 14px;
+  border: 1px solid rgba(201,162,75,0.2); background: rgba(201,162,75,0.04);
+  max-width: 440px;
+}
+.price-climb-label {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: #7a6a54; margin-bottom: 12px;
+}
+.price-climb-bar {
+  position: relative; height: 2px; background: rgba(201,162,75,0.18); border-radius: 2px; margin-bottom: 10px;
+}
+.price-climb-bar::after {
+  content: ''; position: absolute; left: 0; top: 0; height: 100%;
+  width: 60%; background: linear-gradient(to right, #C9A24B55, #C9A24B);
+  border-radius: 2px;
+}
+.price-climb-ends {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+}
+.price-climb-ends span:first-child { color: #C9A24B; }
+.price-climb-ends span:last-child { color: #7a6a54; }
+
+/* Testimonials */
+.story-quotes { margin-top: clamp(36px,6vh,60px); display: flex; flex-direction: column; gap: 22px; max-width: 56ch; }
+.story-quote {
+  padding: 18px 22px; border-radius: 14px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(236,224,205,0.08);
+}
+.story-quote q {
+  display: block; font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: clamp(14px,1.3vw,17px); color: #c8b89e; line-height: 1.6; quotes: none;
+}
+.story-quote cite {
+  display: block; margin-top: 10px; font-family: var(--mono); font-size: 9.5px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: #7a6a54; font-style: normal;
+}
+
+/* Founder's note */
+.story-founder {
+  margin-top: clamp(32px,5vh,56px); max-width: 52ch;
+  padding: 26px 28px; border-radius: 18px;
+  background: rgba(201,162,75,0.06); border: 1px solid rgba(201,162,75,0.16);
+}
+.story-founder p {
+  font-size: clamp(14px,1.3vw,17px); font-weight: 300; line-height: 1.75; color: #c8b89e;
+}
+.story-founder cite {
+  display: block; margin-top: 16px; font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: #7a6a54; font-style: normal;
+}
+
+/* Newsletter in story overlay */
+.story-nl {
+  margin-top: clamp(36px,6vh,56px); max-width: 440px;
+}
+.story-nl-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: #7a6a54; margin-bottom: 14px;
+}
+.story-nl-row { display: flex; gap: 10px; }
+.story-nl-row input[type="email"] {
+  flex: 1; padding: 13px 16px; border-radius: 11px;
+  border: 1px solid rgba(236,224,205,0.18); background: rgba(255,255,255,0.05);
+  color: #ECE0CD; font-family: var(--mono); font-size: 12px;
+  outline: none; transition: border-color .3s ease;
+}
+.story-nl-row input[type="email"]::placeholder { color: #5a4e3c; }
+.story-nl-row input[type="email"]:focus { border-color: #C9A24B; }
+.story-nl-btn {
+  padding: 13px 22px; border-radius: 11px; border: 1px solid #C9A24B;
+  background: transparent; color: #C9A24B; font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer;
+  white-space: nowrap; transition: background .3s ease, color .3s ease;
+}
+.story-nl-btn:hover { background: #C9A24B; color: #06040a; }
+.story-nl-success {
+  display: none; margin-top: 12px; font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: #C9A24B;
+}
+.story-nl-success.show { display: block; }
+
+/* Scroll reveal */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal:nth-child(2) { transition-delay: .1s; }
+.reveal:nth-child(3) { transition-delay: .2s; }
+.reveal:nth-child(4) { transition-delay: .3s; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+/* ============================================================
+   TRUST / FAQ OVERLAY  (item 11)
+   ============================================================ */
+.trust-overlay {
+  position: fixed; inset: 0; z-index: 155;
+  background: #07050b;
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  transform: translateY(100%);
+  transition: transform .6s cubic-bezier(.6,0,.15,1);
+}
+.trust-overlay.open { transform: translateY(0); }
+.trust-close {
+  position: sticky; top: 0; z-index: 10; display: flex; align-items: center;
+  justify-content: space-between; padding: 16px clamp(20px,4vw,48px);
+  background: rgba(7,5,11,0.96); backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(236,224,205,0.08);
+}
+.trust-close-title {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--gold-soft);
+}
+.trust-close button {
+  appearance: none; background: transparent; border: 1px solid rgba(236,224,205,0.18);
+  border-radius: 999px; padding: 7px 16px; cursor: pointer; color: var(--gold-soft);
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  transition: border-color .3s, color .3s;
+}
+.trust-close button:hover { border-color: var(--gold); color: var(--gold); }
+.trust-content { padding: clamp(32px,6vh,72px) clamp(24px,6vw,80px); max-width: 760px; }
+
+.trust-section { margin-bottom: 56px; }
+.trust-section-title {
+  font-family: var(--serif); font-style: italic; font-size: clamp(26px,3vw,38px);
+  color: #ECE0CD; margin-bottom: 22px; line-height: 1;
+}
+
+/* Shipping table */
+.trust-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.trust-table th, .trust-table td {
+  padding: 11px 14px; text-align: left;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(236,224,205,0.08);
+}
+.trust-table th { color: #7a6a54; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; }
+.trust-table td { color: #c8b89e; }
+.trust-table tr:last-child td { border-bottom: none; }
+
+/* Accordion FAQ */
+.faq-item { border-bottom: 1px solid rgba(236,224,205,0.08); }
+.faq-q {
+  width: 100%; appearance: none; background: transparent; border: none; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 0; text-align: left; gap: 20px;
+  font-family: var(--sans); font-size: clamp(13px,1.2vw,15px); font-weight: 300;
+  color: #c8b89e; transition: color .3s ease;
+}
+.faq-q:hover { color: #ECE0CD; }
+.faq-q .faq-arrow { flex: none; font-size: 16px; transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+.faq-q[aria-expanded="true"] .faq-arrow { transform: rotate(180deg); }
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height .4s cubic-bezier(.2,.7,.2,1);
+  font-size: clamp(13px,1.1vw,14.5px); font-weight: 300; line-height: 1.7;
+  color: #7a6a54;
+}
+.faq-a.open { max-height: 400px; }
+.faq-a-inner { padding-bottom: 18px; }
+
+/* ============================================================
+   WAITLIST / DROP MODAL  (items 10, 12)
+   ============================================================ */
+.waitlist-modal {
+  position: fixed; inset: 0; z-index: 300; display: none;
+  align-items: center; justify-content: center;
+  background: rgba(6,4,10,0.88); backdrop-filter: blur(16px);
+}
+.waitlist-modal.open { display: flex; }
+.waitlist-card {
+  background: #0e0a14; border: 1px solid rgba(201,162,75,0.2);
+  border-radius: 20px; padding: clamp(28px,5vw,48px);
+  width: min(480px, 90vw);
+  box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8);
+}
+.waitlist-card .wl-eyebrow {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em;
+  text-transform: uppercase; color: #7a6a54; margin-bottom: 12px;
+}
+.waitlist-card .wl-title {
+  font-family: var(--serif); font-style: italic; font-size: clamp(26px,3vw,36px);
+  color: #ECE0CD; margin-bottom: 14px; line-height: 1;
+}
+.waitlist-card .wl-body {
+  font-size: clamp(13px,1.1vw,15px); font-weight: 300; line-height: 1.65; color: #b0a090;
+  margin-bottom: 22px;
+}
+.wl-form { display: flex; flex-direction: column; gap: 10px; }
+.wl-form input[type="email"] {
+  padding: 13px 16px; border-radius: 11px;
+  border: 1px solid rgba(236,224,205,0.18); background: rgba(255,255,255,0.05);
+  color: #ECE0CD; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
+  outline: none; transition: border-color .3s ease;
+}
+.wl-form input:focus { border-color: #C9A24B; }
+.wl-submit {
+  padding: 14px; border-radius: 11px; border: 1px solid #C9A24B;
+  background: transparent; color: #C9A24B; font-family: var(--mono);
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
+  transition: background .3s, color .3s;
+}
+.wl-submit:hover { background: #C9A24B; color: #06040a; }
+.wl-close-btn {
+  margin-top: 14px; width: 100%; appearance: none; background: transparent; border: none;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #5a4e3c; cursor: pointer; padding: 8px;
+  transition: color .3s;
+}
+.wl-close-btn:hover { color: #b0a090; }
+
+/* ============================================================
+   HOME FOOTER — expanded (item 14)
+   ============================================================ */
+.home-footer {
+  position: relative; z-index: 5; width: 100%;
+  padding: clamp(9px,1.6vh,15px) clamp(18px,3.5vw,44px);
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: var(--muted);
+  flex-shrink: 0;
+}
+.home-footer a, .home-footer button.hf-link {
+  color: var(--muted); text-decoration: none; transition: color .3s ease;
+  appearance: none; background: transparent; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em;
+  text-transform: uppercase; padding: 0;
+}
+.home-footer a:hover, .home-footer button.hf-link:hover { color: var(--ink); }
+.hf-nav { display: flex; align-items: center; gap: clamp(12px,2vw,24px); flex-wrap: wrap; }
+@media (max-width: 520px) {
+  .home-footer { font-size: 8px; letter-spacing: 0.18em; }
+  .hf-right { display: none; }
+  .hf-nav { gap: 10px; }
+}
+
+/* ============================================================
+   DROP URGENCY BAR  (item 12)
+   ============================================================ */
+.drop-bar {
+  position: relative; z-index: 4; width: 100%;
+  padding: 6px clamp(18px,3.5vw,44px);
+  display: flex; align-items: center; justify-content: center; gap: clamp(16px,3vw,40px);
+  flex-wrap: wrap; pointer-events: none;
+}
+.drop-item {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 7px;
+}
+.drop-item .d-count { color: var(--accent); font-weight: 700; }
+.drop-item .d-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+/* ============================================================
+   RESERVED BADGE  (item 16)
+   ============================================================ */
+.reserved-badge {
+  position: fixed; right: clamp(18px,3vw,40px); bottom: clamp(18px,3vh,34px);
+  z-index: 75; display: none;
+  background: rgba(201,162,75,0.14); border: 1px solid rgba(201,162,75,0.35);
+  border-radius: 999px; padding: 8px 16px;
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--gold); backdrop-filter: blur(10px);
+}
+.reserved-badge.show { display: block; }
+body[data-state="product"] .reserved-badge { display: none; }
+
+/* ============================================================
+   CUSTOM CURSOR  (item 16, desktop only)
+   ============================================================ */
+@media (pointer: fine) {
+  body { cursor: none; }
+  a, button, [role="button"], [tabindex="0"] { cursor: none; }
+}
+.cursor-dot, .cursor-aura {
+  position: fixed; pointer-events: none; z-index: 9999;
+  border-radius: 50%; transform: translate(-50%,-50%);
+  display: none;
+}
+@media (pointer: fine) {
+  .cursor-dot { display: block; width: 7px; height: 7px; background: var(--gold); }
+  .cursor-aura {
+    display: block; width: 32px; height: 32px;
+    border: 1px solid rgba(201,162,75,0.4); background: transparent;
+    transition: width .25s ease, height .25s ease, border-color .25s ease;
+  }
+  .cursor-aura.hot { width: 48px; height: 48px; border-color: rgba(201,162,75,0.8); }
+}
+
+/* ============================================================
+   SKELETON LOADING  (item 16)
+   ============================================================ */
+.img-skeleton {
+  position: absolute; inset: 0; border-radius: 8px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+@keyframes shimmer { 0%{ background-position: 200% 0; } 100%{ background-position: -200% 0; } }
+.pp-photo-loaded .img-skeleton { display: none; }
+
+/* ============================================================
+   SOUND TOGGLE  (item 16)
+   ============================================================ */
+.sound-toggle {
+  position: fixed; right: clamp(18px,3vw,40px); top: clamp(14px,3vh,28px); z-index: 72;
+  appearance: none; background: transparent; border: 1px solid var(--line);
+  border-radius: 999px; padding: 7px 13px; cursor: pointer;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+  display: flex; align-items: center; gap: 6px;
+  transition: border-color .3s, color .3s; opacity: 0;
+}
+.sound-toggle.show { opacity: 0.7; }
+.sound-toggle:hover { border-color: var(--ink); color: var(--ink); opacity: 1; }
+.sound-toggle svg { width: 11px; height: 11px; flex: none; }
+body[data-state="portal"] .sound-toggle { display: none; }
+</style>
+</head>
+<body data-state="portal">
+
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-aura" id="cursorAura" aria-hidden="true"></div>
+
+<a class="skip-link" href="#enter">Skip to enter</a>
+
+<button class="sound-toggle" id="soundToggle" aria-label="Toggle ambient sound" aria-pressed="false">
+  <svg id="soundIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path id="soundWave" d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <span id="soundLabel">sound</span>
+</button>
+
+<div class="reserved-badge" id="reservedBadge" aria-live="polite"></div>
+
+<a class="brandmark" href="#home" aria-label="the Collection — home">the Collection</a>
+<div class="editioncount-fixed" aria-hidden="true">Edition of 99</div>
+
+<!-- ============ STATE 1 · PORTAL ============ -->
+<div class="portal" id="portal" role="dialog" aria-label="Enter the Collection">
+  <canvas class="portal-canvas" id="spiral" aria-hidden="true"></canvas>
+  <div class="portal-core" id="portalCore">
+    <button class="enter-btn" id="enter" aria-label="Enter the Collection">Enter</button>
+    <p class="portal-sub">99 pieces · once it's gone, gone forever</p>
+  </div>
+  <p class="portal-hint" aria-hidden="true">a limited drop from the Gulf</p>
+</div>
+<div class="bloom" id="bloom" aria-hidden="true"></div>
+
+<!-- ANNOUNCEMENT TICKER -->
+<div class="ticker-wrap" id="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">Numbered editions of 99 <span class="ticker-sep">·</span> Once it's gone, gone forever <span class="ticker-sep">·</span> Made in the UAE <span class="ticker-sep">·</span> A Gulf-rooted limited drop <span class="ticker-sep">·</span> Three pieces, numbered forever <span class="ticker-sep">·</span> Small goods with long lives <span class="ticker-sep">·</span></span><span class="ticker-item">Numbered editions of 99 <span class="ticker-sep">·</span> Once it's gone, gone forever <span class="ticker-sep">·</span> Made in the UAE <span class="ticker-sep">·</span> A Gulf-rooted limited drop <span class="ticker-sep">·</span> Three pieces, numbered forever <span class="ticker-sep">·</span> Small goods with long lives <span class="ticker-sep">·</span></span>
+  </div>
+</div>
+
+<!-- ============ STATE 2 · HOME ============ -->
+<main class="home" id="home" aria-hidden="true">
+  <div class="home-head">
+    <h1 class="home-title"><span class="lower">the</span>Collection</h1>
+    <p class="home-sub">A limited drop from the Gulf · 99 of each</p>
+  </div>
+
+  <div class="wheel-wrap" id="wheelWrap" role="group" aria-roledescription="carousel" aria-label="Three numbered pieces — swipe or use arrow keys to browse">
+    <div class="wheel-glow"></div>
+    <div class="wheel" id="wheel">
+      <!-- cap -->
+      <button class="card" data-key="cap" data-i="0" style="--card-bg:#B0843F" aria-label="Saqr — the cap. Open product.">
+        <span class="card-photo"><img src="assets/cut/cap-front.png" alt="Saqr, a sand brushed-cotton cap with Inshallah embroidery" decoding="async" width="260" height="190" onerror="this.style.opacity='0'" /></span>
+        <span class="card-meta"><span class="card-name">Saqr</span><span class="card-tag">The Cap · Edition of 99</span></span>
+      </button>
+      <!-- towel -->
+      <button class="card" data-key="towel" data-i="1" style="--card-bg:#C7AE82" aria-label="Sahil — the towel. Open product.">
+        <span class="card-photo"><img src="assets/cut/towel-a.png" alt="Sahil, a rolled striped beach towel reading Lost in Dubai" decoding="async" width="260" height="190" onerror="this.style.opacity='0'" /></span>
+        <span class="card-meta"><span class="card-name">Sahil</span><span class="card-tag">The Towel · Edition of 99</span></span>
+      </button>
+      <!-- tote -->
+      <button class="card" data-key="tote" data-i="2" style="--card-bg:#B6936A" aria-label="Farsha — the tote. Open product.">
+        <span class="card-photo"><img src="assets/cut/tote-b.png" alt="Farsha tote unrolled into a quilted padded mat" decoding="async" width="260" height="190" onerror="this.style.opacity='0'" /></span>
+        <span class="card-meta"><span class="card-name">Farsha</span><span class="card-tag">The Tote · Edition of 99</span></span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="wheel-dots" id="dots" aria-label="Choose a piece">
+    <button data-i="0" aria-current="true" aria-label="Saqr — the cap"><span class="pip"></span></button>
+    <button data-i="1" aria-current="false" aria-label="Sahil — the towel"><span class="pip"></span></button>
+    <button data-i="2" aria-current="false" aria-label="Farsha — the tote"><span class="pip"></span></button>
+  </nav>
+  <p class="home-cue">drag · swipe · arrows — tap a piece to open</p>
+
+  <!-- drop urgency / live stock bar (item 12) -->
+  <div class="drop-bar" aria-hidden="true" id="dropBar">
+    <span class="drop-item"><span class="d-dot"></span>Saqr — <span class="d-count" id="dbCap">51</span> unclaimed</span>
+    <span class="drop-item"><span class="d-dot"></span>Sahil — <span class="d-count" id="dbTowel">87</span> unclaimed</span>
+    <span class="drop-item"><span class="d-dot"></span>Farsha — <span class="d-count" id="dbTote">28</span> unclaimed</span>
+  </div>
+
+  <footer class="home-footer" aria-label="Site info">
+    <span class="hf-brand">the Collection · Dubai, UAE</span>
+    <nav class="hf-nav" aria-label="Site navigation">
+      <button class="hf-link" id="btnStory" aria-label="Our story">Our Story</button>
+      <button class="hf-link" id="btnHow" aria-label="How it works">How It Works</button>
+      <button class="hf-link" id="btnTrust" aria-label="Shipping and FAQ">Shipping &amp; FAQ</button>
+      <a class="hf-link" href="mailto:hello@thecollection.ae">Contact</a><!-- TODO: real email -->
+    </nav>
+    <span class="hf-right">Ed. of 99 · Never re-run</span>
+  </footer>
+</main>
+
+<!-- ============ STATE 3 · PRODUCT PAGE ============ -->
+<section class="pp" id="pp" aria-hidden="true" aria-labelledby="ppName">
+  <div class="pp-bg" id="ppBg"></div>
+  <div class="pp-bg-glow"></div>
+
+  <button class="pp-back" id="ppBack" aria-label="Back to all pieces">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back
+  </button>
+
+  <div class="pp-inner">
+    <div class="pp-stage">
+      <div class="pp-contact"></div>
+      <div class="pp-tilt" id="ppTilt">
+        <div class="pp-float">
+          <img class="pp-photo" id="ppPhoto" src="assets/cut/cap-front.png" alt="" decoding="async" width="400" height="480" />
+          <img class="pp-photo pp-photo2" id="ppPhoto2" src="" alt="" aria-hidden="true" decoding="async" width="400" height="480" />
+        </div>
+      </div>
+      <div class="pp-chips" id="ppChips" aria-hidden="true"></div>
+    </div>
+
+    <div class="pp-panel">
+      <p class="pp-eyebrow" id="ppEyebrow">Headwear · Edition of 99</p>
+      <h2 class="pp-name" id="ppName"><em>Saqr</em></h2>
+      <p class="pp-price" id="ppPrice">AED 395</p>
+      <p class="pp-one" id="ppOne"></p>
+      <p class="pp-story" id="ppStory"></p>
+      <div class="pp-edition">
+        <p class="pp-claimline" id="ppClaimline">You'd be claiming <b class="ednum">No. 00 / 99</b></p>
+        <div class="pp-edbar"><i id="ppEdbar"></i></div>
+        <p class="pp-edcount" id="ppEdcount"><span class="d"></span><span class="unclaimed">0</span>&nbsp;still unclaimed</p>
+      </div>
+      <!-- low stock cue (item 10) -->
+      <div class="pp-lowstock" id="ppLowstock" aria-live="polite">
+        <span class="ls-dot"></span><span id="ppLowstockText">Only 28 left</span>
+      </div>
+
+      <button class="claim" id="ppClaim" data-cursor="hot"><span class="c-label">Claim No. 48</span></button>
+
+      <!-- inline email capture (item 10) -->
+      <div class="pp-email-row" id="ppEmailRow" role="group" aria-label="Enter your email to complete reservation">
+        <span class="pp-email-label">Your email — we'll confirm and send your invoice</span>
+        <input type="email" id="ppEmailInput" placeholder="you@example.com" autocomplete="email" />
+        <div class="pp-email-price" id="ppEmailPrice"></div>
+      </div>
+
+      <!-- sold-out + waitlist (item 10) -->
+      <div class="pp-soldout-row" id="ppSoldoutRow">
+        <p class="pp-soldout-msg">This piece is sold out — edition retired</p>
+        <div class="pp-waitlist-input">
+          <input type="email" id="ppWaitlistEmail" placeholder="Join the waitlist" autocomplete="email" aria-label="Waitlist email" />
+          <button class="pp-waitlist-btn" id="ppWaitlistBtn">Notify me</button>
+        </div>
+      </div>
+
+      <button class="pp-share" id="ppShare" aria-label="Share this piece">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Share this piece
+      </button>
+
+      <!-- product info drawer (item 9) -->
+      <button class="pp-drawer-toggle" id="ppDrawerToggle" aria-expanded="false" aria-controls="ppDrawer">
+        Materials &amp; details <span class="dt-arrow" aria-hidden="true">▾</span>
+      </button>
+      <div class="pp-drawer" id="ppDrawer" role="region" aria-labelledby="ppDrawerToggle">
+        <div class="pp-drawer-inner" id="ppDrawerInner">
+          <!-- filled by fillProduct() -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STORY / ABOUT OVERLAY (items 7, 8, 13, 14) ============ -->
+<div class="story-overlay" id="storyOverlay" role="dialog" aria-label="Our Story" aria-modal="true" aria-hidden="true">
+  <div class="story-close">
+    <button id="storyCloseBtn" aria-label="Close story">Close ✕</button>
+  </div>
+
+  <!-- Beat 1: What we are -->
+  <section class="story-beat">
+    <p class="story-eyebrow reveal">The Gulf · Made here</p>
+    <h2 class="story-headline reveal">A Gulf-rooted handful.</h2>
+    <div class="story-body reveal">
+      <strong>the Collection</strong> makes a small number of things you'd actually use — built well, made here in the UAE, and never mass-produced. Three goods, ninety-nine of each. When the last one finds a home, the run is retired forever.
+      <br /><br />
+      We are not a brand in the usual sense. We are a small operation in Dubai that believes the best objects are the ones made with a real reason.
+    </div>
+    <div class="story-stat-row reveal">
+      <div class="story-stat"><span class="story-stat-n">3</span><span class="story-stat-l">pieces</span></div>
+      <div class="story-stat"><span class="story-stat-n">99</span><span class="story-stat-l">of each</span></div>
+      <div class="story-stat"><span class="story-stat-n">1×</span><span class="story-stat-l">one run · no reprints</span></div>
+    </div>
+  </section>
+
+  <!-- Beat 2: Why 99 -->
+  <section class="story-beat">
+    <p class="story-eyebrow reveal">The number</p>
+    <h2 class="story-headline reveal">Why ninety-nine.</h2>
+    <div class="story-body reveal">
+      Not ninety-eight. Not a hundred. <strong>Ninety-nine</strong> — a number small enough to mean something, large enough to reach the right people.
+      <br /><br />
+      Every piece is numbered by hand. When the last one is gone, the run is retired. No restocks. No seconds. No exceptions. The number you claim is yours permanently, recorded and sent with your piece on a signed edition card.
+      <br /><br />
+      The first to claim get the lowest numbers — and the lowest price. <em>Prices rise as the run sells down.</em>
+    </div>
+  </section>
+
+  <!-- Beat 3: How it works -->
+  <section class="story-beat" id="howItWorks">
+    <p class="story-eyebrow reveal">The mechanic</p>
+    <h2 class="story-headline reveal">How it works.</h2>
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <span class="how-step-n">01</span>
+        <div class="how-step-body">
+          <p class="how-step-title">Browse the three pieces</p>
+          <p class="how-step-desc">Each piece has its own story, materials, and run. Spin the wheel to explore them — the live unclaimed count on each tells you how many are still available.</p>
+        </div>
+      </div>
+      <div class="how-step reveal">
+        <span class="how-step-n">02</span>
+        <div class="how-step-body">
+          <p class="how-step-title">Claim your number</p>
+          <p class="how-step-desc">Numbers are assigned in the order reservations are confirmed — first in gets the lowest remaining number. Enter your email, and we'll hold your number and send an invoice.</p>
+        </div>
+      </div>
+      <div class="how-step reveal">
+        <span class="how-step-n">03</span>
+        <div class="how-step-body">
+          <p class="how-step-title">It arrives, numbered</p>
+          <p class="how-step-desc">Your piece ships from Dubai within 5 business days of payment confirmation, in its dust bag or ribbon-tied, with a numbered edition card signed by the maker.</p>
+        </div>
+      </div>
+    </div>
+    <div class="price-climb reveal">
+      <p class="price-climb-label">Prices rise as the run sells down</p>
+      <div class="price-climb-bar"></div>
+      <div class="price-climb-ends">
+        <span>No. 01 — best value</span>
+        <span>No. 99 — last one</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beat 4: The makers + social proof + newsletter -->
+  <section class="story-beat">
+    <p class="story-eyebrow reveal">The makers</p>
+    <h2 class="story-headline reveal">Made for here.</h2>
+    <div class="story-founder reveal">
+      <p>We grew up in Dubai. This started as us wanting objects we couldn't find — Gulf-made, honest, built to last. We hope they find the right homes.</p>
+      <cite>— the makers, Dubai UAE</cite>
+    </div>
+    <div class="story-quotes reveal">
+      <div class="story-quote">
+        <q>Got the cap before the Hatta trip. Wore it every day since — it genuinely gets better.</q>
+        <cite>Ahmad K. · Dubai</cite><!-- TODO: replace with verified customer quote -->
+      </div>
+      <div class="story-quote">
+        <q>The mat that comes with the tote is the most useful thing I've unpacked in years.</q>
+        <cite>Sara M. · Abu Dhabi</cite><!-- TODO: replace with verified customer quote -->
+      </div>
+      <div class="story-quote">
+        <q>Simple. Real. Good. Exactly what I was looking for.</q>
+        <cite>Yusuf R. · Riyadh</cite><!-- TODO: replace with verified customer quote -->
+      </div>
+    </div>
+    <!-- newsletter (item 14) -->
+    <div class="story-nl reveal">
+      <p class="story-nl-label">Join the list — first to know about the next drop</p>
+      <div class="story-nl-row">
+        <input type="email" id="storyNlEmail" placeholder="your@email.com" autocomplete="email" aria-label="Email for newsletter" />
+        <button class="story-nl-btn" id="storyNlBtn">Join</button>
+      </div>
+      <p class="story-nl-success" id="storyNlSuccess">You're on the list. We'll be in touch.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ============ TRUST / FAQ OVERLAY (item 11) ============ -->
+<div class="trust-overlay" id="trustOverlay" role="dialog" aria-label="Shipping and FAQ" aria-modal="true" aria-hidden="true">
+  <div class="trust-close">
+    <span class="trust-close-title">Shipping &amp; FAQ</span>
+    <button id="trustCloseBtn" aria-label="Close">Close ✕</button>
+  </div>
+  <div class="trust-content">
+
+    <!-- Shipping -->
+    <div class="trust-section">
+      <h2 class="trust-section-title">Shipping</h2>
+      <table class="trust-table" aria-label="Shipping options">
+        <thead><tr><th>Destination</th><th>Timeframe</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td>UAE</td><td>1–2 business days</td><td>Free</td></tr>
+          <tr><td>GCC (KSA, KWT, BHR, QAT, OMN)</td><td>3–5 business days</td><td>AED 35</td></tr>
+          <tr><td>International</td><td>5–10 business days</td><td>AED 75</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:14px;font-size:13px;font-weight:300;line-height:1.65;color:#7a6a54;">All pieces ship from Dubai within 5 business days of payment confirmation. You'll receive a tracking number by email.<!-- TODO: add courier name --></p>
+    </div>
+
+    <!-- Returns -->
+    <div class="trust-section">
+      <h2 class="trust-section-title">Returns &amp; exchanges</h2>
+      <p style="font-size:clamp(13px,1.1vw,15px);font-weight:300;line-height:1.75;color:#b0a090;">
+        Limited editions are <strong style="color:#ECE0CD;">final sale</strong> — each piece is made in one run and numbered. If your piece arrives damaged or incorrect, contact us within 7 days of delivery and we will make it right. Email <a href="mailto:hello@thecollection.ae" style="color:#C9A24B;">hello@thecollection.ae</a>.<!-- TODO: real support email -->
+      </p>
+    </div>
+
+    <!-- Payment -->
+    <div class="trust-section">
+      <h2 class="trust-section-title">Payment</h2>
+      <p style="font-size:clamp(13px,1.1vw,15px);font-weight:300;line-height:1.75;color:#b0a090;">
+        We accept major cards, Apple Pay, and Google Pay. Payment plans via <strong style="color:#ECE0CD;">Tabby</strong> and <strong style="color:#ECE0CD;">Tamara</strong> are available — contact us after reserving and we'll arrange it.<!-- TODO: integrate Tabby/Tamara SDK directly -->
+      </p>
+    </div>
+
+    <!-- FAQ -->
+    <div class="trust-section">
+      <h2 class="trust-section-title">Frequently asked</h2>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Can I choose my specific number?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a" role="region"><div class="faq-a-inner">Numbers are assigned in the order reservations are confirmed. First in gets the lowest remaining number. You cannot reserve a specific number in advance, but you can see exactly which number you're claiming on the product page before you submit.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">When does my piece ship?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a" role="region"><div class="faq-a-inner">Within 5 business days of your invoice being paid. You'll receive a tracking number by email as soon as it leaves us. UAE orders typically arrive within 1–2 days after dispatch.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What if the edition sells out before I complete my reservation?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a" role="region"><div class="faq-a-inner">If the piece sells out before we can confirm your reservation, we'll add you to the waitlist and contact you if a number becomes available (e.g. a reservation that wasn't completed). Waitlist spots are offered in the order they were submitted.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Is there a payment plan?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a" role="region"><div class="faq-a-inner">Yes — contact us after reserving and we'll set up a plan through Tabby or Tamara. We'll hold your number for 48 hours while we arrange it.<!-- TODO: integrate payment plan directly --></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What is the sizing like?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a" role="region"><div class="faq-a-inner">All three pieces are one-size-fits-all by design. The cap adjusts from 56–60 cm. The towel is 100 × 180 cm. The tote fits a 13" laptop and a day's worth — the mat it unfolds into is 90 × 60 cm. See "Materials &amp; details" on each product page for exact dimensions.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What happens after 99?<span class="faq-arrow">▾</span></button>
+        <div class="faq-a" role="region"><div class="faq-a-inner">Nothing. The run is retired. We never reproduce it. If you want to know about the next piece, join the list on our story page.</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ WAITLIST MODAL (items 10, 12) ============ -->
+<div class="waitlist-modal" id="waitlistModal" role="dialog" aria-label="Join the waitlist" aria-modal="true" aria-hidden="true">
+  <div class="waitlist-card">
+    <p class="wl-eyebrow" id="wlEyebrow">Edition retired</p>
+    <h2 class="wl-title" id="wlTitle">Sold out.</h2>
+    <p class="wl-body">All 99 are claimed. Join the waitlist and we'll reach out if a number becomes available — and be first to know about the next piece.</p>
+    <div class="wl-form">
+      <input type="email" id="wlEmail" placeholder="your@email.com" autocomplete="email" aria-label="Your email" />
+      <button class="wl-submit" id="wlSubmit">Join waitlist</button>
+    </div>
+    <button class="wl-close-btn" id="wlClose">No thanks — close</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <p class="toast-title" id="toastTitle">No. 48 — reserved</p>
+  <p class="toast-sub" id="toastSub">We'll be in touch shortly</p>
+</div>
+
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<script>
+/* ============================================================
+   the Collection — engine
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var docEl = document.documentElement, body = document.body;
+  var reduce = (location.search.indexOf('motion=0') >= 0) ||
+               (window.matchMedia('(prefers-reduced-motion: reduce)').matches && location.search.indexOf('motion=1') < 0);
+  if (location.search.indexOf('motion=1') >= 0) reduce = false;
+  if (!reduce) docEl.classList.add('motion');
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+  var TAU = Math.PI * 2;
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  /* ---------------- product data ---------------- */
+  var DATA = {
+    cap: {
+      i: 0, name: 'Saqr', eyebrow: 'Headwear · Edition of 99',
+      priceBase: 345, priceStep: 1.01,          /* price rises per number claimed */
+      img: 'assets/cut/cap-front.png',
+      img2: 'assets/cut/cap-angle.png',
+      one: 'A washed-cotton six-panel cap with hand-stitched <em>Inshallah</em> embroidery.',
+      story: 'Cut from heavyweight brushed cotton and built to soften with wear — a structured crown, solid brass eyelets and an adjustable leather strap. The everyday cap you actually reach for, finished to last. We make ninety-nine, number each one inside the band, and never run it again.',
+      no: 48, total: 99, unclaimed: 51,
+      chips: ['100% brushed cotton', 'Hand-set brass eyelets', 'No. 48 of 99'],
+      details: {
+        materials: '100% heavyweight brushed cotton · solid brass eyelets · genuine leather adjustment strap',
+        dimensions: 'One size fits most — 56–60 cm adjustable · structured six-panel crown',
+        care: 'Spot clean or hand wash cold · reshape while damp · air dry flat · do not machine wash',
+        inbox: 'The cap in an unbleached cotton dust bag · numbered edition card signed by the maker',
+        made: 'Manufactured and packaged in the UAE · ships from Dubai within 5 business days',
+        auth: 'Each cap is hand-numbered in ink inside the band — No. X of 99 — by the maker who finished it'
+      },
+      theme: { bg:'#B0843F', ink:'#1C1005', muted:'#3A2710', accent:'#7C4A1E', glow:'rgba(255,237,203,0.26)', line:'rgba(37,22,8,0.20)' }
+    },
+    towel: {
+      i: 1, name: 'Sahil', eyebrow: 'Shore goods · Edition of 99',
+      priceBase: 445, priceStep: 1.21,
+      img: 'assets/cut/towel-a.png',
+      img2: 'assets/towel-b.png',
+      one: 'An oversized terry beach towel woven with a 1970s Gulf-resort stripe.',
+      story: 'Thick, thirsty long-staple cotton with a jacquard <em>Lost in Dubai</em> band and hand-knotted fringe — heavy enough to stay put in the sea breeze and soft enough to live with for years. Ninety-nine woven in this one colourway, each numbered on the label, then the loom moves on.',
+      no: 12, total: 99, unclaimed: 87,
+      chips: ['Long-staple cotton jacquard', "Pearl-diver's weight", 'No. 12 of 99'],
+      details: {
+        materials: '100% long-staple Egyptian cotton · jacquard weave · hand-knotted fringe',
+        dimensions: '100 × 180 cm · 650 g/m² weight',
+        care: 'Machine wash cold · no bleach · low tumble dry or air flat · softer with each wash',
+        inbox: 'The towel rolled and ribbon-tied · numbered edition card',
+        made: 'Woven and finished in the UAE · ships from Dubai within 5 business days',
+        auth: 'Numbered woven label in the corner — No. X of 99 — on the same yarn as the stripe'
+      },
+      theme: { bg:'#C7AE82', ink:'#1A1005', muted:'#4A3415', accent:'#A8442A', glow:'rgba(255,243,222,0.24)', line:'rgba(36,24,8,0.18)' }
+    },
+    tote: {
+      i: 2, name: 'Farsha', eyebrow: 'Carry goods · Edition of 99',
+      priceBase: 650, priceStep: 1.41,
+      img: 'assets/cut/tote-b.png',
+      img2: 'assets/tote-a.png',
+      one: 'A sand-canvas tote that unfolds into a padded majlis mat.',
+      story: 'Tan leather handles, solid brass hardware and a structured canvas body — with a quilted mat that unrolls from inside for the beach, the dunes or the long evenings. One bag that genuinely earns its place. Ninety-nine made, each numbered on the base, then the pattern is retired.',
+      no: 71, total: 99, unclaimed: 28,
+      chips: ['Sand canvas · tan leather', 'Unrolls to a quilted mat', 'No. 71 of 99'],
+      details: {
+        materials: 'Waxed sand canvas body · tan full-grain leather handles · solid brass hardware · quilted cotton lining',
+        dimensions: 'Tote 38 × 32 × 14 cm · mat unrolled 90 × 60 cm · leather handles 60 cm drop',
+        care: 'Spot clean canvas with damp cloth · condition leather with neutral wax · air dry · do not submerge',
+        inbox: 'The tote packed with mat inside · brass care cloth · numbered edition card signed by the maker',
+        made: 'Cut and assembled in the UAE · ships from Dubai within 5 business days',
+        auth: 'Numbered brass rivet on the base of the tote — No. X of 99 — set at completion'
+      },
+      theme: { bg:'#B6936A', ink:'#1A1005', muted:'#3C2A12', accent:'#7C4A22', glow:'rgba(255,240,216,0.24)', line:'rgba(35,23,8,0.18)' }
+    }
+  };
+  function priceFor(key, n) {
+    var d = DATA[key];
+    return 'AED ' + Math.round(d.priceBase + (n - 1) * d.priceStep);
+  }
+  var KEYS = ['cap', 'towel', 'tote'];
+  var PORTAL_THEME = { bg:'#0F0A07', ink:'#ECE0CD', muted:'#97856C', accent:'#C9A24B', glow:'rgba(201,162,75,0.24)', line:'rgba(236,224,205,0.15)' };
+
+  /* preload hero images */
+  KEYS.forEach(function (k) { var im = new Image(); im.src = DATA[k].img; });
+
+  /* ---------------- theme helpers ---------------- */
+  function hexToRgb(h) { h = h.replace('#',''); if (h.length===3) h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2]; var n=parseInt(h,16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+  function rgbToHex(r,g,b){ return '#'+[r,g,b].map(function(x){ return ('0'+Math.round(x).toString(16)).slice(-2); }).join(''); }
+  function mixHex(a,b,t){ var A=hexToRgb(a),B=hexToRgb(b); return rgbToHex(lerp(A[0],B[0],t),lerp(A[1],B[1],t),lerp(A[2],B[2],t)); }
+  function setTheme(t) {
+    var r = docEl.style;
+    r.setProperty('--bg', t.bg); r.setProperty('--ink', t.ink); r.setProperty('--muted', t.muted);
+    r.setProperty('--accent', t.accent); r.setProperty('--glow', t.glow); r.setProperty('--line', t.line);
+    body.style.backgroundColor = t.bg;
+    var meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', t.bg);
+  }
+  /* discrete (NOT per-frame) — sets the inherited text/accent vars only */
+  function applyVars(t) {
+    var r = docEl.style;
+    r.setProperty('--ink', t.ink); r.setProperty('--muted', t.muted);
+    r.setProperty('--accent', t.accent); r.setProperty('--glow', t.glow); r.setProperty('--line', t.line);
+  }
+  /* blend between two product themes (numeric channels only) by t */
+  function blendTheme(ka, kb, t) {
+    var a = DATA[ka].theme, b = DATA[kb].theme;
+    return { bg: mixHex(a.bg,b.bg,t), ink: mixHex(a.ink,b.ink,t), muted: mixHex(a.muted,b.muted,t),
+             accent: mixHex(a.accent,b.accent,t), glow: t<0.5?a.glow:b.glow, line: t<0.5?a.line:b.line };
+  }
+
+  /* ============================================================
+     STATE 1 — PORTAL SPIRAL
+     ============================================================ */
+  var portal = document.getElementById('portal');
+  var portalCore = document.getElementById('portalCore');
+  var bloom = document.getElementById('bloom');
+  var enterBtn = document.getElementById('enter');
+  var cv = document.getElementById('spiral'), cx = cv.getContext('2d');
+  var DPR = Math.min(2, window.devicePixelRatio || 1);
+  var W = 0, H = 0, cxp = 0, cyp = 0, R0 = 0;
+  var ARMS = 3, PCOUNT = reduce ? 420 : 620, parts = [];
+  var ptrPortalX = 0, ptrPortalY = 0;
+  if (!reduce) { document.getElementById('portal').addEventListener('pointermove', function(e) { ptrPortalX = (e.clientX/window.innerWidth-0.5)*2; ptrPortalY = (e.clientY/window.innerHeight-0.5)*2; }, { passive:true }); }
+  var rot = 0, inMul = 1, bloomBoost = 0, spiralRunning = true;
+
+  function sizeSpiral() {
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+    cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    cx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    cxp = W / 2; cyp = H / 2; R0 = Math.max(W, H) * 0.62;
+  }
+  function seedParts() {
+    parts = [];
+    for (var i = 0; i < PCOUNT; i++) {
+      parts.push({ t: Math.random(), arm: i % ARMS, off: (Math.random()-0.5)*0.04, sz: 0.5 + Math.random()*1.9, tw: Math.random()*TAU });
+    }
+  }
+  var TURNS = 3.4;
+  function partXY(p) {
+    var rad = R0 * Math.pow(p.t, 0.9);
+    var ang = p.t * TURNS * TAU + p.arm * (TAU / ARMS) + rot + p.off * 6.0;
+    var px = cxp + ptrPortalX * rad * 0.065 * p.t;
+    var py = cyp + ptrPortalY * rad * 0.065 * p.t;
+    return { x: px + Math.cos(ang) * rad, y: py + Math.sin(ang) * rad, rad: rad };
+  }
+  function drawSpiral(dt, time) {
+    cx.clearRect(0, 0, W, H);
+    /* faint central glow */
+    var gg = cx.createRadialGradient(cxp, cyp, 0, cxp, cyp, R0 * 0.5);
+    gg.addColorStop(0, 'rgba(201,162,75,' + (0.16 + bloomBoost*0.5).toFixed(3) + ')');
+    gg.addColorStop(1, 'rgba(201,162,75,0)');
+    cx.fillStyle = gg; cx.fillRect(0, 0, W, H);
+
+    cx.globalCompositeOperation = 'lighter';
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i];
+      var pos = partXY(p);
+      var near = 1 - p.t;                 // brighter toward centre
+      var tw = 0.7 + 0.3 * Math.sin(time * 0.004 + p.tw);
+      var a = (0.10 + near * 0.62) * tw;
+      var rr = (p.sz * (0.6 + near * 1.7)) * (1 + bloomBoost * 1.4);
+      var g = cx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, rr * 3.4);
+      var col = bloomBoost > 0.02 ? mixHex('#C9A24B', '#fff3da', bloomBoost) : '#C9A24B';
+      var rgb = hexToRgb(col);
+      g.addColorStop(0, 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + a.toFixed(3) + ')');
+      g.addColorStop(1, 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',0)');
+      cx.fillStyle = g; cx.beginPath(); cx.arc(pos.x, pos.y, rr * 3.4, 0, TAU); cx.fill();
+      /* draw inward */
+      if (dt) {
+        p.t -= dt * (0.018 + (1 - p.t) * 0.05) * inMul;
+        if (p.t <= 0.004) { p.t += 1; }
+      }
+    }
+    cx.globalCompositeOperation = 'source-over';
+  }
+
+  var lastT = null;
+  function spiralLoop(time) {
+    if (!spiralRunning) return;
+    var dt = lastT == null ? 0 : Math.min(0.05, (time - lastT) / 1000);
+    lastT = time;
+    rot += dt * (0.12 * inMul);
+    drawSpiral(reduce ? 0 : dt, time);
+    requestAnimationFrame(spiralLoop);
+  }
+
+  sizeSpiral(); seedParts();
+  window.addEventListener('resize', function () { sizeSpiral(); if (reduce) drawSpiral(0, 0); });
+  if (reduce) { drawSpiral(0, 0); } else { requestAnimationFrame(spiralLoop); }
+
+  /* reveal ENTER after a beat */
+  setTimeout(function () { portalCore.classList.add('show'); }, reduce ? 250 : 1900);
+
+  /* portal scroll-lock: block wheel / touch-move / nav keys while portal up */
+  function blockEvent(e) { if (body.getAttribute('data-state') === 'portal') { e.preventDefault(); } }
+  window.addEventListener('wheel', blockEvent, { passive: false });
+  window.addEventListener('touchmove', blockEvent, { passive: false });
+  window.addEventListener('keydown', function (e) {
+    if (body.getAttribute('data-state') !== 'portal') return;
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','PageUp','PageDown','Home','End',' ','Spacebar'].indexOf(e.key) >= 0) {
+      if (document.activeElement !== enterBtn) e.preventDefault();
+    }
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+      if (document.activeElement === enterBtn || document.activeElement === document.body) { e.preventDefault(); doEnter(); }
+    }
+  });
+
+  var entered = false;
+  function doEnter() {
+    if (entered) return; entered = true;
+    try { sessionStorage.setItem('tc_entered', '1'); } catch (e) {}
+
+    if (reduce) {
+      portal.classList.add('gone');
+      setTimeout(function () { portal.style.display = 'none'; spiralRunning = false; }, 560);
+      goHome(true);
+      return;
+    }
+    /* accelerate spiral inward + whiteout bloom masks the cut */
+    inMul = 9;
+    bloom.classList.add('fire');
+    setTimeout(function () { bloomBoost = 1; }, 60);
+    setTimeout(function () { goHome(false); }, 430);        // home resolves in through the bloom
+    setTimeout(function () { portal.classList.add('gone'); }, 360);
+    setTimeout(function () { portal.style.display = 'none'; spiralRunning = false; }, 1150);
+  }
+  enterBtn.addEventListener('click', doEnter);
+
+  /* ============================================================
+     STATE 2 — HOME WHEEL
+     ============================================================ */
+  var home = document.getElementById('home');
+  var wheelWrap = document.getElementById('wheelWrap');
+  var wheelGlow = wheelWrap.querySelector('.wheel-glow');
+  var wheel = document.getElementById('wheel');
+  var cards = [].slice.call(wheel.querySelectorAll('.card'));
+  var dots = [].slice.call(document.getElementById('dots').querySelectorAll('button'));
+  var brandmark = document.querySelector('.brandmark');
+  var editionFixed = document.querySelector('.editioncount-fixed');
+  var N = cards.length;
+
+  var pos = 0, target = 0, vel = 0, dragging = false, homeActive = false, lastActive = -1, rafId = null;
+  var spread = 300, dragStartX = 0, dragStartPos = 0, moved = 0, pointerId = null;
+
+  function measure() {
+    var cw = cards[0].getBoundingClientRect().width || 260;
+    spread = Math.min(cw * 0.82, window.innerWidth * 0.34);
+    if (!(spread > 60)) spread = window.innerWidth * 0.3;
+  }
+  measure(); window.addEventListener('resize', function () { measure(); renderWheel(); });
+
+  function wrapRel(x) { var n = N; x = ((x % n) + n) % n; if (x > n / 2) x -= n; return x; }
+
+  function renderWheel() {
+    for (var i = 0; i < N; i++) {
+      var rel = wrapRel(i - pos);
+      var ax = Math.abs(rel);
+      var tx = rel * spread;
+      var tz = -ax * 230;
+      var ry = -rel * 36;
+      var sc = 1 - ax * 0.16;
+      var op = clamp(1 - ax * 0.42, 0.12, 1);
+      var bl = ax * 2.4;
+      var c = cards[i];
+      c.style.transform = 'translate(-50%,-50%) translate3d(' + tx.toFixed(1) + 'px,0,' + tz.toFixed(1) + 'px) rotateY(' + ry.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
+      c.style.opacity = op.toFixed(3);
+      c.style.filter = bl > 0.05 ? 'blur(' + bl.toFixed(2) + 'px)' : 'none';
+      c.style.zIndex = String(200 - Math.round(ax * 50));
+      c.setAttribute('aria-hidden', ax > 0.5 ? 'true' : 'false');
+      c.tabIndex = ax < 0.5 ? 0 : -1;
+    }
+    /* theme: ease the (non-inherited) body background each frame between the two
+       nearest products; only touch inherited CSS custom-props on a DISCRETE active
+       change — mutating root custom-props every frame freezes all CSS animations. */
+    var f = ((pos % N) + N) % N;
+    var lo = Math.floor(f), frac = f - lo;
+    var ka = KEYS[lo % N], kb = KEYS[(lo + 1) % N];
+    var act = Math.round(f) % N;
+    if (body.getAttribute('data-state') === 'home') {
+      body.style.backgroundColor = mixHex(DATA[ka].theme.bg, DATA[kb].theme.bg, frac);
+      if (act !== lastActive) { lastActive = act; applyVars(DATA[KEYS[act]].theme); }
+    }
+    /* dots */
+    for (var d = 0; d < dots.length; d++) dots[d].setAttribute('aria-current', d === act ? 'true' : 'false');
+  }
+
+  function homeLoop() {
+    rafId = null;
+    if (!dragging) {
+      vel += (target - pos) * 0.11;
+      vel *= 0.74;
+      pos += pos === target ? 0 : vel;
+      if (Math.abs(target - pos) < 0.0008 && Math.abs(vel) < 0.0008) {
+        pos = target; vel = 0; renderWheel(); return;   /* settle → stop the loop so CSS animations run free */
+      }
+    }
+    renderWheel();
+    if (homeActive) ensureLoop();
+  }
+  function ensureLoop() { if (homeActive && rafId == null) rafId = requestAnimationFrame(homeLoop); }
+
+  function snap() { target = Math.round(pos); ensureLoop(); }
+  function go(i) { target = i; if (reduce) { pos = i; vel = 0; renderWheel(); } else ensureLoop(); }
+  function activeIndex() { return ((Math.round(pos) % N) + N) % N; }
+  function activeKey() { return KEYS[activeIndex()]; }
+
+  /* drag / swipe */
+  wheelWrap.addEventListener('pointerdown', function (e) {
+    if (e.button != null && e.button !== 0) return;
+    dragging = true; moved = 0; pointerId = e.pointerId;
+    dragStartX = e.clientX; dragStartPos = pos; vel = 0;
+    wheelWrap.classList.add('grabbing');
+    try { wheelWrap.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  wheelWrap.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    var dx = e.clientX - dragStartX; moved = Math.max(moved, Math.abs(dx));
+    pos = dragStartPos - dx / spread;
+    renderWheel();
+  });
+  function endDrag() {
+    if (!dragging) return;
+    dragging = false; wheelWrap.classList.remove('grabbing');
+    /* fling */
+    target = Math.round(pos - vel * 3.8);
+    vel = clamp(vel, -0.9, 0.9);
+    ensureLoop();
+  }
+  wheelWrap.addEventListener('pointerup', function (e) {
+    var wasMoved = moved;
+    try { wheelWrap.releasePointerCapture(e.pointerId); } catch (err) {}
+    endDrag();
+    /* a tap (not a drag): pointer capture retargets e.target to the wrapper,
+       so resolve the actual card under the pointer by coordinates */
+    if (wasMoved < 6) {
+      var el = document.elementFromPoint(e.clientX, e.clientY);
+      var card = el && el.closest ? el.closest('.card') : null;
+      if (card) {
+        var idx = parseInt(card.getAttribute('data-i'), 10);
+        if (idx === activeIndex()) openProduct(card.getAttribute('data-key'), card);
+        else go(idx);
+      }
+    }
+  });
+  wheelWrap.addEventListener('pointercancel', endDrag);
+  wheelWrap.addEventListener('lostpointercapture', endDrag);
+
+  /* wheel scroll rotates */
+  var wheelAccum = 0, wheelIdle = null;
+  wheelWrap.addEventListener('wheel', function (e) {
+    if (body.getAttribute('data-state') !== 'home') return;
+    e.preventDefault();
+    var d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (reduce) { if (Math.abs(d) > 8) go(activeIndex() + (d > 0 ? 1 : -1)); return; }
+    pos += d * 0.0016; vel = 0;
+    renderWheel();
+    clearTimeout(wheelIdle);
+    wheelIdle = setTimeout(snap, 120);
+  }, { passive: false });
+
+  /* keyboard */
+  window.addEventListener('keydown', function (e) {
+    if (body.getAttribute('data-state') !== 'home') return;
+    if (e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); go(activeIndex() + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(activeIndex() - 1); }
+    else if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+      var card = cards[activeIndex()];
+      if (document.activeElement === card || document.activeElement === document.body || document.activeElement === wheelWrap) {
+        e.preventDefault(); openProduct(activeKey(), card);
+      }
+    } else if (e.key === 'Home') { e.preventDefault(); go(0); }
+    else if (e.key === 'End') { e.preventDefault(); go(N - 1); }
+  });
+
+  /* dots + card click (keyboard/mouse fallback to pointerup) */
+  dots.forEach(function (d) { d.addEventListener('click', function () { go(parseInt(d.getAttribute('data-i'), 10)); }); });
+  cards.forEach(function (c) {
+    c.addEventListener('click', function (e) {
+      /* pointer path already handled; this serves keyboard + non-pointer */
+      if (moved >= 6) return;
+      var idx = parseInt(c.getAttribute('data-i'), 10);
+      if (idx === activeIndex()) openProduct(c.getAttribute('data-key'), c);
+      else go(idx);
+    });
+  });
+  if (brandmark) brandmark.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (body.getAttribute('data-state') === 'product') closeProduct();
+  });
+
+  function startHome() {
+    if (homeActive) return;
+    homeActive = true;
+    ensureLoop();
+  }
+
+  function goHome(instant) {
+    body.setAttribute('data-state', 'home');
+    home.setAttribute('aria-hidden', 'false');
+    portal.setAttribute('aria-hidden', 'true');
+    home.classList.add('show'); home.classList.remove('dim');
+    brandmark.classList.add('show'); editionFixed.classList.add('show');
+    body.classList.add('live-bg');
+    var ticker = document.getElementById('ticker'); if (ticker) ticker.classList.add('show');
+    if (soundToggleBtn) soundToggleBtn.classList.add('show');
+    measure();
+    setTheme(DATA[activeKey()].theme);
+    renderWheel();          /* synchronous first paint — correct even if rAF is paused */
+    startHome();
+  }
+
+  /* ============================================================
+     STATE 3 — PRODUCT PAGE  (FLIP shared-element zoom)
+     ============================================================ */
+  var pp = document.getElementById('pp');
+  var ppBg = document.getElementById('ppBg');
+  var ppPhoto = document.getElementById('ppPhoto');
+  var ppTilt = document.getElementById('ppTilt');
+  var ppChips = document.getElementById('ppChips');
+  var ppEyebrow = document.getElementById('ppEyebrow');
+  var ppName = document.getElementById('ppName');
+  var ppOne = document.getElementById('ppOne');
+  var ppStory = document.getElementById('ppStory');
+  var ppClaimline = document.getElementById('ppClaimline');
+  var ppEdbar = document.getElementById('ppEdbar');
+  var ppEdcount = document.getElementById('ppEdcount');
+  var ppClaim = document.getElementById('ppClaim');
+  var ppBack = document.getElementById('ppBack');
+  var ppPrice = document.getElementById('ppPrice');
+  var ppShare = document.getElementById('ppShare');
+  var currentKey = null, sourceCard = null, ppOpen = false, ppInteractive = false, edTimers = [];
+
+  /* ---- toast ---- */
+  var toastEl = document.getElementById('toast');
+  var toastTitleEl = document.getElementById('toastTitle');
+  var toastSubEl = document.getElementById('toastSub');
+  var toastTimer = null;
+  function showToast(title, sub) {
+    if (!toastEl) return;
+    toastTitleEl.textContent = title;
+    toastSubEl.textContent = sub;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 4200);
+  }
+  var ppFloat = pp.querySelector('.pp-float');
+  var ppPhoto2 = document.getElementById('ppPhoto2');
+  var ppLowstock = document.getElementById('ppLowstock');
+  var ppLowstockText = document.getElementById('ppLowstockText');
+  var ppEmailRow = document.getElementById('ppEmailRow');
+  var ppEmailInput = document.getElementById('ppEmailInput');
+  var ppEmailPrice = document.getElementById('ppEmailPrice');
+  var ppSoldoutRow = document.getElementById('ppSoldoutRow');
+  var ppWaitlistEmail = document.getElementById('ppWaitlistEmail');
+  var ppWaitlistBtn = document.getElementById('ppWaitlistBtn');
+  var ppDrawerToggle = document.getElementById('ppDrawerToggle');
+  var ppDrawer = document.getElementById('ppDrawer');
+  var ppDrawerInner = document.getElementById('ppDrawerInner');
+  var crossTimer = null;
+
+  function stopCrossfade() {
+    clearTimeout(crossTimer); crossTimer = null;
+    if (ppPhoto2) { ppPhoto2.classList.remove('cf-show'); ppPhoto2.src = ''; }
+  }
+  function startCrossfade(key) {
+    stopCrossfade();
+    var d = DATA[key];
+    if (reduce || !d.img2 || !ppPhoto2) return;
+    ppPhoto2.src = d.img2;
+    function cycle() {
+      ppPhoto2.classList.add('cf-show');
+      crossTimer = setTimeout(function () {
+        ppPhoto2.classList.remove('cf-show');
+        crossTimer = setTimeout(cycle, 6000);
+      }, 4500);
+    }
+    crossTimer = setTimeout(cycle, 5500);
+  }
+
+  /* close + reset drawer */
+  function resetDrawer() {
+    if (ppDrawer) { ppDrawer.classList.remove('open'); }
+    if (ppDrawerToggle) { ppDrawerToggle.classList.remove('open'); ppDrawerToggle.setAttribute('aria-expanded','false'); }
+  }
+
+  function fillProduct(key) {
+    var d = DATA[key];
+    ppPhoto.src = d.img; ppPhoto.alt = d.name;
+    ppEyebrow.textContent = d.eyebrow;
+    ppName.innerHTML = '<em>' + d.name + '</em>';
+    ppOne.innerHTML = d.one;
+    ppStory.innerHTML = d.story;
+    ppChips.innerHTML = '';
+    d.chips.forEach(function (txt, i) {
+      var el = document.createElement('div');
+      el.className = 'pp-chip' + (i === 2 ? ' is-edition' : '');
+      el.innerHTML = '<span class="dot"></span><span>' + txt + '</span>';
+      ppChips.appendChild(el);
+    });
+
+    /* fill drawer details */
+    if (ppDrawerInner && d.details) {
+      var det = d.details;
+      var rows = [
+        ['Materials', det.materials], ['Dimensions', det.dimensions],
+        ['Care', det.care], ['In the box', det.inbox],
+        ['Made & ships', det.made], ['Authenticity', det.auth]
+      ];
+      ppDrawerInner.innerHTML = rows.map(function(r) {
+        return '<div class="pp-detail-row"><span class="pp-detail-label">' + r[0] + '</span><span class="pp-detail-val">' + r[1] + '</span></div>';
+      }).join('');
+    }
+    resetDrawer();
+
+    /* low stock + sold-out */
+    if (ppLowstock) ppLowstock.classList.toggle('show', d.unclaimed > 0 && d.unclaimed <= 15);
+    if (ppLowstockText) ppLowstockText.textContent = 'Only ' + d.unclaimed + ' left';
+    var soldOut = d.unclaimed <= 0;
+    if (ppSoldoutRow) ppSoldoutRow.classList.toggle('show', soldOut);
+
+    /* email row reset */
+    if (ppEmailRow) { ppEmailRow.classList.remove('open'); ppEmailRow.style.display = ''; }
+    if (ppEmailInput) { ppEmailInput.value = ''; ppEmailInput.classList.remove('err'); }
+
+    /* claimed state? */
+    var claimed = getClaims()[key];
+    if (claimed) {
+      ppClaimline.innerHTML = 'Reserved in your name · <b class="ednum">No. ' + claimed + ' / ' + d.total + '</b>';
+      ppEdbar.style.width = (d.no / d.total * 100) + '%';
+      ppEdcount.querySelector('.unclaimed').textContent = Math.max(0, d.unclaimed - 1);
+      ppEdcount.classList.add('show');
+      ppClaim.classList.add('claimed');
+      ppClaim.querySelector('.c-label').textContent = 'No. ' + claimed + ' — reserved in your name';
+      ppClaim.disabled = true;
+    } else if (soldOut) {
+      ppClaim.style.display = 'none';
+    } else {
+      ppClaimline.innerHTML = "You'd be claiming <b class=\"ednum\">No. 00 / " + d.total + '</b>';
+      ppEdbar.style.width = '0%';
+      ppEdcount.querySelector('.unclaimed').textContent = d.unclaimed;
+      ppEdcount.classList.remove('show');
+      ppClaim.classList.remove('claimed');
+      ppClaim.disabled = false;
+      ppClaim.style.display = '';
+      ppClaim.querySelector('.c-label').textContent = 'Claim No. ' + d.no;
+    }
+  }
+
+  function runEdition(key) {
+    edTimers.forEach(clearTimeout); edTimers = [];
+    var d = DATA[key];
+    if (getClaims()[key]) return;
+    var numEl = ppClaimline.querySelector('.ednum');
+    if (reduce) {
+      numEl.textContent = 'No. ' + pad(d.no) + ' / ' + d.total;
+      ppEdbar.style.width = (d.no / d.total * 100) + '%';
+      ppEdcount.classList.add('show');
+      return;
+    }
+    var start = null, dur = 1100, delay = 200;
+    edTimers.push(setTimeout(function () {
+      ppClaimline.classList.add('pulse');
+      ppEdbar.style.width = (d.no / d.total * 100) + '%';
+      function step(t) {
+        if (start === null) start = t;
+        var p = Math.min(1, (t - start) / dur), e = 1 - Math.pow(1 - p, 3);
+        numEl.textContent = 'No. ' + pad(Math.round(e * d.no)) + ' / ' + d.total;
+        if (p < 1) requestAnimationFrame(step);
+        else edTimers.push(setTimeout(function () { ppClaimline.classList.remove('pulse'); }, 700));
+      }
+      requestAnimationFrame(step);
+    }, delay));
+    edTimers.push(setTimeout(function () { ppEdcount.classList.add('show'); }, delay + dur + 120));
+  }
+
+  function openProduct(key, card, fromHistory) {
+    if (ppOpen) return;
+    ppOpen = true; currentKey = key; sourceCard = card || cards[DATA[key].i];
+    fillProduct(key);
+    setTheme(DATA[key].theme);
+    body.classList.remove('live-bg');
+    body.setAttribute('data-state', 'product');
+    pp.setAttribute('aria-hidden', 'false');
+    home.classList.add('dim');
+    if (!fromHistory) { try { history.pushState({ pp: key }, '', '#' + key); } catch (e) {} }
+
+    pp.classList.add('open');
+
+    if (reduce) {
+      ppPhoto.style.transform = 'none';
+      runEdition(key);
+      ppBack.focus();
+      return;
+    }
+
+    /* FLIP: animate hero photo from the card's image rect to its hero rect */
+    var srcImg = sourceCard.querySelector('img');
+    if (srcImg) sourceCard.style.opacity = '0';
+    var from = srcImg ? srcImg.getBoundingClientRect() : null;
+    /* let layout settle, then measure target */
+    requestAnimationFrame(function () {
+      var to = ppPhoto.getBoundingClientRect();
+      if (from && to.width) {
+        var sx = from.width / to.width, sy = from.height / to.height;
+        var dx = (from.left + from.width/2) - (to.left + to.width/2);
+        var dy = (from.top + from.height/2) - (to.top + to.height/2);
+        ppPhoto.style.transition = 'none';
+        ppPhoto.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + sx + ',' + sy + ')';
+        ppPhoto.getBoundingClientRect();   // reflow
+        ppPhoto.style.transition = 'transform .68s cubic-bezier(.6,0,.15,1)';
+        ppPhoto.style.transform = 'none';
+      }
+      runEdition(key);
+    });
+    setTimeout(function () { ppBack.focus(); }, 300);
+    setTimeout(function () { if (ppOpen) { ppInteractive = true; if (startPpLoop) startPpLoop(); startCrossfade(key); } }, 1100);
+  }
+
+  function closeProduct(fromHistory) {
+    if (!ppOpen) return;
+    ppOpen = false; ppInteractive = false;
+    stopCrossfade();
+    resetDrawer();
+    if (ppFloat) ppFloat.style.transform = '';
+    ppTilt.style.transform = '';
+    body.setAttribute('data-state', 'home');
+    body.classList.add('live-bg');
+    lastActive = -1;
+    home.classList.remove('dim');
+    pp.setAttribute('aria-hidden', 'true');
+    /* land on the matching card */
+    go(DATA[currentKey].i); pos = DATA[currentKey].i; vel = 0; renderWheel();
+
+    if (!fromHistory) { try { if (location.hash) history.pushState({ pp: null }, '', location.pathname + location.search); } catch (e) {} }
+
+    if (reduce) {
+      pp.classList.remove('open');
+      if (sourceCard) sourceCard.style.opacity = '';
+      renderWheel(); cards[DATA[currentKey].i].focus();
+      return;
+    }
+    /* reverse FLIP: hero photo zooms back down into its card */
+    var srcImg = sourceCard ? sourceCard.querySelector('img') : null;
+    var from = srcImg ? srcImg.getBoundingClientRect() : null;
+    var to = ppPhoto.getBoundingClientRect();
+    if (from && to.width) {
+      var sx = from.width / to.width, sy = from.height / to.height;
+      var dx = (from.left + from.width/2) - (to.left + to.width/2);
+      var dy = (from.top + from.height/2) - (to.top + to.height/2);
+      ppPhoto.style.transition = 'transform .56s cubic-bezier(.6,0,.2,1)';
+      ppPhoto.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + sx + ',' + sy + ')';
+    }
+    pp.classList.remove('open');
+    setTimeout(function () {
+      if (sourceCard) sourceCard.style.opacity = '';
+      ppPhoto.style.transition = 'none'; ppPhoto.style.transform = 'none';
+      renderWheel();
+      var c = cards[DATA[currentKey].i]; if (c) c.focus();
+    }, 520);
+  }
+
+  /* share button */
+  if (ppShare) {
+    ppShare.addEventListener('click', function () {
+      if (!currentKey) return;
+      var d = DATA[currentKey];
+      var url = location.href.split('#')[0] + '#' + currentKey;
+      var shareData = { title: d.name + ' — the Collection', text: d.one.replace(/<[^>]*>/g, ''), url: url };
+      if (navigator.share) {
+        try { navigator.share(shareData); } catch(e) {}
+      } else {
+        try {
+          navigator.clipboard.writeText(url).then(function () { showToast('Link copied', 'Share it with the world'); });
+        } catch(e) { showToast('Link copied', url); }
+      }
+    });
+  }
+
+  ppBack.addEventListener('click', function () { history.length > 1 && location.hash ? history.back() : closeProduct(); });
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && ppOpen) { e.preventDefault(); if (location.hash) history.back(); else closeProduct(); }
+  });
+  window.addEventListener('popstate', function (e) {
+    var key = e.state && e.state.pp;
+    if (key && DATA[key]) { if (!ppOpen) openProduct(key, cards[DATA[key].i], true); }
+    else { if (ppOpen) closeProduct(true); }
+  });
+
+  /* ---------- claim / shiny button ---------- */
+  var STORE = 'tc_claims';
+  function getClaims() { try { return JSON.parse(localStorage.getItem(STORE) || '{}'); } catch (e) { return {}; } }
+  function saveClaim(k, no) { var c = getClaims(); c[k] = no; try { localStorage.setItem(STORE, JSON.stringify(c)); } catch (e) {} }
+
+  var claimAwaitingEmail = false;
+  ppClaim.addEventListener('click', function () {
+    if (ppClaim.classList.contains('claimed') || !currentKey) return;
+    var d = DATA[currentKey];
+
+    if (!claimAwaitingEmail) {
+      /* first click: reveal email field */
+      claimAwaitingEmail = true;
+      ppClaim.querySelector('.c-label').textContent = 'Complete reservation →';
+      if (ppEmailRow) {
+        ppEmailRow.style.display = 'flex';
+        /* force reflow so transition fires */
+        ppEmailRow.getBoundingClientRect();
+        ppEmailRow.classList.add('open');
+        if (ppEmailPrice) ppEmailPrice.innerHTML = 'Reserving <b>No. ' + d.no + '</b> · <b>' + priceFor(currentKey, d.no) + '</b>';
+        setTimeout(function () { if (ppEmailInput) ppEmailInput.focus(); }, 350);
+      }
+      return;
+    }
+
+    /* second click: validate email then complete */
+    var email = ppEmailInput ? ppEmailInput.value.trim() : '';
+    var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailOk) {
+      if (ppEmailInput) { ppEmailInput.classList.add('err'); ppEmailInput.focus(); }
+      return;
+    }
+    if (ppEmailInput) ppEmailInput.classList.remove('err');
+
+    try { if (navigator.vibrate) navigator.vibrate(12); } catch(e) {}
+    playTick && playTick('claim');
+
+    /* TODO: POST { key: currentKey, no: d.no, email: email } to your reservation endpoint */
+
+    saveClaim(currentKey, d.no);
+    claimAwaitingEmail = false;
+    if (ppEmailRow) ppEmailRow.classList.remove('open');
+
+    var lbl = ppClaim.querySelector('.c-label');
+    lbl.textContent = 'No. ' + d.no + ' is being held for you';
+    ppClaim.classList.add('claimed'); ppClaim.disabled = true; ppClaim.style.transform = '';
+    var u = ppEdcount.querySelector('.unclaimed'); u.textContent = Math.max(0, d.unclaimed - 1); ppEdcount.classList.add('show');
+    ppClaimline.innerHTML = 'Reserved in your name · <b class="ednum">No. ' + d.no + ' / ' + d.total + '</b>';
+    showToast('No. ' + d.no + ' — reserved', priceFor(currentKey, d.no) + ' · invoice to follow');
+    updateReservedBadge();
+    setTimeout(function () { if (ppClaim.classList.contains('claimed')) lbl.textContent = 'No. ' + d.no + ' — reserved in your name'; }, 1600);
+  });
+
+  /* waitlist button */
+  if (ppWaitlistBtn) {
+    ppWaitlistBtn.addEventListener('click', function () {
+      var email = ppWaitlistEmail ? ppWaitlistEmail.value.trim() : '';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { if (ppWaitlistEmail) ppWaitlistEmail.focus(); return; }
+      /* TODO: POST waitlist signup */
+      showToast('Waitlist — you\'re on it', 'We\'ll be in touch if a number opens up');
+      if (ppWaitlistEmail) ppWaitlistEmail.value = '';
+      if (ppWaitlistBtn) ppWaitlistBtn.textContent = 'Done';
+    });
+  }
+  /* magnetic hover */
+  if (finePointer && !reduce) {
+    ppClaim.addEventListener('pointermove', function (e) {
+      if (ppClaim.disabled) return;
+      var r = ppClaim.getBoundingClientRect();
+      ppClaim.style.transform = 'translate(' + ((e.clientX - (r.left + r.width/2)) / r.width * 10) + 'px,' + ((e.clientY - (r.top + r.height/2)) / r.height * 10) + 'px)';
+    });
+    ppClaim.addEventListener('pointerleave', function () { if (!ppClaim.disabled) ppClaim.style.transform = ''; });
+  }
+
+  /* ---------- product-page gentle float + pointer tilt (JS) ----------
+     Driven by ONE rAF that only writes styles once entrance animations are done
+     (ppInteractive). The float/tilt targets carry no CSS animation, so per-frame
+     writes here can't freeze the panel/chip/reveal keyframes. */
+  var ptr = { nx: 0, ny: 0 };
+  if (finePointer && !reduce) {
+    window.addEventListener('pointermove', function (e) { ptr.nx = (e.clientX/window.innerWidth)*2-1; ptr.ny = (e.clientY/window.innerHeight)*2-1; }, { passive: true });
+  }
+  if (!reduce) {
+    var tX = 0, tY = 0, tt0 = null, ppRafId = null;
+    function ppLoop(t) {
+      ppRafId = null;
+      if (!ppOpen) return;           /* pause when product page is closed */
+      if (tt0 == null) tt0 = t;
+      if (ppInteractive) {
+        var fy = Math.sin((t - tt0) / 1400) * 12;
+        if (ppFloat) ppFloat.style.transform = 'translateY(' + fy.toFixed(2) + 'px)';
+        if (finePointer) {
+          tX = lerp(tX, ptr.ny * -7, 0.08); tY = lerp(tY, ptr.nx * 8, 0.08);
+          ppTilt.style.transform = 'rotateX(' + tX.toFixed(2) + 'deg) rotateY(' + tY.toFixed(2) + 'deg)';
+        }
+      }
+      ppRafId = requestAnimationFrame(ppLoop);
+    }
+    /* kick off loop when product opens; openProduct sets ppOpen=true then schedules */
+    function startPpLoop() { if (!ppRafId) ppRafId = requestAnimationFrame(ppLoop); }
+  }
+
+  /* ============================================================
+     BOOT — skip portal if already entered this session
+     ============================================================ */
+  /* ============================================================
+     PRODUCT DRAWER TOGGLE  (item 9)
+     ============================================================ */
+  if (ppDrawerToggle && ppDrawer) {
+    ppDrawerToggle.addEventListener('click', function () {
+      var open = ppDrawer.classList.toggle('open');
+      ppDrawerToggle.classList.toggle('open', open);
+      ppDrawerToggle.setAttribute('aria-expanded', String(open));
+    });
+  }
+
+  /* ============================================================
+     STORY OVERLAY  (items 7, 8, 13, 14)
+     ============================================================ */
+  var storyOverlay = document.getElementById('storyOverlay');
+  var storyCloseBtn = document.getElementById('storyCloseBtn');
+  var btnStory = document.getElementById('btnStory');
+  var btnHow = document.getElementById('btnHow');
+
+  function openStory(scrollTo) {
+    if (!storyOverlay) return;
+    storyOverlay.classList.add('open');
+    storyOverlay.setAttribute('aria-hidden', 'false');
+    body.style.overflow = 'hidden';
+    if (scrollTo) {
+      var el = document.getElementById(scrollTo);
+      if (el) setTimeout(function () { el.scrollIntoView({ behavior: 'smooth' }); }, 500);
+    } else {
+      storyOverlay.scrollTop = 0;
+    }
+    if (storyCloseBtn) setTimeout(function () { storyCloseBtn.focus(); }, 300);
+    initReveal(storyOverlay);
+    /* fallback: force-show first-beat reveals after slide-in completes */
+    setTimeout(function () {
+      storyOverlay.querySelectorAll('.reveal:not(.in)').forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
+      });
+    }, 750);
+  }
+  function closeStory() {
+    if (!storyOverlay) return;
+    storyOverlay.classList.remove('open');
+    storyOverlay.setAttribute('aria-hidden', 'true');
+    body.style.overflow = '';
+  }
+  if (storyCloseBtn) storyCloseBtn.addEventListener('click', closeStory);
+  if (btnStory) btnStory.addEventListener('click', function () { openStory(); });
+  if (btnHow) btnHow.addEventListener('click', function () { openStory('howItWorks'); });
+
+  /* newsletter in story overlay */
+  var storyNlBtn = document.getElementById('storyNlBtn');
+  var storyNlEmail = document.getElementById('storyNlEmail');
+  var storyNlSuccess = document.getElementById('storyNlSuccess');
+  if (storyNlBtn) {
+    storyNlBtn.addEventListener('click', function () {
+      var email = storyNlEmail ? storyNlEmail.value.trim() : '';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { if (storyNlEmail) storyNlEmail.focus(); return; }
+      /* TODO: POST email to newsletter endpoint */
+      try { localStorage.setItem('tc_nl', '1'); } catch (e) {}
+      if (storyNlEmail) storyNlEmail.value = '';
+      if (storyNlSuccess) storyNlSuccess.classList.add('show');
+      if (storyNlBtn) storyNlBtn.disabled = true;
+    });
+  }
+
+  /* ============================================================
+     TRUST / FAQ OVERLAY  (item 11)
+     ============================================================ */
+  var trustOverlay = document.getElementById('trustOverlay');
+  var trustCloseBtn = document.getElementById('trustCloseBtn');
+  var btnTrust = document.getElementById('btnTrust');
+
+  function openTrust() {
+    if (!trustOverlay) return;
+    trustOverlay.classList.add('open');
+    trustOverlay.setAttribute('aria-hidden', 'false');
+    body.style.overflow = 'hidden';
+    trustOverlay.scrollTop = 0;
+    if (trustCloseBtn) setTimeout(function () { trustCloseBtn.focus(); }, 300);
+    /* fallback: force-show reveals after slide-in */
+    setTimeout(function () {
+      trustOverlay.querySelectorAll('.reveal:not(.in)').forEach(function (el) {
+        el.classList.add('in');
+      });
+    }, 700);
+  }
+  function closeTrust() {
+    if (!trustOverlay) return;
+    trustOverlay.classList.remove('open');
+    trustOverlay.setAttribute('aria-hidden', 'true');
+    body.style.overflow = '';
+  }
+  if (trustCloseBtn) trustCloseBtn.addEventListener('click', closeTrust);
+  if (btnTrust) btnTrust.addEventListener('click', openTrust);
+
+  /* FAQ accordion */
+  var faqBtns = document.querySelectorAll('.faq-q');
+  faqBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      /* collapse all */
+      faqBtns.forEach(function (b) {
+        b.setAttribute('aria-expanded', 'false');
+        var a = b.nextElementSibling; if (a) a.classList.remove('open');
+      });
+      if (!expanded) {
+        btn.setAttribute('aria-expanded', 'true');
+        var a = btn.nextElementSibling; if (a) a.classList.add('open');
+      }
+    });
+  });
+
+  /* ESC to close any overlay */
+  window.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (storyOverlay && storyOverlay.classList.contains('open')) { closeStory(); return; }
+    if (trustOverlay && trustOverlay.classList.contains('open')) { closeTrust(); return; }
+  });
+
+  /* ============================================================
+     WAITLIST MODAL  (items 10, 12)
+     ============================================================ */
+  var waitlistModal = document.getElementById('waitlistModal');
+  var wlClose = document.getElementById('wlClose');
+  var wlSubmit = document.getElementById('wlSubmit');
+  var wlEmail = document.getElementById('wlEmail');
+
+  function openWaitlist(productName) {
+    if (!waitlistModal) return;
+    var title = document.getElementById('wlTitle');
+    if (title && productName) title.textContent = productName + ' — sold out.';
+    waitlistModal.classList.add('open');
+    waitlistModal.setAttribute('aria-hidden', 'false');
+    if (wlEmail) setTimeout(function () { wlEmail.focus(); }, 200);
+  }
+  function closeWaitlist() {
+    if (!waitlistModal) return;
+    waitlistModal.classList.remove('open');
+    waitlistModal.setAttribute('aria-hidden', 'true');
+  }
+  if (wlClose) wlClose.addEventListener('click', closeWaitlist);
+  if (wlSubmit) {
+    wlSubmit.addEventListener('click', function () {
+      var email = wlEmail ? wlEmail.value.trim() : '';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { if (wlEmail) wlEmail.focus(); return; }
+      /* TODO: POST waitlist */
+      wlSubmit.textContent = 'You\'re on the list';
+      wlSubmit.disabled = true;
+      if (wlEmail) wlEmail.disabled = true;
+      setTimeout(closeWaitlist, 2200);
+    });
+  }
+
+  /* ============================================================
+     RESERVED BADGE  (item 16)
+     ============================================================ */
+  var reservedBadge = document.getElementById('reservedBadge');
+  function updateReservedBadge() {
+    if (!reservedBadge) return;
+    var c = getClaims();
+    var keys = Object.keys(c).filter(function (k) { return c[k]; });
+    if (keys.length === 0) { reservedBadge.classList.remove('show'); return; }
+    reservedBadge.textContent = keys.length === 1
+      ? '✓ ' + DATA[keys[0]].name + ' reserved'
+      : '✓ ' + keys.length + ' pieces reserved';
+    reservedBadge.classList.add('show');
+  }
+  updateReservedBadge();
+
+  /* ============================================================
+     DROP BAR — sync unclaimed counts  (item 12)
+     ============================================================ */
+  function updateDropBar() {
+    var dbCap = document.getElementById('dbCap');
+    var dbTowel = document.getElementById('dbTowel');
+    var dbTote = document.getElementById('dbTote');
+    var c = getClaims();
+    if (dbCap) dbCap.textContent = DATA.cap.unclaimed - (c.cap ? 1 : 0);
+    if (dbTowel) dbTowel.textContent = DATA.towel.unclaimed - (c.towel ? 1 : 0);
+    if (dbTote) dbTote.textContent = DATA.tote.unclaimed - (c.tote ? 1 : 0);
+  }
+  updateDropBar();
+
+  /* ============================================================
+     SCROLL REVEALS  (item 16)
+     ============================================================ */
+  function initReveal(root) {
+    if (!window.IntersectionObserver) {
+      /* fallback: show all */
+      (root || document).querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    (root || document).querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  }
+
+  /* ============================================================
+     CUSTOM CURSOR  (item 16)
+     ============================================================ */
+  var cursorDot = document.getElementById('cursorDot');
+  var cursorAura = document.getElementById('cursorAura');
+  if (cursorDot && cursorAura && finePointer) {
+    var mcx = 0, mcy = 0, max = 0, may = 0;
+    window.addEventListener('mousemove', function (e) { mcx = e.clientX; mcy = e.clientY; }, { passive: true });
+    (function cursorLoop() {
+      max = lerp(max, mcx, 0.18); may = lerp(may, mcy, 0.18);
+      cursorDot.style.left = mcx + 'px'; cursorDot.style.top = mcy + 'px';
+      cursorAura.style.left = max + 'px'; cursorAura.style.top = may + 'px';
+      requestAnimationFrame(cursorLoop);
+    })();
+    /* hot cursor on interactive elements */
+    document.addEventListener('mouseover', function (e) {
+      var hot = e.target && (e.target.closest('[data-cursor="hot"]') || e.target.closest('button') || e.target.closest('a'));
+      if (cursorAura) cursorAura.classList.toggle('hot', !!hot);
+    });
+  }
+
+  /* ============================================================
+     SOUND TOGGLE  (item 16)
+     ============================================================ */
+  var soundOn = false;
+  var audioCtx = null;
+  var soundToggleBtn = document.getElementById('soundToggle');
+  var soundLabel = document.getElementById('soundLabel');
+  var soundWave = document.getElementById('soundWave');
+
+  function getAudioCtx() {
+    if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+    return audioCtx;
+  }
+  function playTick(type) {
+    if (!soundOn) return;
+    var ctx = getAudioCtx(); if (!ctx) return;
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    if (type === 'claim') {
+      osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.04, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
+      osc.start(); osc.stop(ctx.currentTime + 0.6);
+      /* second tone */
+      var osc2 = ctx.createOscillator(), g2 = ctx.createGain();
+      osc2.connect(g2); g2.connect(ctx.destination);
+      osc2.frequency.value = 1100;
+      g2.gain.setValueAtTime(0.02, ctx.currentTime + 0.05);
+      g2.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.7);
+      osc2.start(ctx.currentTime + 0.05); osc2.stop(ctx.currentTime + 0.7);
+    } else {
+      osc.frequency.value = 1200;
+      gain.gain.setValueAtTime(0.018, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.18);
+      osc.start(); osc.stop(ctx.currentTime + 0.18);
+    }
+  }
+  if (soundToggleBtn) {
+    soundToggleBtn.addEventListener('click', function () {
+      soundOn = !soundOn;
+      soundToggleBtn.setAttribute('aria-pressed', String(soundOn));
+      if (soundLabel) soundLabel.textContent = soundOn ? 'on' : 'sound';
+      if (soundWave) soundWave.style.opacity = soundOn ? '1' : '0.3';
+      if (soundOn) { getAudioCtx(); playTick('nav'); }
+    });
+  }
+
+  /* hook sound into navigation */
+  /* wrap: play tick on product open */
+  (function () {
+    var _orig = openProduct;
+    openProduct = function (key, card, fromHistory) {
+      if (!fromHistory) playTick && playTick('nav');
+      _orig(key, card, fromHistory);
+    };
+  })();
+
+  /* ============================================================
+     BOOT — show portal on first session visit; skip on reload/back-nav */
+  var alreadyIn = false;
+  try { alreadyIn = sessionStorage.getItem('tc_entered') === '1'; } catch (e) {}
+  if (alreadyIn) {
+    entered = true;
+    portal.style.display = 'none'; spiralRunning = false;
+    goHome(true);
+    var hk = (location.hash || '').replace('#', '');
+    if (DATA[hk]) { setTimeout(function () { openProduct(hk, cards[DATA[hk].i], true); }, 40); }
+  }
+  /* else: portal is shown — doEnter() fires on click/keypress and handles the transition */
+})();
+</script>
+</body>
+</html>
