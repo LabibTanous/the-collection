@@ -272,11 +272,12 @@ body[data-state="product"] .brandmark { display: none; }
 .wheel-dots button[aria-current="true"] .pip { background: var(--accent); border-color: var(--accent); transform: scale(1.5); }
 
 .home-cue {
-  position: absolute; bottom: clamp(8px,1.6vh,14px); left: 50%; transform: translateX(-50%);
+  position: relative; z-index: 5; width: 100%; text-align: center; pointer-events: none;
   font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
-  color: var(--muted); opacity: 0; z-index: 5;
+  color: var(--muted); opacity: 0; padding: 2px 0 4px; flex-shrink: 0;
 }
 .home.show .home-cue { animation: fadeIn 1s 1.2s ease forwards; }
+@media (max-width: 520px) { .home-cue { display: none; } }
 @keyframes fadeIn { to { opacity: 0.65; } }
 
 /* ============================================================
@@ -357,11 +358,21 @@ body[data-state="product"] .brandmark { display: none; }
 .pp-eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--accent); }
 .pp-name { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(44px,7vw,98px); line-height: 0.9; letter-spacing: -0.01em; color: var(--ink); }
 .pp-one { margin-top: 14px; font-size: clamp(15px,1.7vw,20px); font-weight: 300; color: var(--ink); opacity: 0.92; }
+.pp-trust {
+  margin-top: 10px;
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted); opacity: 0.68;
+}
 .pp-story { margin-top: 18px; font-size: clamp(13px,1.2vw,15.5px); line-height: 1.7; font-weight: 300; color: var(--ink); opacity: 0.74; max-width: 44ch; text-wrap: pretty; }
 
 .pp-edition { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--line); }
 .pp-claimline { font-size: clamp(14px,1.4vw,17px); font-weight: 300; color: var(--ink); }
-.pp-claimline b { font-family: var(--mono); font-weight: 700; }
+.pp-claimline b { font-family: var(--mono); font-weight: 700; font-size: 1.1em; color: var(--ink); }
+.pp-guarantee {
+  margin-top: 9px;
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted); opacity: 0.6;
+}
 .pp-claimline.pulse .ednum { text-shadow: 0 0 16px var(--accent); }
 .pp-edbar { position: relative; height: 2px; margin-top: 14px; background: var(--line); border-radius: 2px; overflow: hidden; }
 .pp-edbar i { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--accent); transition: width 1.1s cubic-bezier(.3,.7,.2,1); }
@@ -1208,6 +1219,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
       <h2 class="pp-name" id="ppName"><em>Saqr</em></h2>
       <p class="pp-price" id="ppPrice">AED 395</p>
       <p class="pp-one" id="ppOne"></p>
+      <p class="pp-trust">UAE-made · Ships in 5 days · Edition retired when sold</p>
       <p class="pp-story" id="ppStory"></p>
       <div class="pp-edition">
         <p class="pp-claimline" id="ppClaimline">You'd be claiming <b class="ednum">No. 00 / 99</b></p>
@@ -1225,6 +1237,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
         <button class="claim" id="ppClaim" data-cursor="hot"><span class="c-label">Claim No. 48</span></button>
       </div>
       <div class="pp-email-price" id="ppEmailPrice"></div>
+      <p class="pp-guarantee">Invoice follows · if it arrives wrong, we make it right</p>
 
       <!-- sold-out + waitlist (item 10) -->
       <div class="pp-soldout-row" id="ppSoldoutRow">
@@ -1476,7 +1489,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
       priceBase: 345, priceStep: 1.01,          /* price rises per number claimed */
       img: 'assets/cut/cap-front.png',
       img2: 'assets/cut/cap-angle.png',
-      one: 'A washed-cotton six-panel cap with hand-stitched <em>Inshallah</em> embroidery.',
+      one: 'The cap you reach for every day — built to soften with wear, numbered to last forever.',
       story: 'Cut from heavyweight brushed cotton and built to soften with wear — a structured crown, solid brass eyelets and an adjustable leather strap. The everyday cap you actually reach for, finished to last. We make ninety-nine, number each one inside the band, and never run it again.',
       no: 48, total: 99, unclaimed: 51,
       chips: ['100% brushed cotton', 'Hand-set brass eyelets', 'No. 48 of 99'],
@@ -1495,7 +1508,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
       priceBase: 445, priceStep: 1.21,
       img: 'assets/cut/towel-a.png',
       img2: 'assets/towel-b.png',
-      one: 'An oversized terry beach towel woven with a 1970s Gulf-resort stripe.',
+      one: 'Heavy enough to stay put in the sea breeze. Soft enough to live with for years.',
       story: 'Thick, thirsty long-staple cotton with a jacquard <em>Lost in Dubai</em> band and hand-knotted fringe — heavy enough to stay put in the sea breeze and soft enough to live with for years. Ninety-nine woven in this one colourway, each numbered on the label, then the loom moves on.',
       no: 12, total: 99, unclaimed: 87,
       chips: ['Long-staple cotton jacquard', "Pearl-diver's weight", 'No. 12 of 99'],
@@ -1514,7 +1527,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
       priceBase: 650, priceStep: 1.41,
       img: 'assets/cut/tote-b.png',
       img2: 'assets/tote-a.png',
-      one: 'A sand-canvas tote that unfolds into a padded majlis mat.',
+      one: 'One carry piece that unrolls into a majlis mat — for the beach, the dunes, the long evenings.',
       story: 'Tan leather handles, solid brass hardware and a structured canvas body — with a quilted mat that unrolls from inside for the beach, the dunes or the long evenings. One bag that genuinely earns its place. Ninety-nine made, each numbered on the base, then the pattern is retired.',
       no: 71, total: 99, unclaimed: 28,
       chips: ['Sand canvas · tan leather', 'Unrolls to a quilted mat', 'No. 71 of 99'],
