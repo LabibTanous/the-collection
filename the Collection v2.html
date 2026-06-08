@@ -1712,7 +1712,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
   var editionFixed = document.querySelector('.editioncount-fixed');
   var N = cards.length;
 
-  var pos = 0, target = 0, vel = 0, dragging = false, homeActive = false, lastActive = -1, rafId = null;
+  var pos = 0, target = 0, vel = 0, dragging = false, homeActive = false, lastActive = -1, rafId = null, introSpinDone = false;
   var spread = 300, dragStartX = 0, dragStartPos = 0, moved = 0, pointerId = null;
 
   function measure() {
@@ -1866,6 +1866,28 @@ body[data-state="portal"] .sound-toggle { display: none; }
     ensureLoop();
   }
 
+  function introSpin() {
+    var spinFrom = -(N * 3);   /* 3 full rotations back (-9 for 3 cards) */
+    pos = spinFrom; vel = 0; target = 0;
+    var duration = 2400;       /* ms: fast rush → smooth decel */
+    var startTs = null;
+    function easeOutExpo(t) { return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+    function frame(ts) {
+      if (!startTs) startTs = ts;
+      var t = Math.min((ts - startTs) / duration, 1);
+      pos = spinFrom + (-spinFrom) * easeOutExpo(t);
+      renderWheel();
+      if (t < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        pos = 0; vel = 0; target = 0;
+        introSpinDone = true;
+        startHome();
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
   function goHome(instant) {
     body.setAttribute('data-state', 'home');
     home.setAttribute('aria-hidden', 'false');
@@ -1878,7 +1900,11 @@ body[data-state="portal"] .sound-toggle { display: none; }
     measure();
     setTheme(DATA[activeKey()].theme);
     renderWheel();          /* synchronous first paint — correct even if rAF is paused */
-    startHome();
+    if (!introSpinDone && !reduce) {
+      introSpin();
+    } else {
+      startHome();
+    }
   }
 
   /* ============================================================
