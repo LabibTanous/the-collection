@@ -124,18 +124,26 @@ body[data-state="product"] .brandmark { display: none; }
 }
 .portal-core.show { opacity: 1; }
 
+.portal-brand {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.42em;
+  text-transform: uppercase; color: rgba(201,162,75,0.38);
+  margin-bottom: clamp(20px,3vh,36px);
+}
+.portal-rule {
+  width: 28px; height: 1px; background: rgba(201,162,75,0.22);
+  margin: 0 auto clamp(28px,4.5vh,52px);
+}
 .enter-btn {
   appearance: none; background: transparent; border: none; cursor: pointer;
-  font-family: var(--sans); font-weight: 200; font-size: clamp(34px,7vw,76px);
-  letter-spacing: 0.42em; text-transform: uppercase; color: var(--gold);
-  padding: 8px 0 8px 0.42em; line-height: 1;
-  text-shadow: 0 0 26px rgba(201,162,75,0.55), 0 0 60px rgba(201,162,75,0.28);
-  transition: letter-spacing .5s cubic-bezier(.2,.7,.2,1), color .4s ease, text-shadow .5s ease, transform .5s ease;
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: clamp(28px,5vw,58px);
+  letter-spacing: 0.08em; color: #ddd0b4;
+  padding: 12px 0; line-height: 1;
+  transition: color .6s ease, letter-spacing .6s cubic-bezier(.2,.7,.2,1);
 }
-.motion .enter-btn { animation: enterPulse 3.4s ease-in-out infinite; }
-.enter-btn:hover, .enter-btn:focus-visible { letter-spacing: 0.62em; color: #F0DCAE; outline: none;
-  text-shadow: 0 0 34px rgba(201,162,75,0.8), 0 0 80px rgba(201,162,75,0.4); }
-@keyframes enterPulse { 0%,100%{ opacity: 0.78; } 50%{ opacity: 1; } }
+.enter-btn:hover, .enter-btn:focus-visible {
+  color: #f0e4c8; letter-spacing: 0.14em; outline: none;
+}
 
 .portal-sub {
   margin-top: clamp(22px,4vh,40px);
@@ -1093,6 +1101,8 @@ body[data-state="portal"] .sound-toggle { display: none; }
 <div class="portal" id="portal" role="dialog" aria-label="Enter the Collection">
   <canvas class="portal-canvas" id="spiral" aria-hidden="true"></canvas>
   <div class="portal-core" id="portalCore">
+    <p class="portal-brand">the Collection</p>
+    <div class="portal-rule"></div>
     <button class="enter-btn" id="enter" aria-label="Enter the Collection">Enter</button>
     <p class="portal-sub">99 pieces · once it's gone, gone forever</p>
   </div>
@@ -1555,9 +1565,8 @@ body[data-state="portal"] .sound-toggle { display: none; }
   var cv = document.getElementById('spiral'), cx = cv.getContext('2d');
   var DPR = Math.min(2, window.devicePixelRatio || 1);
   var W = 0, H = 0, cxp = 0, cyp = 0, R0 = 0;
-  var ARMS = 3, PCOUNT = reduce ? 420 : 620, parts = [];
+  var ARMS = 3, PCOUNT = reduce ? 60 : 100, parts = [];
   var ptrPortalX = 0, ptrPortalY = 0;
-  if (!reduce) { document.getElementById('portal').addEventListener('pointermove', function(e) { ptrPortalX = (e.clientX/window.innerWidth-0.5)*2; ptrPortalY = (e.clientY/window.innerHeight-0.5)*2; }, { passive:true }); }
   var rot = 0, inMul = 1, bloomBoost = 0, spiralRunning = true;
 
   function sizeSpiral() {
@@ -1585,31 +1594,27 @@ body[data-state="portal"] .sound-toggle { display: none; }
     cx.clearRect(0, 0, W, H);
     /* faint central glow */
     var gg = cx.createRadialGradient(cxp, cyp, 0, cxp, cyp, R0 * 0.5);
-    gg.addColorStop(0, 'rgba(201,162,75,' + (0.16 + bloomBoost*0.5).toFixed(3) + ')');
+    gg.addColorStop(0, 'rgba(201,162,75,' + (0.06 + bloomBoost*0.3).toFixed(3) + ')');
     gg.addColorStop(1, 'rgba(201,162,75,0)');
     cx.fillStyle = gg; cx.fillRect(0, 0, W, H);
 
-    cx.globalCompositeOperation = 'lighter';
     for (var i = 0; i < parts.length; i++) {
       var p = parts[i];
       var pos = partXY(p);
-      var near = 1 - p.t;                 // brighter toward centre
-      var tw = 0.7 + 0.3 * Math.sin(time * 0.004 + p.tw);
-      var a = (0.10 + near * 0.62) * tw;
-      var rr = (p.sz * (0.6 + near * 1.7)) * (1 + bloomBoost * 1.4);
-      var g = cx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, rr * 3.4);
-      var col = bloomBoost > 0.02 ? mixHex('#C9A24B', '#fff3da', bloomBoost) : '#C9A24B';
-      var rgb = hexToRgb(col);
+      var near = 1 - p.t;
+      var tw = 0.6 + 0.4 * Math.sin(time * 0.002 + p.tw);
+      var a = (0.025 + near * 0.09) * tw;
+      var rr = (p.sz * (0.7 + near * 1.1));
+      var g = cx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, rr * 2.2);
+      var rgb = [201, 162, 75];
       g.addColorStop(0, 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + a.toFixed(3) + ')');
       g.addColorStop(1, 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',0)');
-      cx.fillStyle = g; cx.beginPath(); cx.arc(pos.x, pos.y, rr * 3.4, 0, TAU); cx.fill();
-      /* draw inward */
+      cx.fillStyle = g; cx.beginPath(); cx.arc(pos.x, pos.y, rr * 2.2, 0, TAU); cx.fill();
       if (dt) {
-        p.t -= dt * (0.018 + (1 - p.t) * 0.05) * inMul;
+        p.t -= dt * (0.012 + (1 - p.t) * 0.03) * inMul;
         if (p.t <= 0.004) { p.t += 1; }
       }
     }
-    cx.globalCompositeOperation = 'source-over';
   }
 
   var lastT = null;
@@ -1617,7 +1622,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
     if (!spiralRunning) return;
     var dt = lastT == null ? 0 : Math.min(0.05, (time - lastT) / 1000);
     lastT = time;
-    rot += dt * (0.12 * inMul);
+    rot += dt * (0.04 * inMul);
     drawSpiral(reduce ? 0 : dt, time);
     requestAnimationFrame(spiralLoop);
   }
