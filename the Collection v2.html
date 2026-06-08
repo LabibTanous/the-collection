@@ -662,27 +662,37 @@ body[data-state="product"] .ticker-wrap { opacity: 0; }
 .pp-drawer-toggle.open .dt-arrow { transform: rotate(180deg); }
 
 .pp-drawer {
-  max-height: 0; overflow: hidden;
-  transition: max-height .5s cubic-bezier(.2,.7,.2,1), opacity .4s ease;
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows .45s cubic-bezier(.2,.7,.2,1), opacity .35s ease;
   opacity: 0;
 }
-.pp-drawer.open { max-height: 600px; opacity: 1; }
-
 .pp-drawer-inner {
-  padding-top: 16px; display: flex; flex-direction: column; gap: 12px;
+  overflow: hidden; min-height: 0;
+  padding-top: 16px; padding-bottom: 4px;
+  display: flex; flex-direction: column; gap: 12px;
 }
+.pp-drawer.open { grid-template-rows: 1fr; opacity: 1; }
 .pp-detail-row {
-  display: flex; flex-direction: column; gap: 4px;
-  padding-bottom: 12px; border-bottom: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 5px;
+  padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .3s ease, transform .3s ease;
 }
-.pp-detail-row:last-child { border-bottom: none; }
+.pp-drawer.open .pp-detail-row { opacity: 1; transform: none; }
+.pp-drawer.open .pp-detail-row:nth-child(1) { transition-delay: .12s; }
+.pp-drawer.open .pp-detail-row:nth-child(2) { transition-delay: .18s; }
+.pp-drawer.open .pp-detail-row:nth-child(3) { transition-delay: .24s; }
+.pp-drawer.open .pp-detail-row:nth-child(4) { transition-delay: .30s; }
+.pp-drawer.open .pp-detail-row:nth-child(5) { transition-delay: .36s; }
+.pp-drawer.open .pp-detail-row:nth-child(6) { transition-delay: .42s; }
+.pp-detail-row:last-child { border-bottom: none; padding-bottom: 0; }
 .pp-detail-label {
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.24em;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em;
   text-transform: uppercase; color: var(--muted);
 }
 .pp-detail-val {
-  font-size: clamp(12px,1.1vw,14px); font-weight: 300;
-  color: var(--ink); line-height: 1.6; opacity: 0.9;
+  font-size: clamp(13px,1.2vw,15px); font-weight: 300;
+  color: var(--ink); line-height: 1.65; opacity: 0.88;
 }
 
 /* ============================================================
