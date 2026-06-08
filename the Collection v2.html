@@ -224,9 +224,9 @@ body[data-state="product"] .brandmark { display: none; }
 }
 .wheel-wrap.grabbing { cursor: grabbing; }
 .wheel-glow {
-  position: absolute; left: 50%; top: 50%; width: 70vmin; height: 70vmin;
+  position: absolute; left: 50%; top: 50%; width: 90vmin; height: 90vmin;
   transform: translate(-50%,-52%); border-radius: 50%; pointer-events: none; z-index: 0;
-  background: radial-gradient(circle at center, var(--glow) 0%, transparent 62%);
+  background: radial-gradient(circle at center, rgba(200,196,190,0.30) 0%, rgba(160,154,146,0.10) 46%, transparent 68%);
   opacity: 0;
 }
 .home.show .wheel-glow { opacity: 1; }
@@ -238,24 +238,26 @@ body[data-state="product"] .brandmark { display: none; }
   position: absolute; left: 50%; top: 50%;
   width: clamp(200px, 30vmin, 320px); height: clamp(240px, 44vh, 430px);
   border-radius: 22px; overflow: hidden; cursor: pointer;
-  background: var(--card-bg, #252220);
-  box-shadow: 0 40px 80px -34px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.08);
+  background: linear-gradient(168deg, rgba(54,48,44,0.74) 0%, rgba(20,15,13,0.88) 100%);
+  backdrop-filter: blur(22px) saturate(1.5);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+  box-shadow: 0 40px 80px -34px rgba(0,0,0,0.92), 0 2px 18px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.17), inset 0 -1px 0 rgba(0,0,0,0.32);
   will-change: transform, opacity, filter;
   -webkit-tap-highlight-color: transparent;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
 }
 .card-photo { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
 .card-photo::after {
   content: ""; position: absolute; inset: 0;
-  background: radial-gradient(120% 80% at 50% 30%, transparent 40%, rgba(20,10,2,0.30) 100%);
+  background: radial-gradient(120% 80% at 50% 30%, transparent 40%, rgba(0,0,0,0.32) 100%);
 }
 .card-photo img {
   width: 88%; height: 72%; object-fit: contain; margin-top: -6%;
-  filter: drop-shadow(0 24px 30px rgba(28,14,4,0.42));
+  filter: drop-shadow(0 24px 30px rgba(0,0,0,0.52));
 }
 .card-meta { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 20px 22px 22px; text-align: center; }
-.card-name { display: block; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(26px,3.4vmin,38px); color: #fbf1de; line-height: 1; }
-.card-tag { display: block; margin-top: 9px; font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(251,241,222,0.72); white-space: nowrap; }
+.card-name { display: block; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(26px,3.4vmin,38px); color: #E8E5DF; line-height: 1; }
+.card-tag { display: block; margin-top: 9px; font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(218,215,208,0.65); white-space: nowrap; }
 
 /* dots + hint */
 .wheel-dots {
@@ -421,9 +423,9 @@ body[data-state="product"] .brandmark { display: none; }
   .claim .c-label { color: #E8E4DE; -webkit-text-fill-color: #E8E4DE; }
 }
 
-.claim:hover { background: #120c05; }
+.claim:hover { background: rgba(255,255,255,0.09); }
 .claim:not(.claimed):active { transform: scale(0.97) !important; transition: transform .1s ease !important; }
-.claim.claimed { animation: none !important; cursor: default; background: #160e06; border: 1px solid var(--accent); color: var(--accent); transform: none !important; box-shadow: none; }
+.claim.claimed { animation: none !important; cursor: default; background: rgba(255,255,255,0.04); border: 1px solid var(--accent); color: var(--accent); transform: none !important; box-shadow: none; }
 .claim.claimed::before, .claim.claimed::after { display: none; }
 .claim.claimed .c-label { background: none; -webkit-text-fill-color: var(--accent); color: var(--accent); }
 
@@ -448,7 +450,12 @@ body[data-state="product"] .brandmark { display: none; }
   .pp-inner { gap: 0.5vh; padding: 0 3vw; }
   .pp-stage { height: 33vh; }
   .pp-name { font-size: clamp(34px,13vw,50px); }
-  .claim { padding: 15px 26px; font-size: 11.5px; }
+  .pp-story { display: none; }
+  .pp-one { font-size: 13px; line-height: 1.5; }
+  .pp-eyebrow { margin-top: 2px; }
+  .pp-edition { margin-top: 12px; padding-top: 12px; }
+  .claim { padding: 15px 22px; font-size: 11px; }
+  .pp-claim-wrap { margin-top: 16px; }
   .wheel-dots { gap: 10px; }
 }
 @media (max-width: 380px) {
@@ -590,29 +597,28 @@ body[data-state="home"] .editioncount-fixed { top: calc(26px + clamp(13px,2.4vh,
 @keyframes lsBlink { 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
 .pp-lowstock.show { display: flex; }
 
-.pp-email-row {
-  margin-top: 14px; display: none; flex-direction: column; gap: 10px;
-  overflow: hidden; max-height: 0;
-  transition: max-height .42s cubic-bezier(.2,.7,.2,1), opacity .35s ease;
-  opacity: 0;
+.pp-claim-wrap {
+  margin-top: 26px; display: flex; align-items: center; gap: 0;
 }
-.pp-email-row.open { display: flex; max-height: 200px; opacity: 1; }
-.pp-email-label {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--muted);
+.pp-claim-wrap .claim { margin-top: 0; flex: none; white-space: nowrap; }
+.pp-inline-email {
+  flex: 0 0 0px; min-width: 0; opacity: 0; height: 54px; padding: 0;
+  border: 1px solid transparent; border-radius: 12px;
+  background: rgba(255,255,255,0.07); color: var(--ink);
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
+  outline: none; pointer-events: none; overflow: hidden;
+  transition: flex-basis .45s cubic-bezier(.2,.8,.2,1), opacity .32s ease, padding .45s ease, border-color .3s ease, margin-right .45s ease;
 }
-.pp-email-row input[type="email"] {
-  width: 100%; padding: 12px 16px; border-radius: 10px;
-  border: 1px solid var(--line); background: rgba(255,255,255,0.06);
-  color: var(--ink); font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
-  outline: none; transition: border-color .3s ease;
+.pp-inline-email::placeholder { color: var(--muted); opacity: 0.55; }
+.pp-inline-email:focus { border-color: var(--accent); }
+.pp-inline-email.err { border-color: #d94f2f !important; }
+.pp-claim-wrap.expanded .pp-inline-email {
+  flex: 1 1 0; opacity: 1; padding: 0 14px;
+  border-color: var(--line); pointer-events: auto; margin-right: 10px;
 }
-.pp-email-row input[type="email"]::placeholder { color: var(--muted); opacity: 0.6; }
-.pp-email-row input[type="email"]:focus { border-color: var(--accent); }
-.pp-email-row input[type="email"].err { border-color: #d94f2f; }
 .pp-email-price {
   font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
-  color: var(--muted);
+  color: var(--muted); margin-top: 8px;
 }
 .pp-email-price b { color: var(--ink); font-weight: 700; }
 
@@ -1213,14 +1219,12 @@ body[data-state="portal"] .sound-toggle { display: none; }
         <span class="ls-dot"></span><span id="ppLowstockText">Only 28 left</span>
       </div>
 
-      <button class="claim" id="ppClaim" data-cursor="hot"><span class="c-label">Claim No. 48</span></button>
-
-      <!-- inline email capture (item 10) -->
-      <div class="pp-email-row" id="ppEmailRow" role="group" aria-label="Enter your email to complete reservation">
-        <span class="pp-email-label">Your email — we'll confirm and send your invoice</span>
-        <input type="email" id="ppEmailInput" placeholder="you@example.com" autocomplete="email" />
-        <div class="pp-email-price" id="ppEmailPrice"></div>
+      <!-- inline email + claim row -->
+      <div class="pp-claim-wrap" id="ppClaimWrap">
+        <input type="email" class="pp-inline-email" id="ppEmailInput" placeholder="your@email.com" autocomplete="email" aria-label="Email address for reservation" />
+        <button class="claim" id="ppClaim" data-cursor="hot"><span class="c-label">Claim No. 48</span></button>
       </div>
+      <div class="pp-email-price" id="ppEmailPrice"></div>
 
       <!-- sold-out + waitlist (item 10) -->
       <div class="pp-soldout-row" id="ppSoldoutRow">
@@ -1484,7 +1488,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
         made: 'Manufactured and packaged in the UAE · ships from Dubai within 5 business days',
         auth: 'Each cap is hand-numbered in ink inside the band — No. X of 99 — by the maker who finished it'
       },
-      theme: { bg:'#B0843F', ink:'#1C1005', muted:'#3A2710', accent:'#7C4A1E', glow:'rgba(255,237,203,0.26)', line:'rgba(37,22,8,0.20)' }
+      theme: { bg:'#100D0B', ink:'#EAE8E4', muted:'#7A7673', accent:'#C8C6C2', glow:'rgba(200,198,194,0.12)', line:'rgba(200,198,194,0.10)' }
     },
     towel: {
       i: 1, name: 'Sahil', eyebrow: 'Shore goods · Edition of 99',
@@ -1503,7 +1507,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
         made: 'Woven and finished in the UAE · ships from Dubai within 5 business days',
         auth: 'Numbered woven label in the corner — No. X of 99 — on the same yarn as the stripe'
       },
-      theme: { bg:'#C7AE82', ink:'#1A1005', muted:'#4A3415', accent:'#A8442A', glow:'rgba(255,243,222,0.24)', line:'rgba(36,24,8,0.18)' }
+      theme: { bg:'#0C0E10', ink:'#EAE8E4', muted:'#7A7673', accent:'#C8C6C2', glow:'rgba(200,198,194,0.12)', line:'rgba(200,198,194,0.10)' }
     },
     tote: {
       i: 2, name: 'Farsha', eyebrow: 'Carry goods · Edition of 99',
@@ -1522,7 +1526,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
         made: 'Cut and assembled in the UAE · ships from Dubai within 5 business days',
         auth: 'Numbered brass rivet on the base of the tote — No. X of 99 — set at completion'
       },
-      theme: { bg:'#B6936A', ink:'#1A1005', muted:'#3C2A12', accent:'#7C4A22', glow:'rgba(255,240,216,0.24)', line:'rgba(35,23,8,0.18)' }
+      theme: { bg:'#0D100D', ink:'#EAE8E4', muted:'#7A7673', accent:'#C8C6C2', glow:'rgba(200,198,194,0.12)', line:'rgba(200,198,194,0.10)' }
     }
   };
   function priceFor(key, n) {
@@ -1898,7 +1902,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
   var ppPhoto2 = document.getElementById('ppPhoto2');
   var ppLowstock = document.getElementById('ppLowstock');
   var ppLowstockText = document.getElementById('ppLowstockText');
-  var ppEmailRow = document.getElementById('ppEmailRow');
+  var ppClaimWrap = document.getElementById('ppClaimWrap');
   var ppEmailInput = document.getElementById('ppEmailInput');
   var ppEmailPrice = document.getElementById('ppEmailPrice');
   var ppSoldoutRow = document.getElementById('ppSoldoutRow');
@@ -1970,7 +1974,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
     if (ppSoldoutRow) ppSoldoutRow.classList.toggle('show', soldOut);
 
     /* email row reset */
-    if (ppEmailRow) { ppEmailRow.classList.remove('open'); ppEmailRow.style.display = ''; }
+    if (ppClaimWrap) ppClaimWrap.classList.remove('expanded');
     if (ppEmailInput) { ppEmailInput.value = ''; ppEmailInput.classList.remove('err'); }
 
     /* claimed state? */
@@ -2148,17 +2152,12 @@ body[data-state="portal"] .sound-toggle { display: none; }
     var d = DATA[currentKey];
 
     if (!claimAwaitingEmail) {
-      /* first click: reveal email field */
+      /* first click: expand inline email input */
       claimAwaitingEmail = true;
-      ppClaim.querySelector('.c-label').textContent = 'Complete reservation →';
-      if (ppEmailRow) {
-        ppEmailRow.style.display = 'flex';
-        /* force reflow so transition fires */
-        ppEmailRow.getBoundingClientRect();
-        ppEmailRow.classList.add('open');
-        if (ppEmailPrice) ppEmailPrice.innerHTML = 'Reserving <b>No. ' + d.no + '</b> · <b>' + priceFor(currentKey, d.no) + '</b>';
-        setTimeout(function () { if (ppEmailInput) ppEmailInput.focus(); }, 350);
-      }
+      ppClaim.querySelector('.c-label').textContent = 'Complete →';
+      if (ppClaimWrap) ppClaimWrap.classList.add('expanded');
+      if (ppEmailPrice) ppEmailPrice.innerHTML = 'Reserving <b>No. ' + d.no + '</b> · <b>' + priceFor(currentKey, d.no) + '</b>';
+      setTimeout(function () { if (ppEmailInput) ppEmailInput.focus(); }, 380);
       return;
     }
 
@@ -2178,7 +2177,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
 
     saveClaim(currentKey, d.no);
     claimAwaitingEmail = false;
-    if (ppEmailRow) ppEmailRow.classList.remove('open');
+    if (ppClaimWrap) ppClaimWrap.classList.remove('expanded');
 
     var lbl = ppClaim.querySelector('.c-label');
     lbl.textContent = 'No. ' + d.no + ' is being held for you';
