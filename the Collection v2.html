@@ -522,9 +522,6 @@ body[data-state="product"] .ticker-wrap { opacity: 0; }
 body[data-state="home"] .brandmark,
 body[data-state="home"] .editioncount-fixed { top: calc(26px + clamp(13px,2.4vh,22px)); }
 
-/* price hidden from product page — shown only at reservation step */
-.pp-price { display: none; }
-
 /* ============================================================
    SHARE BUTTON
    ============================================================ */
@@ -633,12 +630,6 @@ body[data-state="home"] .editioncount-fixed { top: calc(26px + clamp(13px,2.4vh,
   flex: 1 1 0; opacity: 1; padding: 0 14px;
   border-color: var(--line); pointer-events: auto; margin-right: 10px;
 }
-.pp-email-price {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
-  color: var(--muted); margin-top: 8px;
-}
-.pp-email-price b { color: var(--ink); font-weight: 700; }
-
 .pp-soldout-row {
   display: none; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line);
 }
@@ -788,31 +779,6 @@ body[data-state="home"] .editioncount-fixed { top: calc(26px + clamp(13px,2.4vh,
 .how-step-desc {
   font-size: clamp(13px,1.1vw,15px); font-weight: 300; line-height: 1.65; color: #8AACCB;
 }
-
-/* price-climb visual */
-.price-climb {
-  margin-top: clamp(24px,4vh,40px); padding: 18px 22px; border-radius: 14px;
-  border: 1px solid rgba(100,150,210,0.22); background: rgba(100,150,210,0.05);
-  max-width: 440px;
-}
-.price-climb-label {
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.28em;
-  text-transform: uppercase; color: #5A7A9A; margin-bottom: 12px;
-}
-.price-climb-bar {
-  position: relative; height: 2px; background: rgba(100,150,210,0.20); border-radius: 2px; margin-bottom: 10px;
-}
-.price-climb-bar::after {
-  content: ''; position: absolute; left: 0; top: 0; height: 100%;
-  width: 60%; background: linear-gradient(to right, #A8C4E055, #A8C4E0);
-  border-radius: 2px;
-}
-.price-climb-ends {
-  display: flex; justify-content: space-between;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
-}
-.price-climb-ends span:first-child { color: #A8C4E0; }
-.price-climb-ends span:last-child { color: #5A7A9A; }
 
 /* Testimonials */
 .story-quotes { margin-top: clamp(36px,6vh,60px); display: flex; flex-direction: column; gap: 22px; max-width: 56ch; }
@@ -1217,7 +1183,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
     <div class="pp-panel">
       <p class="pp-eyebrow" id="ppEyebrow">Headwear · Edition of 99</p>
       <h2 class="pp-name" id="ppName"><em>Saqr</em></h2>
-      <p class="pp-price" id="ppPrice">AED 395</p>
       <p class="pp-one" id="ppOne"></p>
       <p class="pp-trust">UAE-made · Ships in 5 days · Edition retired when sold</p>
       <p class="pp-story" id="ppStory"></p>
@@ -1236,8 +1201,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
         <input type="email" class="pp-inline-email" id="ppEmailInput" placeholder="your@email.com" autocomplete="email" aria-label="Email address for reservation" />
         <button class="claim" id="ppClaim" data-cursor="hot"><span class="c-label">Claim No. 48</span></button>
       </div>
-      <div class="pp-email-price" id="ppEmailPrice"></div>
-      <p class="pp-guarantee">Invoice follows · if it arrives wrong, we make it right</p>
+      <p class="pp-guarantee">We'll be in touch shortly · if it arrives wrong, we make it right</p>
 
       <!-- sold-out + waitlist (item 10) -->
       <div class="pp-soldout-row" id="ppSoldoutRow">
@@ -1297,7 +1261,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
       <br /><br />
       Every piece is numbered by hand. When the last one is gone, the run is retired. No restocks. No seconds. No exceptions. The number you claim is yours permanently, recorded and sent with your piece on a signed edition card.
       <br /><br />
-      The first to claim get the lowest numbers — and the lowest price. <em>Prices rise as the run sells down.</em>
+      The first to claim get the lowest numbers.
     </div>
   </section>
 
@@ -1317,7 +1281,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
         <span class="how-step-n">02</span>
         <div class="how-step-body">
           <p class="how-step-title">Claim your number</p>
-          <p class="how-step-desc">Numbers are assigned in the order reservations are confirmed — first in gets the lowest remaining number. Enter your email, and we'll hold your number and send an invoice.</p>
+          <p class="how-step-desc">Numbers are assigned in the order reservations are confirmed — first in gets the lowest remaining number. Enter your email, and we'll hold your number and be in touch shortly.</p>
         </div>
       </div>
       <div class="how-step reveal">
@@ -1326,14 +1290,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
           <p class="how-step-title">It arrives, numbered</p>
           <p class="how-step-desc">Your piece ships from Dubai within 5 business days of payment confirmation, in its dust bag or ribbon-tied, with a numbered edition card signed by the maker.</p>
         </div>
-      </div>
-    </div>
-    <div class="price-climb reveal">
-      <p class="price-climb-label">Prices rise as the run sells down</p>
-      <div class="price-climb-bar"></div>
-      <div class="price-climb-ends">
-        <span>No. 01 — best value</span>
-        <span>No. 99 — last one</span>
       </div>
     </div>
   </section>
@@ -1387,8 +1343,8 @@ body[data-state="portal"] .sound-toggle { display: none; }
         <thead><tr><th>Destination</th><th>Timeframe</th><th>Cost</th></tr></thead>
         <tbody>
           <tr><td>UAE</td><td>1–2 business days</td><td>Free</td></tr>
-          <tr><td>GCC (KSA, KWT, BHR, QAT, OMN)</td><td>3–5 business days</td><td>AED 35</td></tr>
-          <tr><td>International</td><td>5–10 business days</td><td>AED 75</td></tr>
+          <tr><td>GCC (KSA, KWT, BHR, QAT, OMN)</td><td>3–5 business days</td><td>—</td></tr>
+          <tr><td>International</td><td>5–10 business days</td><td>—</td></tr>
         </tbody>
       </table>
       <p style="margin-top:14px;font-size:13px;font-weight:300;line-height:1.65;color:#5A7A9A;">All pieces ship from Dubai within 5 business days of payment confirmation. You'll receive a tracking number by email.<!-- TODO: add courier name --></p>
@@ -1402,14 +1358,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
       </p>
     </div>
 
-    <!-- Payment -->
-    <div class="trust-section">
-      <h2 class="trust-section-title">Payment</h2>
-      <p style="font-size:clamp(13px,1.1vw,15px);font-weight:300;line-height:1.75;color:#8AACCB;">
-        We accept major cards, Apple Pay, and Google Pay. Payment plans via <strong style="color:#EBF2FC;">Tabby</strong> and <strong style="color:#EBF2FC;">Tamara</strong> are available — contact us after reserving and we'll arrange it.<!-- TODO: integrate Tabby/Tamara SDK directly -->
-      </p>
-    </div>
-
     <!-- FAQ -->
     <div class="trust-section">
       <h2 class="trust-section-title">Frequently asked</h2>
@@ -1419,15 +1367,11 @@ body[data-state="portal"] .sound-toggle { display: none; }
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">When does my piece ship?<span class="faq-arrow">▾</span></button>
-        <div class="faq-a" role="region"><div class="faq-a-inner">Within 5 business days of your invoice being paid. You'll receive a tracking number by email as soon as it leaves us. UAE orders typically arrive within 1–2 days after dispatch.</div></div>
+        <div class="faq-a" role="region"><div class="faq-a-inner">Within 5 business days of your reservation being confirmed. You'll receive a tracking number by email as soon as it leaves us. UAE orders typically arrive within 1–2 days after dispatch.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">What if the edition sells out before I complete my reservation?<span class="faq-arrow">▾</span></button>
         <div class="faq-a" role="region"><div class="faq-a-inner">If the piece sells out before we can confirm your reservation, we'll add you to the waitlist and contact you if a number becomes available (e.g. a reservation that wasn't completed). Waitlist spots are offered in the order they were submitted.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Is there a payment plan?<span class="faq-arrow">▾</span></button>
-        <div class="faq-a" role="region"><div class="faq-a-inner">Yes — contact us after reserving and we'll set up a plan through Tabby or Tamara. We'll hold your number for 48 hours while we arrange it.<!-- TODO: integrate payment plan directly --></div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">What is the sizing like?<span class="faq-arrow">▾</span></button>
@@ -1486,7 +1430,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
   var DATA = {
     cap: {
       i: 0, name: 'Saqr', eyebrow: 'Headwear · Edition of 99',
-      priceBase: 345, priceStep: 1.01,          /* price rises per number claimed */
       img: 'assets/cut/cap-front.png',
       img2: 'assets/cut/cap-angle.png',
       one: 'The cap you reach for every day — built to soften with wear, numbered to last forever.',
@@ -1505,7 +1448,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
     },
     towel: {
       i: 1, name: 'Sahil', eyebrow: 'Shore goods · Edition of 99',
-      priceBase: 445, priceStep: 1.21,
       img: 'assets/cut/towel-a.png',
       img2: 'assets/towel-b.png',
       one: 'Heavy enough to stay put in the sea breeze. Soft enough to live with for years.',
@@ -1524,7 +1466,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
     },
     tote: {
       i: 2, name: 'Farsha', eyebrow: 'Carry goods · Edition of 99',
-      priceBase: 650, priceStep: 1.41,
       img: 'assets/cut/tote-b.png',
       img2: 'assets/tote-a.png',
       one: 'One carry piece that unrolls into a majlis mat — for the beach, the dunes, the long evenings.',
@@ -1542,10 +1483,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
       theme: { bg:'#EDE9E2', ink:'#1A2B40', muted:'#6B82A0', accent:'#1E3A5F', glow:'rgba(30,58,95,0.12)', line:'rgba(26,43,63,0.14)' }
     }
   };
-  function priceFor(key, n) {
-    var d = DATA[key];
-    return 'AED ' + Math.round(d.priceBase + (n - 1) * d.priceStep);
-  }
   var KEYS = ['cap', 'towel', 'tote'];
   var PORTAL_THEME = { bg:'#030C18', ink:'#EDE8DF', muted:'#7A9AB8', accent:'#A8C0DC', glow:'rgba(100,160,220,0.18)', line:'rgba(100,150,210,0.15)' };
 
@@ -1918,7 +1855,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
   var ppEdcount = document.getElementById('ppEdcount');
   var ppClaim = document.getElementById('ppClaim');
   var ppBack = document.getElementById('ppBack');
-  var ppPrice = document.getElementById('ppPrice');
   var ppShare = document.getElementById('ppShare');
   var currentKey = null, sourceCard = null, ppOpen = false, ppInteractive = false, edTimers = [];
 
@@ -1941,7 +1877,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
   var ppLowstockText = document.getElementById('ppLowstockText');
   var ppClaimWrap = document.getElementById('ppClaimWrap');
   var ppEmailInput = document.getElementById('ppEmailInput');
-  var ppEmailPrice = document.getElementById('ppEmailPrice');
   var ppSoldoutRow = document.getElementById('ppSoldoutRow');
   var ppWaitlistEmail = document.getElementById('ppWaitlistEmail');
   var ppWaitlistBtn = document.getElementById('ppWaitlistBtn');
@@ -2194,7 +2129,6 @@ body[data-state="portal"] .sound-toggle { display: none; }
       claimAwaitingEmail = true;
       ppClaim.querySelector('.c-label').textContent = 'Complete →';
       if (ppClaimWrap) ppClaimWrap.classList.add('expanded');
-      if (ppEmailPrice) ppEmailPrice.innerHTML = 'Reserving <b>No. ' + d.no + '</b> · <b>' + priceFor(currentKey, d.no) + '</b>';
       setTimeout(function () { if (ppEmailInput) ppEmailInput.focus(); }, 380);
       return;
     }
@@ -2222,7 +2156,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
     ppClaim.classList.add('claimed'); ppClaim.disabled = true; ppClaim.style.transform = '';
     var u = ppEdcount.querySelector('.unclaimed'); u.textContent = Math.max(0, d.unclaimed - 1); ppEdcount.classList.add('show');
     ppClaimline.innerHTML = 'Reserved in your name · <b class="ednum">No. ' + d.no + ' / ' + d.total + '</b>';
-    showToast('No. ' + d.no + ' — reserved', priceFor(currentKey, d.no) + ' · invoice to follow');
+    showToast('No. ' + d.no + ' — reserved', 'We\'ll be in touch shortly');
     updateReservedBadge();
     setTimeout(function () { if (ppClaim.classList.contains('claimed')) lbl.textContent = 'No. ' + d.no + ' — reserved in your name'; }, 1600);
   });
