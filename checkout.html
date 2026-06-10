@@ -4,27 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Complete your order — the Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #0F0A07;
-    --navy: #0D1B2E;
-    --navy-border: #1C3050;
-    --gold: #C9A24B;
-    --gold-light: #E8C97A;
-    --cream: #E2D5C4;
-    --muted: #567090;
-    --dim: #223650;
-    --font-serif: Georgia, 'Times New Roman', Times, serif;
-    --font-mono: 'Courier New', Courier, monospace;
+    --bg: #EDE8DF;
+    --navy: #122040;
+    --navy-light: #1E3A5F;
+    --ink: #1A2B40;
+    --muted: #6B82A0;
+    --dim: #4A6A90;
+    --cream: #EDE8DF;
+    --serif: "Bodoni Moda", Georgia, "Times New Roman", serif;
+    --mono: "Space Mono", "Courier New", Courier, monospace;
   }
 
   html, body {
     min-height: 100%;
     background: var(--bg);
-    color: var(--cream);
-    font-family: var(--font-serif);
+    color: var(--ink);
+    font-family: var(--serif);
     -webkit-font-smoothing: antialiased;
   }
 
@@ -32,129 +34,212 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 16px 64px;
+    padding: 48px 16px 72px;
   }
 
-  .brand { text-align: center; margin-bottom: 40px; }
+  .brand { text-align: center; margin-bottom: 36px; }
   .brand-name {
-    font-size: 10px; letter-spacing: 0.35em; color: var(--gold);
-    text-transform: uppercase; font-family: var(--font-mono);
+    font-family: var(--serif);
+    font-size: 15px;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    color: var(--ink);
   }
   .brand-sub {
-    margin-top: 6px; font-size: 9px; letter-spacing: 0.2em;
-    color: var(--dim); text-transform: uppercase; font-family: var(--font-mono);
+    margin-top: 5px;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-family: var(--mono);
   }
 
   .card {
-    width: 100%; max-width: 520px;
+    width: 100%;
+    max-width: 500px;
     background: var(--navy);
-    border: 1px solid var(--navy-border);
-    position: relative;
-    padding-top: 3px; padding-bottom: 3px;
-  }
-  .gold-bar {
-    height: 2px;
-    background: linear-gradient(90deg, #6B4F12 0%, var(--gold) 35%, var(--gold-light) 50%, var(--gold) 65%, #6B4F12 100%);
+    border-radius: 22px;
+    overflow: hidden;
   }
 
   .card-inner { padding: 44px 40px 52px; }
 
   .timer-wrap {
-    display: flex; align-items: center; justify-content: center;
-    gap: 10px; margin-bottom: 36px;
-  }
-  .timer-label {
-    font-size: 9px; letter-spacing: 0.2em; color: var(--dim);
-    text-transform: uppercase; font-family: var(--font-mono);
-  }
-  #timer {
-    font-size: 18px; font-family: var(--font-mono); color: var(--gold);
-    letter-spacing: 0.05em; min-width: 48px; text-align: center;
-    transition: color 0.3s;
-  }
-  #timer.urgent { color: #E05C5C; animation: pulse 1s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
-
-  .edition-box {
-    border: 1px solid var(--navy-border);
-    background: #080F1A;
-    padding: 24px 32px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     margin-bottom: 32px;
   }
+  .timer-label {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    color: var(--dim);
+    text-transform: uppercase;
+    font-family: var(--mono);
+  }
+  #timer {
+    font-size: 18px;
+    font-family: var(--mono);
+    color: var(--cream);
+    letter-spacing: 0.05em;
+    min-width: 48px;
+    text-align: center;
+    transition: color 0.4s;
+  }
+  #timer.urgent { color: #E05C5C; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.55} }
+
+  .edition-box {
+    border: 1px solid rgba(30,58,95,0.6);
+    background: rgba(10,20,42,0.5);
+    border-radius: 14px;
+    padding: 28px 32px;
+    text-align: center;
+    margin-bottom: 28px;
+  }
   .edition-label {
-    font-size: 9px; letter-spacing: 0.3em; color: var(--dim);
-    text-transform: uppercase; font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    color: var(--dim);
+    text-transform: uppercase;
+    font-family: var(--mono);
   }
   .edition-number {
-    font-size: 52px; line-height: 1; color: var(--gold);
-    margin: 10px 0 4px; letter-spacing: -0.01em;
+    font-size: 54px;
+    line-height: 1.05;
+    color: var(--cream);
+    margin: 8px 0 4px;
+    font-family: var(--serif);
+    font-style: italic;
+    letter-spacing: -0.01em;
   }
-  .edition-of { font-size: 10px; color: var(--dim); letter-spacing: 0.2em; font-family: var(--font-mono); }
-  .edition-product { font-size: 17px; color: var(--cream); margin-top: 10px; letter-spacing: 0.03em; }
+  .edition-of { font-size: 10px; color: var(--dim); letter-spacing: 0.22em; font-family: var(--mono); }
+  .edition-product {
+    font-size: 17px;
+    color: var(--cream);
+    margin-top: 10px;
+    font-family: var(--serif);
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
 
-  .rule { height: 1px; background: var(--navy-border); margin: 0 0 28px; }
+  .rule { height: 1px; background: rgba(30,58,95,0.45); margin: 0 0 24px; }
 
   .section-label {
-    font-size: 9px; letter-spacing: 0.25em; color: var(--dim);
-    text-transform: uppercase; font-family: var(--font-mono); margin-bottom: 20px;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--dim);
+    text-transform: uppercase;
+    font-family: var(--mono);
+    margin-bottom: 18px;
   }
 
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .field { margin-bottom: 16px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .field { margin-bottom: 14px; }
 
   label {
-    display: block; font-size: 9px; letter-spacing: 0.18em; color: var(--dim);
-    text-transform: uppercase; font-family: var(--font-mono); margin-bottom: 7px;
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: var(--dim);
+    text-transform: uppercase;
+    font-family: var(--mono);
+    margin-bottom: 6px;
   }
 
   input, select {
-    width: 100%; background: #080F1A; border: 1px solid var(--navy-border);
-    color: var(--cream); font-family: var(--font-serif); font-size: 14px;
-    padding: 11px 14px; outline: none; appearance: none; -webkit-appearance: none;
-    transition: border-color 0.2s;
+    width: 100%;
+    background: rgba(10,20,42,0.45);
+    border: 1px solid rgba(30,58,95,0.5);
+    border-radius: 10px;
+    color: var(--cream);
+    font-family: var(--serif);
+    font-size: 14px;
+    padding: 11px 14px;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color 0.25s, background 0.25s;
   }
-  input:focus, select:focus { border-color: var(--gold); }
-  input::placeholder { color: var(--dim); }
+  input:focus, select:focus {
+    border-color: rgba(237,232,223,0.5);
+    background: rgba(10,20,42,0.65);
+  }
+  input::placeholder { color: rgba(107,130,160,0.6); }
   select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A24B' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 14px center;
-    padding-right: 36px; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B82A0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
   }
-  select option { background: #0D1B2E; }
+  select option { background: #122040; color: #EDE8DF; }
 
   .submit-btn {
-    width: 100%; background: var(--gold); border: none; color: #080604;
-    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.3em;
-    text-transform: uppercase; font-weight: 700; padding: 17px 24px;
-    cursor: pointer; margin-top: 8px; transition: opacity 0.2s;
+    width: 100%;
+    background: var(--cream);
+    border: none;
+    border-radius: 16px;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 17px 24px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity 0.2s, transform 0.15s;
   }
-  .submit-btn:hover { opacity: 0.88; }
-  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .submit-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
 
   .submit-note {
-    text-align: center; font-size: 9px; color: var(--dim);
-    font-family: var(--font-mono); letter-spacing: 0.1em; margin-top: 14px;
+    text-align: center;
+    font-size: 9px;
+    color: var(--dim);
+    font-family: var(--mono);
+    letter-spacing: 0.12em;
+    margin-top: 14px;
   }
 
-  .state { display: none; text-align: center; padding: 20px 0; }
+  .state { display: none; text-align: center; padding: 16px 0; }
   .state.active { display: block; }
-  .state-icon { font-size: 36px; margin-bottom: 16px; }
-  .state-title { font-size: 20px; color: var(--cream); margin-bottom: 12px; letter-spacing: 0.04em; }
-  .state-body { font-size: 14px; color: var(--muted); line-height: 1.8; }
-  .state-body strong { color: var(--cream); font-weight: normal; }
+  .state-icon { font-size: 32px; margin-bottom: 16px; }
+  .state-title {
+    font-size: 22px;
+    color: var(--cream);
+    margin-bottom: 12px;
+    font-family: var(--serif);
+    font-style: italic;
+  }
+  .state-body {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+    font-family: var(--serif);
+  }
+  .state-body strong { color: var(--cream); font-weight: normal; font-style: italic; }
 
   .error-msg {
-    background: rgba(180,40,40,0.12); border: 1px solid rgba(180,40,40,0.3);
-    color: #E05C5C; font-family: var(--font-mono); font-size: 11px;
-    padding: 10px 14px; margin-bottom: 16px; display: none;
+    background: rgba(160,30,30,0.15);
+    border: 1px solid rgba(160,30,30,0.35);
+    border-radius: 10px;
+    color: #E07070;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    display: none;
   }
   .error-msg.show { display: block; }
 
   @media (max-width: 480px) {
     .card-inner { padding: 36px 24px 44px; }
     .field-row { grid-template-columns: 1fr; }
-    .edition-number { font-size: 42px; }
+    .edition-number { font-size: 44px; }
   }
 </style>
 </head>
@@ -166,7 +251,6 @@
 </div>
 
 <div class="card">
-  <div class="gold-bar"></div>
   <div class="card-inner">
 
     <div class="state" id="state-expired">
@@ -182,9 +266,9 @@
     </div>
 
     <div class="state" id="state-success">
-      <div class="state-icon" style="color:#C9A24B;">✓</div>
+      <div class="state-icon" style="color:var(--cream);">✓</div>
       <p class="state-title">Order received</p>
-      <p class="state-body" id="success-body">Your order has been placed. We will confirm your details and dispatch within 5 business days from Dubai.</p>
+      <p class="state-body" id="success-body">Your order has been placed. We will confirm and dispatch within 5 business days from Dubai.</p>
     </div>
 
     <div id="state-form">
@@ -277,7 +361,6 @@
     </div>
 
   </div>
-  <div class="gold-bar"></div>
 </div>
 
 <script>
@@ -309,7 +392,7 @@
 
   if (Date.now() > data.exp) { show('state-expired'); return; }
 
-  document.getElementById('edition-no').textContent = 'No. ' + data.no;
+  document.getElementById('edition-no').textContent = 'No. ' + data.no;
   document.getElementById('edition-product').textContent = data.product || '';
   document.title = 'No. ' + data.no + ' of 99 — the Collection';
 
@@ -367,7 +450,7 @@
 
       clearInterval(iv);
       document.getElementById('success-body').innerHTML =
-        'Your order for <strong>' + (data.product || '') + ' No. ' + data.no +
+        'Your order for <strong>' + (data.product || '') + ' No. ' + data.no +
         ' of 99</strong> has been placed.<br>We will confirm via WhatsApp and dispatch within 5 business days from Dubai.';
       show('state-success');
 
