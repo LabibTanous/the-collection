@@ -1,83 +1,25 @@
 {
-  "name": "the Collection — Drop Automation",
+  "name": "the Collection — Full Drop Automation",
   "nodes": [
     {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "claim",
-        "responseMode": "responseNode",
-        "options": {}
-      },
-      "id": "claim-webhook",
-      "name": "Claim Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 1,
-      "position": [240, 300],
-      "webhookId": "claim"
+      "parameters": { "httpMethod": "POST", "path": "claim", "responseMode": "responseNode", "options": {} },
+      "id": "wh-claim", "name": "Claim Webhook", "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1, "position": [180, 200]
     },
     {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "waitlist",
-        "responseMode": "responseNode",
-        "options": {}
-      },
-      "id": "waitlist-webhook",
-      "name": "Waitlist Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 1,
-      "position": [240, 500],
-      "webhookId": "waitlist"
+      "parameters": { "httpMethod": "POST", "path": "waitlist", "responseMode": "responseNode", "options": {} },
+      "id": "wh-waitlist", "name": "Waitlist Webhook", "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1, "position": [180, 420]
     },
     {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "newsletter",
-        "responseMode": "responseNode",
-        "options": {}
-      },
-      "id": "newsletter-webhook",
-      "name": "Newsletter Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 1,
-      "position": [240, 700],
-      "webhookId": "newsletter"
+      "parameters": { "httpMethod": "POST", "path": "newsletter", "responseMode": "responseNode", "options": {} },
+      "id": "wh-newsletter", "name": "Newsletter Webhook", "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1, "position": [180, 620]
     },
     {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ JSON.stringify({ ok: true }) }}",
-        "options": {}
-      },
-      "id": "claim-response",
-      "name": "Claim Response",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1,
-      "position": [900, 300]
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ JSON.stringify({ ok: true }) }}",
-        "options": {}
-      },
-      "id": "waitlist-response",
-      "name": "Waitlist Response",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1,
-      "position": [900, 500]
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={{ JSON.stringify({ ok: true }) }}",
-        "options": {}
-      },
-      "id": "newsletter-response",
-      "name": "Newsletter Response",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1,
-      "position": [900, 700]
+      "parameters": { "httpMethod": "POST", "path": "ship", "responseMode": "responseNode", "options": {} },
+      "id": "wh-ship", "name": "Ship Webhook", "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1, "position": [180, 820]
     },
     {
       "parameters": {
@@ -87,19 +29,62 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "timestamp": "={{ $json.timestamp }}",
+            "timestamp": "={{ $json.timestamp || $now }}",
             "email": "={{ $json.email }}",
             "product": "={{ $json.product }}",
-            "edition": "={{ $json.no }}",
+            "edition_no": "={{ $json.no }}",
             "key": "={{ $json.key }}"
           }
         }
       },
-      "id": "claim-sheet",
-      "name": "Log Claim to Sheet",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4,
-      "position": [580, 300]
+      "id": "sheet-claims", "name": "Log Claim → Sheet", "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4, "position": [420, 200]
+    },
+    {
+      "parameters": {
+        "url": "https://api.resend.com/emails",
+        "method": "POST",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            { "name": "from", "value": "the Collection <noreply@thecollection.ae>" },
+            { "name": "to", "value": "={{ $('Claim Webhook').item.json.email }}" },
+            { "name": "subject", "value": "={{ 'No. ' + $('Claim Webhook').item.json.no + ' of 99 — reserved in your name' }}" },
+            { "name": "html", "value": "=<p style=\"font-family:Georgia,serif;color:#1A2B40\">Your edition is held.</p><p style=\"font-family:Georgia,serif;color:#1A2B40\"><strong>{{ $('Claim Webhook').item.json.product }} — No. {{ $('Claim Webhook').item.json.no }} of 99</strong> is reserved in your name. We'll be in touch shortly.</p><p style=\"font-family:Georgia,serif;color:#6B82A0;font-size:13px\">the Collection — UAE numbered editions of 99</p>" }
+          ]
+        }
+      },
+      "id": "email-claim-confirm", "name": "Email — Claim Confirmation", "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4, "position": [660, 160]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [{ "value1": "={{ $('sheet-claims').item.json.rowNumber || 0 }}", "operation": "largerEqual", "value2": 90 }]
+        }
+      },
+      "id": "if-lowstock", "name": "IF Low Stock (≥90)", "type": "n8n-nodes-base.if",
+      "typeVersion": 1, "position": [660, 260]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.SLACK_WEBHOOK_URL }}",
+        "method": "POST",
+        "bodyParametersUi": {
+          "parameter": [
+            { "name": "text", "value": "=🔴 *Low stock alert* — {{ $('Claim Webhook').item.json.product }}: {{ $('sheet-claims').item.json.rowNumber }} of 99 claimed. Only {{ 99 - $('sheet-claims').item.json.rowNumber }} left." }
+          ]
+        }
+      },
+      "id": "slack-lowstock", "name": "Slack — Low Stock Alert", "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4, "position": [900, 220]
+    },
+    {
+      "parameters": { "respondWith": "json", "responseBody": "={ \"ok\": true }", "options": {} },
+      "id": "resp-claim", "name": "Respond Claim", "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1, "position": [900, 320]
     },
     {
       "parameters": {
@@ -109,17 +94,38 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "timestamp": "={{ $json.timestamp }}",
+            "timestamp": "={{ $json.timestamp || $now }}",
             "email": "={{ $json.email }}",
             "product": "={{ $json.product }}"
           }
         }
       },
-      "id": "waitlist-sheet",
-      "name": "Log Waitlist to Sheet",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4,
-      "position": [580, 500]
+      "id": "sheet-waitlist", "name": "Log Waitlist → Sheet", "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4, "position": [420, 420]
+    },
+    {
+      "parameters": {
+        "url": "https://api.resend.com/emails",
+        "method": "POST",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            { "name": "from", "value": "the Collection <noreply@thecollection.ae>" },
+            { "name": "to", "value": "={{ $('Waitlist Webhook').item.json.email }}" },
+            { "name": "subject", "value": "=You're on the waitlist — {{ $('Waitlist Webhook').item.json.product || 'the Collection' }}" },
+            { "name": "html", "value": "=<p style=\"font-family:Georgia,serif;color:#1A2B40\">You're on the list{{ $('Waitlist Webhook').item.json.product ? ' for <strong>' + $('Waitlist Webhook').item.json.product + '</strong>' : '' }}. If a number opens up, you'll be first to know.</p><p style=\"font-family:Georgia,serif;color:#6B82A0;font-size:13px\">the Collection — UAE numbered editions of 99</p>" }
+          ]
+        }
+      },
+      "id": "email-waitlist", "name": "Email — Waitlist Auto-Response", "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4, "position": [660, 420]
+    },
+    {
+      "parameters": { "respondWith": "json", "responseBody": "={ \"ok\": true }", "options": {} },
+      "id": "resp-waitlist", "name": "Respond Waitlist", "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1, "position": [900, 420]
     },
     {
       "parameters": {
@@ -129,39 +135,76 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "timestamp": "={{ $json.timestamp }}",
+            "timestamp": "={{ $json.timestamp || $now }}",
             "email": "={{ $json.email }}"
           }
         }
       },
-      "id": "newsletter-sheet",
-      "name": "Log Newsletter to Sheet",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4,
-      "position": [580, 700]
+      "id": "sheet-newsletter", "name": "Log Newsletter → Sheet", "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4, "position": [420, 620]
+    },
+    {
+      "parameters": { "respondWith": "json", "responseBody": "={ \"ok\": true }", "options": {} },
+      "id": "resp-newsletter", "name": "Respond Newsletter", "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1, "position": [660, 620]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": { "value": "YOUR_GOOGLE_SHEET_ID" },
+        "sheetName": { "value": "Shipped" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.timestamp || $now }}",
+            "email": "={{ $json.email }}",
+            "product": "={{ $json.product }}",
+            "edition_no": "={{ $json.no }}",
+            "tracking_url": "={{ $json.tracking_url }}"
+          }
+        }
+      },
+      "id": "sheet-ship", "name": "Log Shipment → Sheet", "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4, "position": [420, 820]
+    },
+    {
+      "parameters": {
+        "url": "https://api.resend.com/emails",
+        "method": "POST",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "options": {},
+        "bodyParametersUi": {
+          "parameter": [
+            { "name": "from", "value": "the Collection <noreply@thecollection.ae>" },
+            { "name": "to", "value": "={{ $('Ship Webhook').item.json.email }}" },
+            { "name": "subject", "value": "=No. {{ $('Ship Webhook').item.json.no }} — shipped from Dubai" },
+            { "name": "html", "value": "=<p style=\"font-family:Georgia,serif;color:#1A2B40\">Your piece is on its way.</p><p style=\"font-family:Georgia,serif;color:#1A2B40\"><strong>{{ $('Ship Webhook').item.json.product }} — No. {{ $('Ship Webhook').item.json.no }} of 99</strong> has been dispatched. {{ $('Ship Webhook').item.json.tracking_url ? 'Track it: <a href=\"' + $('Ship Webhook').item.json.tracking_url + '\">' + $('Ship Webhook').item.json.tracking_url + '</a>' : 'Tracking details will follow shortly.' }}</p><p style=\"font-family:Georgia,serif;color:#6B82A0;font-size:13px\">the Collection — UAE numbered editions of 99</p>" }
+          ]
+        }
+      },
+      "id": "email-ship", "name": "Email — Shipping Notification", "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4, "position": [660, 820]
+    },
+    {
+      "parameters": { "respondWith": "json", "responseBody": "={ \"ok\": true }", "options": {} },
+      "id": "resp-ship", "name": "Respond Ship", "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1, "position": [900, 820]
     }
   ],
   "connections": {
-    "Claim Webhook": {
-      "main": [[{ "node": "Log Claim to Sheet", "type": "main", "index": 0 }]]
-    },
-    "Log Claim to Sheet": {
-      "main": [[{ "node": "Claim Response", "type": "main", "index": 0 }]]
-    },
-    "Waitlist Webhook": {
-      "main": [[{ "node": "Log Waitlist to Sheet", "type": "main", "index": 0 }]]
-    },
-    "Log Waitlist to Sheet": {
-      "main": [[{ "node": "Waitlist Response", "type": "main", "index": 0 }]]
-    },
-    "Newsletter Webhook": {
-      "main": [[{ "node": "Log Newsletter to Sheet", "type": "main", "index": 0 }]]
-    },
-    "Log Newsletter to Sheet": {
-      "main": [[{ "node": "Newsletter Response", "type": "main", "index": 0 }]]
-    }
+    "Claim Webhook": { "main": [[{ "node": "Log Claim → Sheet", "type": "main", "index": 0 }]] },
+    "Log Claim → Sheet": { "main": [[{ "node": "Email — Claim Confirmation", "type": "main", "index": 0 }, { "node": "IF Low Stock (≥90)", "type": "main", "index": 0 }]] },
+    "Email — Claim Confirmation": { "main": [[{ "node": "Respond Claim", "type": "main", "index": 0 }]] },
+    "IF Low Stock (≥90)": { "main": [[{ "node": "Slack — Low Stock Alert", "type": "main", "index": 0 }]] },
+    "Waitlist Webhook": { "main": [[{ "node": "Log Waitlist → Sheet", "type": "main", "index": 0 }]] },
+    "Log Waitlist → Sheet": { "main": [[{ "node": "Email — Waitlist Auto-Response", "type": "main", "index": 0 }]] },
+    "Email — Waitlist Auto-Response": { "main": [[{ "node": "Respond Waitlist", "type": "main", "index": 0 }]] },
+    "Newsletter Webhook": { "main": [[{ "node": "Log Newsletter → Sheet", "type": "main", "index": 0 }]] },
+    "Log Newsletter → Sheet": { "main": [[{ "node": "Respond Newsletter", "type": "main", "index": 0 }]] },
+    "Ship Webhook": { "main": [[{ "node": "Log Shipment → Sheet", "type": "main", "index": 0 }]] },
+    "Log Shipment → Sheet": { "main": [[{ "node": "Email — Shipping Notification", "type": "main", "index": 0 }]] },
+    "Email — Shipping Notification": { "main": [[{ "node": "Respond Ship", "type": "main", "index": 0 }]] }
   },
-  "settings": {
-    "executionOrder": "v1"
-  }
+  "settings": { "executionOrder": "v1" }
 }

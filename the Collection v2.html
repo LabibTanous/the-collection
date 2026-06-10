@@ -1094,9 +1094,73 @@ body[data-state="product"] .reserved-badge { display: none; }
 .sound-toggle:hover { border-color: var(--ink); color: var(--ink); opacity: 1; }
 .sound-toggle svg { width: 11px; height: 11px; flex: none; }
 body[data-state="portal"] .sound-toggle { display: none; }
+
+/* ── Ollama Ask Widget ── */
+.pp-ask-wrap { margin-top: 20px; }
+.pp-ask-btn {
+  display: inline-flex; align-items: center; gap: 7px; background: none;
+  border: none; padding: 0; cursor: pointer; font-family: var(--mono);
+  font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); transition: color .2s;
+}
+.pp-ask-btn:hover { color: var(--ink); }
+.pp-ask-btn svg { width: 12px; height: 12px; stroke: currentColor; }
+.pp-ask-panel {
+  margin-top: 12px; border: 1px solid var(--line); border-radius: 7px;
+  padding: 0 14px; max-height: 0; opacity: 0; overflow: hidden;
+  transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .25s ease, padding .25s ease;
+}
+.pp-ask-panel.open { max-height: 380px; opacity: 1; padding: 14px; }
+.pp-ask-messages {
+  max-height: 200px; overflow-y: auto; margin-bottom: 10px;
+  display: flex; flex-direction: column; gap: 8px; scrollbar-width: none;
+}
+.pp-ask-messages::-webkit-scrollbar { display: none; }
+.pp-ask-msg {
+  padding: 8px 11px; border-radius: 6px; font-size: 13px;
+  line-height: 1.55; max-width: 94%;
+}
+.pp-ask-msg.user {
+  background: var(--accent); color: #F5F1EA; align-self: flex-end;
+  font-family: var(--mono); font-size: 11.5px;
+}
+.pp-ask-msg.ai { background: rgba(26,43,63,.06); color: var(--ink); align-self: flex-start; }
+.pp-ask-msg.thinking { color: var(--muted); font-style: italic; font-size: 12px; align-self: flex-start; }
+.pp-ask-input-row { display: flex; gap: 7px; }
+.pp-ask-input {
+  flex: 1; border: 1px solid var(--line); border-radius: 5px;
+  padding: 8px 11px; font-family: var(--mono); font-size: 11.5px;
+  background: transparent; color: var(--ink); outline: none; transition: border-color .2s;
+}
+.pp-ask-input::placeholder { color: var(--muted); opacity: .7; }
+.pp-ask-input:focus { border-color: var(--accent); }
+.pp-ask-send {
+  background: var(--accent); border: none; border-radius: 5px;
+  width: 36px; min-width: 36px; height: 36px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: opacity .2s;
+}
+.pp-ask-send:hover { opacity: .82; }
+.pp-ask-send svg { width: 14px; height: 14px; stroke: #F5F1EA; }
+.pp-ask-footer {
+  margin-top: 7px; font-size: 9.5px; color: var(--muted);
+  opacity: .6; font-family: var(--mono); text-align: right; letter-spacing: .06em;
+}
+/* Cal.com early access */
+.pp-cal-link {
+  display: inline-flex; align-items: center; gap: 5px; margin-top: 14px;
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted); text-decoration: none;
+  background: none; border: none; cursor: pointer; padding: 0; transition: color .2s;
+}
+.pp-cal-link:hover { color: var(--ink); }
+.pp-cal-link svg { flex: none; }
 </style>
-<!-- Plausible analytics — privacy-safe, no cookies -->
-<script defer data-domain="the-collection-iota.vercel.app" src="https://plausible.io/js/script.js"></script>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-E5zpY643evUeSxu-X_ksp.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
 </head>
 <body data-state="portal">
 
@@ -1235,6 +1299,31 @@ body[data-state="portal"] .sound-toggle { display: none; }
       <div class="pp-drawer" id="ppDrawer" role="region" aria-labelledby="ppDrawerToggle">
         <div class="pp-drawer-inner" id="ppDrawerInner">
           <!-- filled by fillProduct() -->
+        </div>
+      </div>
+
+      <!-- Cal.com early access booking -->
+      <a class="pp-cal-link" id="ppCalLink" href="https://cal.com" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" width="11" height="11" aria-hidden="true" style="stroke:currentColor;stroke-width:1.7;stroke-linecap:round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Book early access to next drop
+      </a>
+
+      <!-- Ollama ask widget -->
+      <div class="pp-ask-wrap" id="ppAskWrap">
+        <button class="pp-ask-btn" id="ppAskBtn" aria-expanded="false" aria-controls="ppAskPanel">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          Ask about this piece
+        </button>
+        <div class="pp-ask-panel" id="ppAskPanel" role="region" aria-live="polite">
+          <div class="pp-ask-messages" id="ppAskMessages"></div>
+          <div class="pp-ask-input-row">
+            <input type="text" class="pp-ask-input" id="ppAskInput"
+              placeholder="Ask about materials, origin, care…" autocomplete="off" />
+            <button class="pp-ask-send" id="ppAskSend" aria-label="Send">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <p class="pp-ask-footer">Answered by local AI · responses may vary</p>
         </div>
       </div>
     </div>
@@ -1718,7 +1807,14 @@ body[data-state="portal"] .sound-toggle { display: none; }
   }
   function ensureLoop() { if (homeActive && rafId == null) rafId = requestAnimationFrame(homeLoop); }
 
-  function snap() { target = Math.round(pos); ensureLoop(); }
+  var _snapDebounce = null;
+  function snap() {
+    target = Math.round(pos); ensureLoop();
+    clearTimeout(_snapDebounce);
+    _snapDebounce = setTimeout(function () {
+      var k = activeKey(); if (DATA[k]) track('Card Browsed', { product: DATA[k].name });
+    }, 500);
+  }
   function go(i) { target = i; if (reduce) { pos = i; vel = 0; renderWheel(); } else ensureLoop(); }
   function activeIndex() { return ((Math.round(pos) % N) + N) % N; }
   function activeKey() { return KEYS[activeIndex()]; }
@@ -2242,6 +2338,74 @@ body[data-state="portal"] .sound-toggle { display: none; }
       ppDrawerToggle.setAttribute('aria-expanded', String(open));
     });
   }
+
+  /* ============================================================
+     OLLAMA ASK WIDGET
+     ============================================================ */
+  var ppAskBtn = document.getElementById('ppAskBtn');
+  var ppAskPanel = document.getElementById('ppAskPanel');
+  var ppAskInput = document.getElementById('ppAskInput');
+  var ppAskSend = document.getElementById('ppAskSend');
+  var ppAskMessages = document.getElementById('ppAskMessages');
+
+  if (ppAskBtn && ppAskPanel) {
+    ppAskBtn.addEventListener('click', function () {
+      var open = ppAskPanel.classList.toggle('open');
+      ppAskBtn.setAttribute('aria-expanded', String(open));
+      if (open && ppAskMessages && ppAskMessages.children.length === 0) {
+        var _d = DATA[currentKey];
+        var _greet = document.createElement('div');
+        _greet.className = 'pp-ask-msg ai';
+        _greet.textContent = 'Ask me about ' + (_d ? _d.name : 'this piece') +
+          ' — materials, care, the Gulf story behind the name, or anything else.';
+        ppAskMessages.appendChild(_greet);
+      }
+      if (open) setTimeout(function () { if (ppAskInput) ppAskInput.focus(); }, 340);
+    });
+  }
+
+  function _askAddMsg(text, role) {
+    if (!ppAskMessages) return null;
+    var m = document.createElement('div');
+    m.className = 'pp-ask-msg ' + role;
+    m.textContent = text;
+    ppAskMessages.appendChild(m);
+    ppAskMessages.scrollTop = ppAskMessages.scrollHeight;
+    return m;
+  }
+
+  function _askSend() {
+    if (!ppAskInput || !currentKey || !DATA[currentKey]) return;
+    var q = ppAskInput.value.trim(); if (!q) return;
+    ppAskInput.value = '';
+    _askAddMsg(q, 'user');
+    track('Ask Chat', { product: DATA[currentKey].name });
+    var _d2 = DATA[currentKey];
+    var sys = 'You are a concise, warm guide for the Collection — a UAE luxury limited-edition brand. ' +
+      'Product: ' + _d2.name + ' (' + _d2.eyebrow + '). ' +
+      'Story: ' + (_d2.story || '').replace(/<[^>]+>/g, '') + ' ' +
+      'Materials: ' + (_d2.details ? _d2.details.materials : '') + '. ' +
+      'Care: ' + (_d2.details ? _d2.details.care : '') + '. ' +
+      'Ships within 5 business days from Dubai. Keep answers to 2-3 sentences. ' +
+      'Reply in the same language the question is written in.';
+    var _thinking = _askAddMsg('…', 'thinking');
+    fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: q, system: sys })
+    }).then(function (r) { return r.json(); }).then(function (data) {
+      if (_thinking && _thinking.parentNode) _thinking.remove();
+      _askAddMsg(data.response || 'I\'m not sure — try rephrasing.', 'ai');
+    }).catch(function () {
+      if (_thinking && _thinking.parentNode) _thinking.remove();
+      _askAddMsg('I\'m offline right now. Try again shortly.', 'thinking');
+    });
+  }
+
+  if (ppAskSend) ppAskSend.addEventListener('click', _askSend);
+  if (ppAskInput) ppAskInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); _askSend(); }
+  });
 
   /* ============================================================
      STORY OVERLAY  (items 7, 8, 13, 14)

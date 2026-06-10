@@ -1,0 +1,75 @@
+# the Collection — Fooocus image generation prompts
+# Use in Fooocus → Advanced → Prompt box
+# Style preset: Fooocus Photograph + Fooocus Sharp
+
+# ─── Saqr Cap ───────────────────────────────────────────────────────────────
+
+CAP-01 — Sand dunes hero
+"A washed brushed-cotton six-panel cap resting on soft sand dunes at golden hour,
+ Abu Dhabi desert, warm ochre tones, Arabic calligraphy stitching visible, f/2.8
+ bokeh background, editorial product photography, luxury minimal"
+
+CAP-02 — Majlis interior
+"Structured cap on a handwoven majlis cushion, traditional Emirati diwaniya setting,
+ warm light through mashrabiya lattice, muted ivory and indigo palette,
+ fashion editorial, 35mm film grain"
+
+CAP-03 — Dubai street
+"Man wearing a sand-coloured six-panel cap walking through Old Dubai souk,
+ gold merchant alley, warm morning light, candid street photography,
+ editorial fashion, cinematic, muted earthy tones"
+
+# ─── Sahil Towel ────────────────────────────────────────────────────────────
+
+TOWEL-01 — Jumeirah beach
+"Oversized luxury striped beach towel spread on Jumeirah beach, Dubai skyline
+ in soft focus background, Burj Al Arab faint on horizon, golden hour,
+ long-staple cotton texture visible, editorial lifestyle photography"
+
+TOWEL-02 — Pool cabana
+"Striped cotton towel draped over a white sunlounger at a luxury Abu Dhabi
+ resort pool, palm shadows, turquoise water reflection, high-end travel editorial,
+ bright and airy, 1970s Gulf resort colour palette"
+
+TOWEL-03 — Fold close-up
+"Extreme close-up of jacquard-woven cotton towel fold, hand-knotted fringe,
+ numbered label visible, warm natural light, textile macro photography,
+ luxury product shot, shallow depth of field"
+
+# ─── Farsha Tote ────────────────────────────────────────────────────────────
+
+TOTE-01 — Souk lifestyle
+"Sand-canvas tote bag held by a woman in a white kandura-style linen dress
+ walking through Dubai spice souk, golden afternoon light, architectural shadows,
+ editorial fashion, earthy and warm"
+
+TOTE-02 — Unfolded as mat
+"Oversized canvas tote unfolded into a padded mat on clean white sand,
+ Gulf shoreline, clear turquoise water, minimal lifestyle editorial,
+ overhead flat-lay, editorial product photography"
+
+TOTE-03 — Studio minimal
+"Sand-coloured canvas tote on a bare concrete plinth, studio lighting,
+ numbered base plate visible, architectural minimalism, luxury fashion editorial,
+ stark shadows, muted palette"
+
+# ─── General / Brand ────────────────────────────────────────────────────────
+
+BRAND-01 — Flat lay trio
+"Flat lay of cap, towel and canvas tote arranged on white linen, numbered
+ edition cards visible, minimalist editorial, overhead shot, warm natural window
+ light, luxury brand lookbook"
+
+BRAND-02 — Packaging
+"Unbleached cotton dust bag with a numbered edition card, sealed with a wax
+ stamp, resting on raw linen, product unboxing editorial, soft focus, luxury
+ UAE brand aesthetic"
+
+# ─── Settings to use in Fooocus ─────────────────────────────────────────────
+# Image Prompt: paste prompt above
+# Negative: ugly, deformed, plastic, artificial, low quality, generic stock photo
+# Style: Fooocus Photograph + Fooocus Sharp
+# Aspect ratio: 4:3 for cards, 16:9 for banners, 1:1 for Instagram
+# Steps: 30-40
+# CFG: 7.0
+# Output: save to uploads/ folder, rename to product-shot-01.png etc.
