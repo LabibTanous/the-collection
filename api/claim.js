@@ -167,19 +167,6 @@ module.exports = async function handler(req, res) {
       buildEmail(no, product || key, checkoutUrl)
     );
 
-    if (OWNER) {
-      await send(
-        OWNER,
-        `[Claim] No. ${no} — ${product || key} (${email})`,
-        `<table style="font-family:Georgia,serif;font-size:14px;color:#333;padding:24px;border-collapse:collapse;">
-          <tr><td colspan="2" style="padding-bottom:16px;font-size:16px;font-weight:bold;">New claim received</td></tr>
-          <tr><td style="padding:4px 16px 4px 0;color:#666;">Product:</td><td>${product || key}</td></tr>
-          <tr><td style="padding:4px 16px 4px 0;color:#666;">Edition:</td><td>No. ${no} of 99</td></tr>
-          <tr><td style="padding:4px 16px 4px 0;color:#666;">Email:</td><td>${email}</td></tr>
-          <tr><td style="padding:4px 16px 4px 0;color:#666;">Checkout:</td><td><a href="${checkoutUrl}">link (5 min expiry)</a></td></tr>
-        </table>`
-      );
-    }
   }
 
   res.status(200).json({ ok: true });
