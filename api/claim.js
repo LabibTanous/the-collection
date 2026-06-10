@@ -16,31 +16,30 @@ function buildEmail(no, product, checkoutUrl) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="only light">
 <meta name="supported-color-schemes" content="light">
 <title>No. ${no} of 99 — Reserved</title>
 </head>
-<body style="margin:0;padding:0;background-color:#EDE8DF !important;font-family:Georgia,'Times New Roman',Times,serif;">
+<body bgcolor="#EDE8DF" style="margin:0;padding:0;background-color:#EDE8DF !important;font-family:Georgia,'Times New Roman',Times,serif;">
 <style>
-  :root { color-scheme: light !important; }
+  :root, html, body { color-scheme: only light !important; }
   body { background-color: #EDE8DF !important; }
-  [data-ogsc] body { background-color: #EDE8DF !important; }
-  [data-ogsc] .email-bg { background-color: #EDE8DF !important; }
+  [data-ogsc] body,
+  [data-ogsc] .email-bg { background-color: #EDE8DF !important; color: #1A2B40 !important; }
   [data-ogsc] .navy-card { background-color: #122040 !important; }
   [data-ogsc] .cream-text { color: #EDE8DF !important; }
   [data-ogsc] .muted-text { color: #6B82A0 !important; }
   [data-ogsc] .dim-text { color: #8AA0BC !important; }
   [data-ogsc] .ink-text { color: #1A2B40 !important; }
-  [data-ogsc] .cta-btn { background-color: #EDE8DF !important; }
+  [data-ogsc] .cta-btn { background-color: #EDE8DF !important; color: #1A2B40 !important; }
   @media (prefers-color-scheme: dark) {
-    body { background-color: #EDE8DF !important; }
-    .email-bg { background-color: #EDE8DF !important; }
+    body, .email-bg { background-color: #EDE8DF !important; color: #1A2B40 !important; }
     .navy-card { background-color: #122040 !important; }
     .cream-text { color: #EDE8DF !important; }
     .muted-text { color: #6B82A0 !important; }
     .dim-text { color: #8AA0BC !important; }
     .ink-text { color: #1A2B40 !important; }
-    .cta-btn { background-color: #EDE8DF !important; }
+    .cta-btn { background-color: #EDE8DF !important; color: #1A2B40 !important; }
   }
 </style>
 
