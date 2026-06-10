@@ -1,0 +1,167 @@
+{
+  "name": "the Collection — Drop Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "claim",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "claim-webhook",
+      "name": "Claim Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "claim"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "waitlist",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "waitlist-webhook",
+      "name": "Waitlist Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 500],
+      "webhookId": "waitlist"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "newsletter",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "newsletter-webhook",
+      "name": "Newsletter Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 700],
+      "webhookId": "newsletter"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}",
+        "options": {}
+      },
+      "id": "claim-response",
+      "name": "Claim Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}",
+        "options": {}
+      },
+      "id": "waitlist-response",
+      "name": "Waitlist Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 500]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}",
+        "options": {}
+      },
+      "id": "newsletter-response",
+      "name": "Newsletter Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 700]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": { "value": "YOUR_GOOGLE_SHEET_ID" },
+        "sheetName": { "value": "Claims" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.timestamp }}",
+            "email": "={{ $json.email }}",
+            "product": "={{ $json.product }}",
+            "edition": "={{ $json.no }}",
+            "key": "={{ $json.key }}"
+          }
+        }
+      },
+      "id": "claim-sheet",
+      "name": "Log Claim to Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [580, 300]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": { "value": "YOUR_GOOGLE_SHEET_ID" },
+        "sheetName": { "value": "Waitlist" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.timestamp }}",
+            "email": "={{ $json.email }}",
+            "product": "={{ $json.product }}"
+          }
+        }
+      },
+      "id": "waitlist-sheet",
+      "name": "Log Waitlist to Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [580, 500]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": { "value": "YOUR_GOOGLE_SHEET_ID" },
+        "sheetName": { "value": "Newsletter" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.timestamp }}",
+            "email": "={{ $json.email }}"
+          }
+        }
+      },
+      "id": "newsletter-sheet",
+      "name": "Log Newsletter to Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [580, 700]
+    }
+  ],
+  "connections": {
+    "Claim Webhook": {
+      "main": [[{ "node": "Log Claim to Sheet", "type": "main", "index": 0 }]]
+    },
+    "Log Claim to Sheet": {
+      "main": [[{ "node": "Claim Response", "type": "main", "index": 0 }]]
+    },
+    "Waitlist Webhook": {
+      "main": [[{ "node": "Log Waitlist to Sheet", "type": "main", "index": 0 }]]
+    },
+    "Log Waitlist to Sheet": {
+      "main": [[{ "node": "Waitlist Response", "type": "main", "index": 0 }]]
+    },
+    "Newsletter Webhook": {
+      "main": [[{ "node": "Log Newsletter to Sheet", "type": "main", "index": 0 }]]
+    },
+    "Log Newsletter to Sheet": {
+      "main": [[{ "node": "Newsletter Response", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

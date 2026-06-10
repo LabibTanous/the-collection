@@ -1095,6 +1095,8 @@ body[data-state="product"] .reserved-badge { display: none; }
 .sound-toggle svg { width: 11px; height: 11px; flex: none; }
 body[data-state="portal"] .sound-toggle { display: none; }
 </style>
+<!-- Plausible analytics — privacy-safe, no cookies -->
+<script defer data-domain="the-collection-iota.vercel.app" src="https://plausible.io/js/script.js"></script>
 </head>
 <body data-state="portal">
 
@@ -1429,6 +1431,9 @@ body[data-state="portal"] .sound-toggle { display: none; }
                (window.matchMedia('(prefers-reduced-motion: reduce)').matches && location.search.indexOf('motion=1') < 0);
   if (location.search.indexOf('motion=1') >= 0) reduce = false;
   if (!reduce) docEl.classList.add('motion');
+
+  function track(ev, p) { try { window.plausible && plausible(ev, p ? { props: p } : undefined); } catch(e) {} }
+  function submitApi(path, data) { try { fetch(path, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }).catch(function(){}); } catch(e) {} }
   var finePointer = window.matchMedia('(pointer: fine)').matches;
   var TAU = Math.PI * 2;
   function lerp(a, b, t) { return a + (b - a) * t; }
@@ -1624,6 +1629,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
   function doEnter() {
     if (entered) return; entered = true;
     try { sessionStorage.setItem('tc_entered', '1'); } catch (e) {}
+    track('Enter');
 
     if (reduce) {
       portal.classList.add('gone');
@@ -2013,6 +2019,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
   function openProduct(key, card, fromHistory) {
     if (ppOpen) return;
     ppOpen = true; currentKey = key; sourceCard = card || cards[DATA[key].i];
+    if (!fromHistory) track('Product Opened', { product: DATA[key].name });
     fillProduct(key);
     setTheme(DATA[key].theme);
     body.classList.remove('live-bg');
@@ -2136,6 +2143,7 @@ body[data-state="portal"] .sound-toggle { display: none; }
     if (!claimAwaitingEmail) {
       /* first click: expand inline email input */
       claimAwaitingEmail = true;
+      track('Claim Started', { product: d.name });
       ppClaim.querySelector('.c-label').textContent = 'Complete →';
       if (ppClaimWrap) ppClaimWrap.classList.add('expanded');
       setTimeout(function () { if (ppEmailInput) ppEmailInput.focus(); }, 380);
@@ -2154,7 +2162,8 @@ body[data-state="portal"] .sound-toggle { display: none; }
     try { if (navigator.vibrate) navigator.vibrate(12); } catch(e) {}
     playTick && playTick('claim');
 
-    /* TODO: POST { key: currentKey, no: d.no, email: email } to your reservation endpoint */
+    submitApi('/api/claim', { key: currentKey, no: d.no, email: email, product: d.name });
+    track('Claim Completed', { product: d.name, edition: String(d.no) });
 
     saveClaim(currentKey, d.no);
     claimAwaitingEmail = false;
@@ -2175,7 +2184,8 @@ body[data-state="portal"] .sound-toggle { display: none; }
     ppWaitlistBtn.addEventListener('click', function () {
       var email = ppWaitlistEmail ? ppWaitlistEmail.value.trim() : '';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { if (ppWaitlistEmail) ppWaitlistEmail.focus(); return; }
-      /* TODO: POST waitlist signup */
+      submitApi('/api/waitlist', { email: email, product: DATA[currentKey] ? DATA[currentKey].name : '' });
+      track('Waitlist Joined', { product: DATA[currentKey] ? DATA[currentKey].name : 'unknown' });
       showToast('Waitlist — you\'re on it', 'We\'ll be in touch if a number opens up');
       if (ppWaitlistEmail) ppWaitlistEmail.value = '';
       if (ppWaitlistBtn) ppWaitlistBtn.textContent = 'Done';
@@ -2280,7 +2290,8 @@ body[data-state="portal"] .sound-toggle { display: none; }
     storyNlBtn.addEventListener('click', function () {
       var email = storyNlEmail ? storyNlEmail.value.trim() : '';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { if (storyNlEmail) storyNlEmail.focus(); return; }
-      /* TODO: POST email to newsletter endpoint */
+      submitApi('/api/newsletter', { email: email });
+      track('Newsletter Subscribed');
       try { localStorage.setItem('tc_nl', '1'); } catch (e) {}
       if (storyNlEmail) storyNlEmail.value = '';
       if (storyNlSuccess) storyNlSuccess.classList.add('show');
@@ -2368,7 +2379,10 @@ body[data-state="portal"] .sound-toggle { display: none; }
     wlSubmit.addEventListener('click', function () {
       var email = wlEmail ? wlEmail.value.trim() : '';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { if (wlEmail) wlEmail.focus(); return; }
-      /* TODO: POST waitlist */
+      var wlTitleEl = document.getElementById('wlTitle');
+      var wlProd = wlTitleEl ? wlTitleEl.textContent.split(' —')[0] : '';
+      submitApi('/api/waitlist', { email: email, product: wlProd });
+      track('Waitlist Joined', { product: wlProd || 'unknown' });
       wlSubmit.textContent = 'You\'re on the list';
       wlSubmit.disabled = true;
       if (wlEmail) wlEmail.disabled = true;
