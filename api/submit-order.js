@@ -59,18 +59,38 @@ module.exports = async function handler(req, res) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Order confirmed — No. ${claim.no} of 99</title>
 </head>
-<body bgcolor="#0D1826" style="margin:0;padding:0;background-color:#0D1826;font-family:Georgia,'Times New Roman',Times,serif;">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0D1826" style="background-color:#0D1826;">
-<tr><td align="center" style="padding:48px 16px 56px;background-color:#0D1826;">
+<body bgcolor="#EDE8DF" style="margin:0;padding:0;background-color:#EDE8DF;font-family:Georgia,'Times New Roman',Times,serif;">
+<style>
+body,.ebg{background-color:#EDE8DF !important}
+.nc{background-color:#122040 !important}
+.ib{background-color:#0A1930 !important}
+.ct{color:#EDE8DF !important}
+.mt{color:#6B82A0 !important}
+.dt{color:#4A6A90 !important}
+.it{color:#1A2B40 !important}
+[data-ogsc] body,[data-ogsc] .ebg{background-color:#EDE8DF !important}
+[data-ogsc] .nc{background-color:#122040 !important}
+[data-ogsc] .ib{background-color:#0A1930 !important}
+[data-ogsc] .ct{color:#EDE8DF !important}
+[data-ogsc] .mt{color:#6B82A0 !important}
+[data-ogsc] .dt{color:#4A6A90 !important}
+[data-ogsc] .it{color:#1A2B40 !important}
+[data-ogsb] .ebg{background-color:#EDE8DF !important}
+[data-ogsb] .nc{background-color:#122040 !important}
+[data-ogsb] .ib{background-color:#0A1930 !important}
+[data-ogsb] .ct{color:#EDE8DF !important}
+</style>
+<table class="ebg" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#EDE8DF" style="background-color:#EDE8DF;">
+<tr><td align="center" style="padding:48px 16px 56px;">
   <table width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;width:100%;">
     <tr>
       <td align="center" style="padding:0 0 32px;">
-        <p style="margin:0;font-size:13px;letter-spacing:0.06em;color:#EDE8DF;font-family:Georgia,'Times New Roman',serif;font-style:italic;">the Collection</p>
-        <p style="margin:5px 0 0;font-size:9px;letter-spacing:0.25em;color:#4A6A90;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">UAE &nbsp;&middot;&nbsp; Limited editions of 99</p>
+        <p class="it" style="margin:0;font-size:13px;letter-spacing:0.06em;color:#1A2B40;font-family:Georgia,'Times New Roman',serif;font-style:italic;">the Collection</p>
+        <p class="mt" style="margin:5px 0 0;font-size:9px;letter-spacing:0.25em;color:#6B82A0;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">UAE &nbsp;&middot;&nbsp; Limited editions of 99</p>
       </td>
     </tr>
     <tr>
-      <td bgcolor="#122040" style="background-color:#122040;border-radius:22px;overflow:hidden;mso-border-radius:22px;">
+      <td class="nc" bgcolor="#122040" style="background-color:#122040;border-radius:22px;overflow:hidden;mso-border-radius:22px;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr><td height="44" style="font-size:0;line-height:0;">&nbsp;</td></tr>
         </table>
@@ -79,15 +99,15 @@ module.exports = async function handler(req, res) {
             <td style="padding:0 40px 28px;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #2D5282;border-radius:14px;">
                 <tr>
-                  <td align="center" style="padding:28px 32px 22px;background-color:#0A1930;border-radius:14px;">
-                    <p style="margin:0;font-size:9px;letter-spacing:0.3em;color:#6B82A0;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Edition</p>
-                    <p style="margin:10px 0 6px;font-size:72px;line-height:1;color:#EDE8DF;font-family:Georgia,'Times New Roman',serif;letter-spacing:-0.01em;font-style:italic;">No.&nbsp;${claim.no}</p>
-                    <p style="margin:0 0 12px;font-size:10px;letter-spacing:0.22em;color:#6B82A0;font-family:'Courier New',Courier,monospace;">of 99</p>
+                  <td class="ib" align="center" style="padding:28px 32px 22px;background-color:#0A1930;border-radius:14px;">
+                    <p class="mt" style="margin:0;font-size:9px;letter-spacing:0.3em;color:#6B82A0;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Edition</p>
+                    <p class="ct" style="margin:10px 0 6px;font-size:72px;line-height:1;color:#EDE8DF;font-family:Georgia,'Times New Roman',serif;letter-spacing:-0.01em;font-style:italic;">No.&nbsp;${claim.no}</p>
+                    <p class="mt" style="margin:0 0 12px;font-size:10px;letter-spacing:0.22em;color:#6B82A0;font-family:'Courier New',Courier,monospace;">of 99</p>
                     <table width="80%" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 14px;">
                       <tr><td height="1" bgcolor="#2D5282" style="background-color:#2D5282;font-size:0;line-height:0;">&nbsp;</td></tr>
                     </table>
-                    <p style="margin:0;font-size:22px;color:#EDE8DF;font-family:Georgia,'Times New Roman',serif;font-style:italic;">${claim.product}</p>
-                    <p style="margin:7px 0 0;font-size:9px;letter-spacing:0.22em;color:#6B82A0;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Order confirmed</p>
+                    <p class="ct" style="margin:0;font-size:22px;color:#EDE8DF;font-family:Georgia,'Times New Roman',serif;font-style:italic;">${claim.product}</p>
+                    <p class="mt" style="margin:7px 0 0;font-size:9px;letter-spacing:0.22em;color:#6B82A0;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Order confirmed</p>
                   </td>
                 </tr>
               </table>
@@ -100,9 +120,9 @@ module.exports = async function handler(req, res) {
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td align="center" style="padding:26px 48px 44px;">
-              <p style="margin:0;font-size:14px;line-height:1.85;color:#8AA0BC;font-family:Georgia,'Times New Roman',serif;">
-                <strong style="color:#EDE8DF;font-weight:normal;">${claim.product} No. ${claim.no} of 99</strong> is yours.<br>
-                We will reach out on <strong style="color:#EDE8DF;font-weight:normal;">${phone}</strong> to coordinate delivery.<br>
+              <p class="mt" style="margin:0;font-size:14px;line-height:1.85;color:#8AA0BC;font-family:Georgia,'Times New Roman',serif;">
+                <strong class="ct" style="color:#EDE8DF;font-weight:normal;">${claim.product} No. ${claim.no} of 99</strong> is yours.<br>
+                We will reach out on <strong class="ct" style="color:#EDE8DF;font-weight:normal;">${phone}</strong> to coordinate delivery.<br>
                 Ships within 5 business days from Dubai.
               </p>
             </td>
@@ -112,7 +132,7 @@ module.exports = async function handler(req, res) {
     </tr>
     <tr>
       <td align="center" style="padding:28px 16px 0;">
-        <p style="margin:0;font-size:10px;color:#4A6A90;letter-spacing:0.12em;font-family:'Courier New',Courier,monospace;">Ships within 5 business days from Dubai</p>
+        <p class="dt" style="margin:0;font-size:10px;color:#4A6A90;letter-spacing:0.12em;font-family:'Courier New',Courier,monospace;">Ships within 5 business days from Dubai</p>
       </td>
     </tr>
   </table>
