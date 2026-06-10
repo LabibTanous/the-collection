@@ -42,66 +42,38 @@ function buildEmail(no, product, checkoutUrl) {
           <tr><td height="44" style="font-size:0;line-height:0;">&nbsp;</td></tr>
         </table>
 
-        <!-- Edition label -->
+        <!-- Edition block: inner box -->
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td align="center" style="padding:0 48px 4px;">
-              <p style="margin:0;font-size:9px;letter-spacing:0.28em;color:#4A6A90;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Edition</p>
-            </td>
-          </tr>
-        </table>
-
-        <!-- Edition number -->
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr>
-            <td align="center" style="padding:0 48px 4px;">
-              <p style="margin:0;font-size:68px;line-height:1.05;color:#EDE8DF;font-family:Georgia,'Times New Roman',serif;letter-spacing:-0.01em;font-style:italic;">No.&nbsp;${no}</p>
-            </td>
-          </tr>
-        </table>
-
-        <!-- of 99 -->
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr>
-            <td align="center" style="padding:0 48px 28px;">
-              <p style="margin:0;font-size:10px;letter-spacing:0.22em;color:#4A6A90;font-family:'Courier New',Courier,monospace;">of 99</p>
+            <td style="padding:0 40px 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #2D5282;border-radius:14px;">
+                <tr>
+                  <td align="center" style="padding:28px 32px 22px;">
+                    <p style="margin:0;font-size:9px;letter-spacing:0.3em;color:#6B82A0;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Edition</p>
+                    <p style="margin:10px 0 6px;font-size:72px;line-height:1;color:#EDE8DF;font-family:Georgia,'Times New Roman',serif;letter-spacing:-0.01em;font-style:italic;">No.&nbsp;${no}</p>
+                    <p style="margin:0 0 12px;font-size:10px;letter-spacing:0.22em;color:#6B82A0;font-family:'Courier New',Courier,monospace;">of 99</p>
+                    <table width="80%" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 14px;">
+                      <tr><td height="1" bgcolor="#2D5282" style="background-color:#2D5282;font-size:0;line-height:0;">&nbsp;</td></tr>
+                    </table>
+                    <p style="margin:0;font-size:22px;color:#EDE8DF;font-family:Georgia,'Times New Roman',serif;font-style:italic;">${product}</p>
+                    <p style="margin:7px 0 0;font-size:9px;letter-spacing:0.22em;color:#6B82A0;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Reserved in your name</p>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
         </table>
 
         <!-- Thin separator -->
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr><td style="padding:0 48px;"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td height="1" bgcolor="#1E3A5F" style="background-color:#1E3A5F;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr>
-        </table>
-
-        <!-- Product name -->
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr>
-            <td align="center" style="padding:28px 48px 8px;">
-              <p style="margin:0;font-size:24px;color:#EDE8DF;letter-spacing:0.02em;font-family:Georgia,'Times New Roman',serif;font-style:italic;">${product}</p>
-            </td>
-          </tr>
-        </table>
-
-        <!-- Reserved label -->
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr>
-            <td align="center" style="padding:0 48px 32px;">
-              <p style="margin:0;font-size:9px;letter-spacing:0.22em;color:#4A6A90;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Reserved in your name</p>
-            </td>
-          </tr>
-        </table>
-
-        <!-- Thin separator -->
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr><td style="padding:0 48px;"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td height="1" bgcolor="#1E3A5F" style="background-color:#1E3A5F;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr>
+          <tr><td style="padding:0 40px 0;"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td height="1" bgcolor="#2D5282" style="background-color:#2D5282;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr>
         </table>
 
         <!-- Urgency text -->
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td align="center" style="padding:28px 48px 24px;">
-              <p style="margin:0;font-size:14px;line-height:1.8;color:#6B82A0;font-family:Georgia,'Times New Roman',serif;">Your number is held for <span style="color:#EDE8DF;">5&nbsp;minutes</span> only.<br>Complete your order before your edition is released.</p>
+            <td align="center" style="padding:26px 48px 22px;">
+              <p style="margin:0;font-size:14px;line-height:1.85;color:#8AA0BC;font-family:Georgia,'Times New Roman',serif;">Your number is held for <strong style="color:#EDE8DF;font-weight:normal;">5&nbsp;minutes</strong> only.<br>Complete your order before it is released.</p>
             </td>
           </tr>
         </table>
@@ -109,15 +81,15 @@ function buildEmail(no, product, checkoutUrl) {
         <!-- CTA button -->
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td align="center" style="padding:0 48px 44px;">
-              <table cellpadding="0" cellspacing="0" border="0" style="border-radius:16px;overflow:hidden;mso-border-radius:16px;">
+            <td align="center" style="padding:0 40px 44px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-radius:16px;overflow:hidden;mso-border-radius:16px;">
                 <tr>
                   <td align="center" bgcolor="#EDE8DF" style="background-color:#EDE8DF;border-radius:16px;mso-border-radius:16px;">
-                    <a href="${checkoutUrl}" target="_blank" style="display:inline-block;padding:16px 52px;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:#1A2B40;text-decoration:none;font-weight:700;border-radius:16px;">Complete your order &rarr;</a>
+                    <a href="${checkoutUrl}" target="_blank" style="display:block;padding:17px 32px;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#1A2B40;text-decoration:none;font-weight:700;">Complete your order &rarr;</a>
                   </td>
                 </tr>
               </table>
-              <p style="margin:14px 0 0;font-size:9px;color:#2D4A6A;letter-spacing:0.14em;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">One-time link &nbsp;&middot;&nbsp; Expires in 5 minutes</p>
+              <p style="margin:13px 0 0;font-size:9px;color:#4A6A90;letter-spacing:0.16em;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">One-time link &nbsp;&middot;&nbsp; Expires in 5 minutes</p>
             </td>
           </tr>
         </table>
