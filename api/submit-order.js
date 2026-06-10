@@ -53,27 +53,85 @@ module.exports = async function handler(req, res) {
   </table>`;
 
   const confirmHtml = `<!DOCTYPE html>
-<html><head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#080604;font-family:Georgia,serif;">
-<table width="100%" cellpadding="0" cellspacing="0" bgcolor="#080604" style="background:#080604;">
-<tr><td align="center" style="padding:40px 16px;">
-  <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
-    <tr><td height="3" bgcolor="#C9A24B" style="background:linear-gradient(90deg,#6B4F12,#C9A24B,#E8C97A,#C9A24B,#6B4F12);font-size:0;">&nbsp;</td></tr>
-    <tr><td bgcolor="#0D1B2E" style="background:#0D1B2E;border-left:1px solid #1C3050;border-right:1px solid #1C3050;padding:44px 48px;">
-      <p style="margin:0 0 8px;font-size:10px;letter-spacing:0.3em;color:#C9A24B;text-transform:uppercase;font-family:'Courier New',monospace;">the Collection</p>
-      <p style="margin:32px 0 12px;font-size:24px;color:#E2D5C4;letter-spacing:0.04em;">Order confirmed</p>
-      <p style="margin:0;font-size:14px;color:#567090;line-height:1.85;">
-        <strong style="color:#E2D5C4;font-weight:normal;">${claim.product} No. ${claim.no} of 99</strong> is yours.<br>
-        We have your shipping details and will dispatch within 5 business days from Dubai.
-      </p>
-      <p style="margin:24px 0 0;font-size:13px;color:#567090;line-height:1.8;">
-        We will reach out on <strong style="color:#E2D5C4;font-weight:normal;">${phone}</strong> to coordinate delivery.
-      </p>
-    </td></tr>
-    <tr><td height="3" bgcolor="#C9A24B" style="background:linear-gradient(90deg,#6B4F12,#C9A24B,#E8C97A,#C9A24B,#6B4F12);font-size:0;">&nbsp;</td></tr>
-    <tr><td align="center" bgcolor="#080604" style="padding:24px;background:#080604;">
-      <p style="margin:0;font-size:9px;color:#1C3050;letter-spacing:0.1em;font-family:'Courier New',monospace;">Ships from Dubai &nbsp;&middot;&nbsp; 5 business days</p>
-    </td></tr>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<style>
+  :root { color-scheme: light !important; }
+  body { background-color: #EDE8DF !important; }
+  [data-ogsc] body { background-color: #EDE8DF !important; }
+  [data-ogsc] .email-bg { background-color: #EDE8DF !important; }
+  [data-ogsc] .navy-card { background-color: #122040 !important; }
+  [data-ogsc] .cream-text { color: #EDE8DF !important; }
+  [data-ogsc] .muted-text { color: #6B82A0 !important; }
+  @media (prefers-color-scheme: dark) {
+    body { background-color: #EDE8DF !important; }
+    .email-bg { background-color: #EDE8DF !important; }
+    .navy-card { background-color: #122040 !important; }
+    .cream-text { color: #EDE8DF !important; }
+    .muted-text { color: #6B82A0 !important; }
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#EDE8DF !important;font-family:Georgia,'Times New Roman',Times,serif;">
+<table class="email-bg" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#EDE8DF" style="background-color:#EDE8DF !important;">
+<tr><td align="center" style="padding:48px 16px 56px;background-color:#EDE8DF !important;">
+  <table width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;width:100%;">
+    <tr>
+      <td align="center" style="padding:0 0 32px;">
+        <p style="margin:0;font-size:13px;letter-spacing:0.06em;color:#1A2B40 !important;font-family:Georgia,'Times New Roman',serif;font-style:italic;">the Collection</p>
+        <p style="margin:5px 0 0;font-size:9px;letter-spacing:0.25em;color:#6B82A0 !important;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">UAE &nbsp;&middot;&nbsp; Limited editions of 99</p>
+      </td>
+    </tr>
+    <tr>
+      <td class="navy-card" bgcolor="#122040" style="background-color:#122040 !important;border-radius:22px;overflow:hidden;mso-border-radius:22px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr><td height="44" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+        </table>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td style="padding:0 40px 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #2D5282;border-radius:14px;">
+                <tr>
+                  <td align="center" style="padding:28px 32px 22px;">
+                    <p class="muted-text" style="margin:0;font-size:9px;letter-spacing:0.3em;color:#6B82A0 !important;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Edition</p>
+                    <p class="cream-text" style="margin:10px 0 6px;font-size:72px;line-height:1;color:#EDE8DF !important;font-family:Georgia,'Times New Roman',serif;letter-spacing:-0.01em;font-style:italic;">No.&nbsp;${claim.no}</p>
+                    <p class="muted-text" style="margin:0 0 12px;font-size:10px;letter-spacing:0.22em;color:#6B82A0 !important;font-family:'Courier New',Courier,monospace;">of 99</p>
+                    <table width="80%" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 14px;">
+                      <tr><td height="1" bgcolor="#2D5282" style="background-color:#2D5282;font-size:0;line-height:0;">&nbsp;</td></tr>
+                    </table>
+                    <p class="cream-text" style="margin:0;font-size:22px;color:#EDE8DF !important;font-family:Georgia,'Times New Roman',serif;font-style:italic;">${claim.product}</p>
+                    <p class="muted-text" style="margin:7px 0 0;font-size:9px;letter-spacing:0.22em;color:#6B82A0 !important;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Order confirmed</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr><td style="padding:0 40px;"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td height="1" bgcolor="#2D5282" style="background-color:#2D5282;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr>
+        </table>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td align="center" style="padding:26px 48px 44px;">
+              <p style="margin:0;font-size:14px;line-height:1.85;color:#8AA0BC !important;font-family:Georgia,'Times New Roman',serif;">
+                <strong class="cream-text" style="color:#EDE8DF !important;font-weight:normal;">${claim.product} No. ${claim.no} of 99</strong> is yours.<br>
+                We will reach out on <strong class="cream-text" style="color:#EDE8DF !important;font-weight:normal;">${phone}</strong> to coordinate delivery.<br>
+                Ships within 5 business days from Dubai.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" style="padding:28px 16px 0;">
+        <p style="margin:0;font-size:10px;color:#9BAABB !important;letter-spacing:0.12em;font-family:'Courier New',Courier,monospace;">Ships within 5 business days from Dubai</p>
+      </td>
+    </tr>
   </table>
 </td></tr>
 </table>

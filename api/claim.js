@@ -16,12 +16,39 @@ function buildEmail(no, product, checkoutUrl) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
 <title>No. ${no} of 99 — Reserved</title>
+<style>
+  :root { color-scheme: light !important; }
+  body { background-color: #EDE8DF !important; }
+  /* Gmail Android dark mode override */
+  [data-ogsc] body { background-color: #EDE8DF !important; }
+  [data-ogsc] .email-bg { background-color: #EDE8DF !important; }
+  [data-ogsc] .navy-card { background-color: #122040 !important; }
+  [data-ogsc] .edition-inner { background-color: rgba(10,20,42,0.5) !important; border-color: #2D5282 !important; }
+  [data-ogsc] .cream-text { color: #EDE8DF !important; }
+  [data-ogsc] .muted-text { color: #6B82A0 !important; }
+  [data-ogsc] .dim-text { color: #8AA0BC !important; }
+  [data-ogsc] .ink-text { color: #1A2B40 !important; }
+  [data-ogsc] .cta-btn { background-color: #EDE8DF !important; }
+  /* Apple Mail / iOS dark mode */
+  @media (prefers-color-scheme: dark) {
+    body { background-color: #EDE8DF !important; }
+    .email-bg { background-color: #EDE8DF !important; }
+    .navy-card { background-color: #122040 !important; }
+    .cream-text { color: #EDE8DF !important; }
+    .muted-text { color: #6B82A0 !important; }
+    .dim-text { color: #8AA0BC !important; }
+    .ink-text { color: #1A2B40 !important; }
+    .cta-btn { background-color: #EDE8DF !important; }
+  }
+</style>
 </head>
-<body style="margin:0;padding:0;background-color:#EDE8DF;font-family:Georgia,'Times New Roman',Times,serif;">
+<body style="margin:0;padding:0;background-color:#EDE8DF !important;font-family:Georgia,'Times New Roman',Times,serif;">
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#EDE8DF" style="background-color:#EDE8DF;">
-<tr><td align="center" style="padding:48px 16px 56px;">
+<table class="email-bg" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#EDE8DF" style="background-color:#EDE8DF !important;">
+<tr><td align="center" style="padding:48px 16px 56px;background-color:#EDE8DF !important;">
 
   <table width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;width:100%;">
 
@@ -35,7 +62,7 @@ function buildEmail(no, product, checkoutUrl) {
 
     <!-- Navy card -->
     <tr>
-      <td bgcolor="#122040" style="background-color:#122040;border-radius:22px;overflow:hidden;mso-border-radius:22px;">
+      <td class="navy-card" bgcolor="#122040" style="background-color:#122040 !important;border-radius:22px;overflow:hidden;mso-border-radius:22px;">
 
         <!-- Card inner padding top -->
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -49,14 +76,14 @@ function buildEmail(no, product, checkoutUrl) {
               <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #2D5282;border-radius:14px;">
                 <tr>
                   <td align="center" style="padding:28px 32px 22px;">
-                    <p style="margin:0;font-size:9px;letter-spacing:0.3em;color:#6B82A0;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Edition</p>
-                    <p style="margin:10px 0 6px;font-size:72px;line-height:1;color:#EDE8DF;font-family:Georgia,'Times New Roman',serif;letter-spacing:-0.01em;font-style:italic;">No.&nbsp;${no}</p>
-                    <p style="margin:0 0 12px;font-size:10px;letter-spacing:0.22em;color:#6B82A0;font-family:'Courier New',Courier,monospace;">of 99</p>
+                    <p class="muted-text" style="margin:0;font-size:9px;letter-spacing:0.3em;color:#6B82A0 !important;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Edition</p>
+                    <p class="cream-text" style="margin:10px 0 6px;font-size:72px;line-height:1;color:#EDE8DF !important;font-family:Georgia,'Times New Roman',serif;letter-spacing:-0.01em;font-style:italic;">No.&nbsp;${no}</p>
+                    <p class="muted-text" style="margin:0 0 12px;font-size:10px;letter-spacing:0.22em;color:#6B82A0 !important;font-family:'Courier New',Courier,monospace;">of 99</p>
                     <table width="80%" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 14px;">
                       <tr><td height="1" bgcolor="#2D5282" style="background-color:#2D5282;font-size:0;line-height:0;">&nbsp;</td></tr>
                     </table>
-                    <p style="margin:0;font-size:22px;color:#EDE8DF;font-family:Georgia,'Times New Roman',serif;font-style:italic;">${product}</p>
-                    <p style="margin:7px 0 0;font-size:9px;letter-spacing:0.22em;color:#6B82A0;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Reserved in your name</p>
+                    <p class="cream-text" style="margin:0;font-size:22px;color:#EDE8DF !important;font-family:Georgia,'Times New Roman',serif;font-style:italic;">${product}</p>
+                    <p class="muted-text" style="margin:7px 0 0;font-size:9px;letter-spacing:0.22em;color:#6B82A0 !important;text-transform:uppercase;font-family:'Courier New',Courier,monospace;">Reserved in your name</p>
                   </td>
                 </tr>
               </table>
@@ -73,7 +100,7 @@ function buildEmail(no, product, checkoutUrl) {
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td align="center" style="padding:26px 48px 22px;">
-              <p style="margin:0;font-size:14px;line-height:1.85;color:#8AA0BC;font-family:Georgia,'Times New Roman',serif;">Your number is held for <strong style="color:#EDE8DF;font-weight:normal;">5&nbsp;minutes</strong> only.<br>Complete your order before it is released.</p>
+              <p class="dim-text" style="margin:0;font-size:14px;line-height:1.85;color:#8AA0BC !important;font-family:Georgia,'Times New Roman',serif;">Your number is held for <strong class="cream-text" style="color:#EDE8DF !important;font-weight:normal;">5&nbsp;minutes</strong> only.<br>Complete your order before it is released.</p>
             </td>
           </tr>
         </table>
@@ -84,8 +111,8 @@ function buildEmail(no, product, checkoutUrl) {
             <td align="center" style="padding:0 40px 44px;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-radius:16px;overflow:hidden;mso-border-radius:16px;">
                 <tr>
-                  <td align="center" bgcolor="#EDE8DF" style="background-color:#EDE8DF;border-radius:16px;mso-border-radius:16px;">
-                    <a href="${checkoutUrl}" target="_blank" style="display:block;padding:17px 32px;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#1A2B40;text-decoration:none;font-weight:700;">Complete your order &rarr;</a>
+                  <td class="cta-btn" align="center" bgcolor="#EDE8DF" style="background-color:#EDE8DF !important;border-radius:16px;mso-border-radius:16px;">
+                    <a href="${checkoutUrl}" target="_blank" style="display:block;padding:17px 32px;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#1A2B40 !important;text-decoration:none;font-weight:700;">Complete your order &rarr;</a>
                   </td>
                 </tr>
               </table>
