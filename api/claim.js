@@ -19,20 +19,19 @@ function buildEmail(no, product, checkoutUrl) {
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
 <title>No. ${no} of 99 — Reserved</title>
+</head>
+<body style="margin:0;padding:0;background-color:#EDE8DF !important;font-family:Georgia,'Times New Roman',Times,serif;">
 <style>
   :root { color-scheme: light !important; }
   body { background-color: #EDE8DF !important; }
-  /* Gmail Android dark mode override */
   [data-ogsc] body { background-color: #EDE8DF !important; }
   [data-ogsc] .email-bg { background-color: #EDE8DF !important; }
   [data-ogsc] .navy-card { background-color: #122040 !important; }
-  [data-ogsc] .edition-inner { background-color: rgba(10,20,42,0.5) !important; border-color: #2D5282 !important; }
   [data-ogsc] .cream-text { color: #EDE8DF !important; }
   [data-ogsc] .muted-text { color: #6B82A0 !important; }
   [data-ogsc] .dim-text { color: #8AA0BC !important; }
   [data-ogsc] .ink-text { color: #1A2B40 !important; }
   [data-ogsc] .cta-btn { background-color: #EDE8DF !important; }
-  /* Apple Mail / iOS dark mode */
   @media (prefers-color-scheme: dark) {
     body { background-color: #EDE8DF !important; }
     .email-bg { background-color: #EDE8DF !important; }
@@ -44,8 +43,6 @@ function buildEmail(no, product, checkoutUrl) {
     .cta-btn { background-color: #EDE8DF !important; }
   }
 </style>
-</head>
-<body style="margin:0;padding:0;background-color:#EDE8DF !important;font-family:Georgia,'Times New Roman',Times,serif;">
 
 <table class="email-bg" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#EDE8DF" style="background-color:#EDE8DF !important;">
 <tr><td align="center" style="padding:48px 16px 56px;background-color:#EDE8DF !important;">

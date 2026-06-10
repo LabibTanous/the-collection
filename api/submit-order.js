@@ -59,6 +59,8 @@ module.exports = async function handler(req, res) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
+</head>
+<body style="margin:0;padding:0;background-color:#EDE8DF !important;font-family:Georgia,'Times New Roman',Times,serif;">
 <style>
   :root { color-scheme: light !important; }
   body { background-color: #EDE8DF !important; }
@@ -75,8 +77,6 @@ module.exports = async function handler(req, res) {
     .muted-text { color: #6B82A0 !important; }
   }
 </style>
-</head>
-<body style="margin:0;padding:0;background-color:#EDE8DF !important;font-family:Georgia,'Times New Roman',Times,serif;">
 <table class="email-bg" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#EDE8DF" style="background-color:#EDE8DF !important;">
 <tr><td align="center" style="padding:48px 16px 56px;background-color:#EDE8DF !important;">
   <table width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;width:100%;">
