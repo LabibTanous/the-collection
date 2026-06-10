@@ -1,0 +1,133 @@
+{
+  "name": "the Collection — Full Drop Automation",
+  "nodes": [
+    {
+      "parameters": { "httpMethod": "POST", "path": "claim", "responseMode": "responseNode", "options": {} },
+      "id": "wh-claim", "name": "Claim Webhook", "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1, "position": [180, 200]
+    },
+    {
+      "parameters": { "httpMethod": "POST", "path": "waitlist", "responseMode": "responseNode", "options": {} },
+      "id": "wh-waitlist", "name": "Waitlist Webhook", "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1, "position": [180, 500]
+    },
+    {
+      "parameters": { "httpMethod": "POST", "path": "newsletter", "responseMode": "responseNode", "options": {} },
+      "id": "wh-newsletter", "name": "Newsletter Webhook", "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1, "position": [180, 700]
+    },
+    {
+      "parameters": { "httpMethod": "POST", "path": "ship", "responseMode": "responseNode", "options": {} },
+      "id": "wh-ship", "name": "Ship Webhook", "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1, "position": [180, 900]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Bearer re_ZFbwV6gc_o78k7NdwPGX27GVqSAPpCtri" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "json",
+        "jsonBody": "={\n  \"from\": \"the Collection <noreply@thecollection.ae>\",\n  \"to\": \"{{ $json.email }}\",\n  \"subject\": \"No. {{ $json.no }} of 99 reserved in your name\",\n  \"html\": \"<p style='font-family:Georgia,serif;color:#1A2B40'>Your edition is held.</p><p style='font-family:Georgia,serif;color:#1A2B40'><strong>{{ $json.product }} No. {{ $json.no }} of 99</strong> is reserved. We will be in touch shortly.</p><p style='font-family:Georgia,serif;color:#6B82A0;font-size:13px'>the Collection UAE numbered editions of 99</p>\"\n}",
+        "options": {}
+      },
+      "id": "email-claim", "name": "Email — Claim Confirmation", "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4, "position": [420, 160]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [{ "value1": "={{ $('Claim Webhook').item.json.no }}", "operation": "largerEqual", "value2": 90 }]
+        }
+      },
+      "id": "if-lowstock", "name": "IF Low Stock", "type": "n8n-nodes-base.if",
+      "typeVersion": 1, "position": [420, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SLACK_WEBHOOK_URL }}",
+        "sendBody": true,
+        "bodyContentType": "json",
+        "jsonBody": "={ \"text\": \"Low stock: {{ $('Claim Webhook').item.json.product }} No. {{ $('Claim Webhook').item.json.no }} of 99 claimed.\" }",
+        "options": {}
+      },
+      "id": "slack-alert", "name": "Slack — Low Stock Alert", "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4, "position": [660, 260]
+    },
+    {
+      "parameters": { "respondWith": "json", "responseBody": "{ \"ok\": true }", "options": {} },
+      "id": "resp-claim", "name": "Respond Claim", "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1, "position": [660, 160]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Bearer re_ZFbwV6gc_o78k7NdwPGX27GVqSAPpCtri" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "json",
+        "jsonBody": "={\n  \"from\": \"the Collection <noreply@thecollection.ae>\",\n  \"to\": \"{{ $json.email }}\",\n  \"subject\": \"You are on the waitlist\",\n  \"html\": \"<p style='font-family:Georgia,serif;color:#1A2B40'>You are on the list for {{ $json.product || 'the Collection' }}. If a number opens up, you will be first to know.</p><p style='font-family:Georgia,serif;color:#6B82A0;font-size:13px'>the Collection UAE numbered editions of 99</p>\"\n}",
+        "options": {}
+      },
+      "id": "email-waitlist", "name": "Email — Waitlist Auto-Response", "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4, "position": [420, 500]
+    },
+    {
+      "parameters": { "respondWith": "json", "responseBody": "{ \"ok\": true }", "options": {} },
+      "id": "resp-waitlist", "name": "Respond Waitlist", "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1, "position": [660, 500]
+    },
+    {
+      "parameters": { "respondWith": "json", "responseBody": "{ \"ok\": true }", "options": {} },
+      "id": "resp-newsletter", "name": "Respond Newsletter", "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1, "position": [420, 700]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Bearer re_ZFbwV6gc_o78k7NdwPGX27GVqSAPpCtri" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "json",
+        "jsonBody": "={\n  \"from\": \"the Collection <noreply@thecollection.ae>\",\n  \"to\": \"{{ $json.email }}\",\n  \"subject\": \"No. {{ $json.no }} shipped from Dubai\",\n  \"html\": \"<p style='font-family:Georgia,serif;color:#1A2B40'>Your piece is on its way.</p><p style='font-family:Georgia,serif;color:#1A2B40'><strong>{{ $json.product }} No. {{ $json.no }} of 99</strong> has been dispatched.</p><p style='font-family:Georgia,serif;color:#6B82A0;font-size:13px'>the Collection UAE numbered editions of 99</p>\"\n}",
+        "options": {}
+      },
+      "id": "email-ship", "name": "Email — Shipping Notification", "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4, "position": [420, 900]
+    },
+    {
+      "parameters": { "respondWith": "json", "responseBody": "{ \"ok\": true }", "options": {} },
+      "id": "resp-ship", "name": "Respond Ship", "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1, "position": [660, 900]
+    }
+  ],
+  "connections": {
+    "Claim Webhook": { "main": [[{ "node": "IF Low Stock", "type": "main", "index": 0 }, { "node": "Respond Claim", "type": "main", "index": 0 }]] },
+    "IF Low Stock": { "main": [[{ "node": "Slack — Low Stock Alert", "type": "main", "index": 0 }]] },
+    "Waitlist Webhook": { "main": [[{ "node": "Email — Waitlist Auto-Response", "type": "main", "index": 0 }]] },
+    "Email — Waitlist Auto-Response": { "main": [[{ "node": "Respond Waitlist", "type": "main", "index": 0 }]] },
+    "Newsletter Webhook": { "main": [[{ "node": "Respond Newsletter", "type": "main", "index": 0 }]] },
+    "Ship Webhook": { "main": [[{ "node": "Email — Shipping Notification", "type": "main", "index": 0 }]] },
+    "Email — Shipping Notification": { "main": [[{ "node": "Respond Ship", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" }
+}

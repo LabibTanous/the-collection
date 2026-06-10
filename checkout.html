@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Complete your order — the Collection</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0F0A07;
+    --navy: #0D1B2E;
+    --navy-border: #1C3050;
+    --gold: #C9A24B;
+    --gold-light: #E8C97A;
+    --cream: #E2D5C4;
+    --muted: #567090;
+    --dim: #223650;
+    --font-serif: Georgia, 'Times New Roman', Times, serif;
+    --font-mono: 'Courier New', Courier, monospace;
+  }
+
+  html, body {
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--cream);
+    font-family: var(--font-serif);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 16px 64px;
+  }
+
+  .brand { text-align: center; margin-bottom: 40px; }
+  .brand-name {
+    font-size: 10px; letter-spacing: 0.35em; color: var(--gold);
+    text-transform: uppercase; font-family: var(--font-mono);
+  }
+  .brand-sub {
+    margin-top: 6px; font-size: 9px; letter-spacing: 0.2em;
+    color: var(--dim); text-transform: uppercase; font-family: var(--font-mono);
+  }
+
+  .card {
+    width: 100%; max-width: 520px;
+    background: var(--navy);
+    border: 1px solid var(--navy-border);
+    position: relative;
+    padding-top: 3px; padding-bottom: 3px;
+  }
+  .gold-bar {
+    height: 2px;
+    background: linear-gradient(90deg, #6B4F12 0%, var(--gold) 35%, var(--gold-light) 50%, var(--gold) 65%, #6B4F12 100%);
+  }
+
+  .card-inner { padding: 44px 40px 52px; }
+
+  .timer-wrap {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; margin-bottom: 36px;
+  }
+  .timer-label {
+    font-size: 9px; letter-spacing: 0.2em; color: var(--dim);
+    text-transform: uppercase; font-family: var(--font-mono);
+  }
+  #timer {
+    font-size: 18px; font-family: var(--font-mono); color: var(--gold);
+    letter-spacing: 0.05em; min-width: 48px; text-align: center;
+    transition: color 0.3s;
+  }
+  #timer.urgent { color: #E05C5C; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+  .edition-box {
+    border: 1px solid var(--navy-border);
+    background: #080F1A;
+    padding: 24px 32px;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .edition-label {
+    font-size: 9px; letter-spacing: 0.3em; color: var(--dim);
+    text-transform: uppercase; font-family: var(--font-mono);
+  }
+  .edition-number {
+    font-size: 52px; line-height: 1; color: var(--gold);
+    margin: 10px 0 4px; letter-spacing: -0.01em;
+  }
+  .edition-of { font-size: 10px; color: var(--dim); letter-spacing: 0.2em; font-family: var(--font-mono); }
+  .edition-product { font-size: 17px; color: var(--cream); margin-top: 10px; letter-spacing: 0.03em; }
+
+  .rule { height: 1px; background: var(--navy-border); margin: 0 0 28px; }
+
+  .section-label {
+    font-size: 9px; letter-spacing: 0.25em; color: var(--dim);
+    text-transform: uppercase; font-family: var(--font-mono); margin-bottom: 20px;
+  }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field { margin-bottom: 16px; }
+
+  label {
+    display: block; font-size: 9px; letter-spacing: 0.18em; color: var(--dim);
+    text-transform: uppercase; font-family: var(--font-mono); margin-bottom: 7px;
+  }
+
+  input, select {
+    width: 100%; background: #080F1A; border: 1px solid var(--navy-border);
+    color: var(--cream); font-family: var(--font-serif); font-size: 14px;
+    padding: 11px 14px; outline: none; appearance: none; -webkit-appearance: none;
+    transition: border-color 0.2s;
+  }
+  input:focus, select:focus { border-color: var(--gold); }
+  input::placeholder { color: var(--dim); }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A24B' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+    padding-right: 36px; cursor: pointer;
+  }
+  select option { background: #0D1B2E; }
+
+  .submit-btn {
+    width: 100%; background: var(--gold); border: none; color: #080604;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.3em;
+    text-transform: uppercase; font-weight: 700; padding: 17px 24px;
+    cursor: pointer; margin-top: 8px; transition: opacity 0.2s;
+  }
+  .submit-btn:hover { opacity: 0.88; }
+  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .submit-note {
+    text-align: center; font-size: 9px; color: var(--dim);
+    font-family: var(--font-mono); letter-spacing: 0.1em; margin-top: 14px;
+  }
+
+  .state { display: none; text-align: center; padding: 20px 0; }
+  .state.active { display: block; }
+  .state-icon { font-size: 36px; margin-bottom: 16px; }
+  .state-title { font-size: 20px; color: var(--cream); margin-bottom: 12px; letter-spacing: 0.04em; }
+  .state-body { font-size: 14px; color: var(--muted); line-height: 1.8; }
+  .state-body strong { color: var(--cream); font-weight: normal; }
+
+  .error-msg {
+    background: rgba(180,40,40,0.12); border: 1px solid rgba(180,40,40,0.3);
+    color: #E05C5C; font-family: var(--font-mono); font-size: 11px;
+    padding: 10px 14px; margin-bottom: 16px; display: none;
+  }
+  .error-msg.show { display: block; }
+
+  @media (max-width: 480px) {
+    .card-inner { padding: 36px 24px 44px; }
+    .field-row { grid-template-columns: 1fr; }
+    .edition-number { font-size: 42px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="brand">
+  <p class="brand-name">the Collection</p>
+  <p class="brand-sub">UAE · Limited Editions of 99</p>
+</div>
+
+<div class="card">
+  <div class="gold-bar"></div>
+  <div class="card-inner">
+
+    <div class="state" id="state-expired">
+      <div class="state-icon">⏳</div>
+      <p class="state-title">Link expired</p>
+      <p class="state-body">Your 5-minute window has passed.<br>Return to the site and reserve your edition again.</p>
+    </div>
+
+    <div class="state" id="state-invalid">
+      <div class="state-icon">✕</div>
+      <p class="state-title">Invalid link</p>
+      <p class="state-body">This link is not valid. Please check your email and try again.</p>
+    </div>
+
+    <div class="state" id="state-success">
+      <div class="state-icon" style="color:#C9A24B;">✓</div>
+      <p class="state-title">Order received</p>
+      <p class="state-body" id="success-body">Your order has been placed. We will confirm your details and dispatch within 5 business days from Dubai.</p>
+    </div>
+
+    <div id="state-form">
+
+      <div class="timer-wrap">
+        <span class="timer-label">Time remaining</span>
+        <span id="timer">5:00</span>
+      </div>
+
+      <div class="edition-box">
+        <p class="edition-label">Edition</p>
+        <p class="edition-number" id="edition-no">—</p>
+        <p class="edition-of">of 99</p>
+        <p class="edition-product" id="edition-product"></p>
+      </div>
+
+      <div class="rule"></div>
+
+      <div class="error-msg" id="form-error"></div>
+
+      <form id="order-form" autocomplete="on">
+
+        <p class="section-label">Your details</p>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="fname">First name</label>
+            <input type="text" id="fname" name="fname" autocomplete="given-name" required placeholder="Ahmad">
+          </div>
+          <div class="field">
+            <label for="lname">Last name</label>
+            <input type="text" id="lname" name="lname" autocomplete="family-name" required placeholder="Al Mansouri">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone / WhatsApp</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" required placeholder="+971 50 000 0000">
+        </div>
+
+        <div class="rule" style="margin-top:4px;"></div>
+        <p class="section-label">Shipping address</p>
+
+        <div class="field">
+          <label for="address">Street / building / apartment</label>
+          <input type="text" id="address" name="address" autocomplete="address-line1" required placeholder="Villa 12, Al Barsha">
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" autocomplete="address-level2" required placeholder="Dubai">
+          </div>
+          <div class="field">
+            <label for="emirate">Emirate</label>
+            <select id="emirate" name="emirate" required>
+              <option value="">Select</option>
+              <option value="Abu Dhabi">Abu Dhabi</option>
+              <option value="Dubai" selected>Dubai</option>
+              <option value="Sharjah">Sharjah</option>
+              <option value="Ajman">Ajman</option>
+              <option value="Umm Al Quwain">Umm Al Quwain</option>
+              <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+              <option value="Fujairah">Fujairah</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="country">Country</label>
+          <select id="country" name="country" required>
+            <option value="UAE" selected>United Arab Emirates</option>
+            <option value="Saudi Arabia">Saudi Arabia</option>
+            <option value="Kuwait">Kuwait</option>
+            <option value="Qatar">Qatar</option>
+            <option value="Bahrain">Bahrain</option>
+            <option value="Oman">Oman</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-btn">
+          Place order →
+        </button>
+
+        <p class="submit-note">Payment on delivery · Free shipping UAE</p>
+
+      </form>
+    </div>
+
+  </div>
+  <div class="gold-bar"></div>
+</div>
+
+<script>
+(function () {
+  function decodePayload(token) {
+    try {
+      const [part] = token.split('.');
+      return JSON.parse(atob(part.replace(/-/g, '+').replace(/_/g, '/')));
+    } catch { return null; }
+  }
+
+  function show(id) {
+    ['state-expired','state-invalid','state-success','state-form']
+      .forEach(s => {
+        const el = document.getElementById(s);
+        if (el) el.classList.remove('active');
+      });
+    const target = document.getElementById(id);
+    if (target) target.classList.add('active');
+  }
+
+  const params = new URLSearchParams(location.search);
+  const rawToken = params.get('t');
+
+  if (!rawToken) { show('state-invalid'); return; }
+
+  const data = decodePayload(rawToken);
+  if (!data || !data.exp) { show('state-invalid'); return; }
+
+  if (Date.now() > data.exp) { show('state-expired'); return; }
+
+  document.getElementById('edition-no').textContent = 'No. ' + data.no;
+  document.getElementById('edition-product').textContent = data.product || '';
+  document.title = 'No. ' + data.no + ' of 99 — the Collection';
+
+  let remaining = data.exp - Date.now();
+  const timerEl = document.getElementById('timer');
+
+  function tick() {
+    remaining = Math.max(0, data.exp - Date.now());
+    const m = Math.floor(remaining / 60000);
+    const s = Math.floor((remaining % 60000) / 1000);
+    timerEl.textContent = m + ':' + String(s).padStart(2, '0');
+    if (remaining < 60000) timerEl.classList.add('urgent');
+    if (remaining <= 0) { clearInterval(iv); show('state-expired'); }
+  }
+  tick();
+  const iv = setInterval(tick, 500);
+
+  document.getElementById('order-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const errEl = document.getElementById('form-error');
+    errEl.classList.remove('show');
+
+    if (Date.now() > data.exp) { show('state-expired'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Placing order…';
+
+    const body = {
+      token: rawToken,
+      fname: document.getElementById('fname').value.trim(),
+      lname: document.getElementById('lname').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      address: document.getElementById('address').value.trim(),
+      city: document.getElementById('city').value.trim(),
+      emirate: document.getElementById('emirate').value,
+      country: document.getElementById('country').value,
+    };
+
+    try {
+      const r = await fetch('/api/submit-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const json = await r.json();
+
+      if (!r.ok) {
+        errEl.textContent = json.error || 'Something went wrong. Please try again.';
+        errEl.classList.add('show');
+        btn.disabled = false;
+        btn.textContent = 'Place order →';
+        return;
+      }
+
+      clearInterval(iv);
+      document.getElementById('success-body').innerHTML =
+        'Your order for <strong>' + (data.product || '') + ' No. ' + data.no +
+        ' of 99</strong> has been placed.<br>We will confirm via WhatsApp and dispatch within 5 business days from Dubai.';
+      show('state-success');
+
+    } catch {
+      errEl.textContent = 'Network error. Please check your connection and try again.';
+      errEl.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'Place order →';
+    }
+  });
+})();
+</script>
+</body>
+</html>
